@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [MySQL] MySQL在MyBatis环境下批量进行存在则更新，不存在则插入 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite-url/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('test_bg.jpg')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                            
+                        </div>
+                        <h1>[MySQL] MySQL在MyBatis环境下批量进行存在则更新，不存在则插入</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2019-07-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="mysql当插入重复时更新的方法">MySQL当插入重复时更新的方法</h1>
+<p>参考链接：<a href="https://lobert.iteye.com/category/190161" target="_blank" rel="noopener">MySQL文章标签列表</a></p>
+<h2 id="not-exists语句">NOT EXISTS语句</h2>
+<p>假设有一个主键为 client_id 的 clients 表，可以使用下面的语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 批量插入多条记录</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> clients (client_id, client_name, client_type)  </span><br><span class="line"><span class="keyword">SELECT</span> supplier_id, supplier_name, <span class="string">'advertising'</span>  </span><br><span class="line"><span class="keyword">FROM</span> suppliers  </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">not</span> <span class="keyword">exists</span>(<span class="keyword">select</span> * <span class="keyword">from</span> clients <span class="keyword">where</span> clients.client_id = suppliers.supplier_id);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 插入单条记录</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> clients  </span><br><span class="line">(client_id, client_name, client_type)  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="number">10345</span>, <span class="string">'IBM'</span>, <span class="string">'advertising'</span>  </span><br><span class="line"><span class="keyword">FROM</span> dual  </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">not</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> clients <span class="keyword">where</span> clients.client_id = <span class="number">10345</span>);</span><br></pre></td></tr></table></figure>
+<p>使用 dual 做表名可以让你在 select 语句后面直接跟上要插入字段的值，即使这些值还不存在当前表中。</p>
+<h2 id="insert中on-duplicate-key-update的使用本文重点">INSERT中ON DUPLICATE KEY UPDATE的使用（本文重点）</h2>
+<p>如果您指定了ON DUPLICATE KEY UPDATE，并且插入行后会导致在一个UNIQUE索引或PRIMARY KEY中出现重复值，则执行旧行UPDATE。例如，如果列a被定义为UNIQUE，并且包含值1，则以下两个语句具有相同的效果：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSERT INTO table (a, b, c) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> c = c + <span class="number">1</span>;  </span><br><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">table</span> <span class="keyword">SET</span> c = c + <span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>如果行作为新记录被插入，则受影响行的值为1；如果原有的记录被更新，则受影响行的值为2。</p>
+<p>注释：如果列b也是唯一列，则INSERT与此UPDATE语句相当：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">table</span> <span class="keyword">SET</span> c = c + <span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">1</span> <span class="keyword">OR</span> b = <span class="number">2</span> <span class="keyword">LIMIT</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>如果a=1 OR b=2与多个行向匹配，则只有一个行被更新。通常，您应该尽量避免对带有多个唯一关键字的表使用ON DUPLICATE KEY子句。</p>
+<p>您可以在UPDATE子句中使用VALUES(col_name)函数从INSERT…UPDATE语句的INSERT部分引用列值。换句话说，如果没有发生重复关键字冲突，则UPDATE子句中的VALUES(col_name)可以引用被插入的col_name的值。本函数特别适用于多行插入。VALUES()函数只在INSERT…UPDATE语句中有意义，其它时候会返回NULL。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">table</span> (a,b,c) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> c=<span class="keyword">VALUES</span>(a)+<span class="keyword">VALUES</span>(b);</span><br></pre></td></tr></table></figure>
+<p>本语句与以下两个语句作用相同：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">table</span> (a,b,c) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> c=<span class="number">3</span>;  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">table</span> (a,b,c) <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> c=<span class="number">9</span>;</span><br></pre></td></tr></table></figure>
+<p>当您使用ON DUPLICATE KEY UPDATE时，DELAYED选项被忽略。</p>
+<h2 id="replace语句">REPLACE语句</h2>
+<p>我们在使用数据库时可能会经常遇到这种情况。如果一个表在一个字段上建立了唯一索引，当我们再向这个表中使用已经存在的键值插入一条记录，那将会抛出一个主键冲突的错误。当然，我们可能想用新记录的值来覆盖原来的记录值。如果使用传统的做法，必须先使用DELETE语句删除原先的记录，然后再使用INSERT插入新的记录。而在MySQL中为我们提供了一种新的解决方案，这就是REPLACE语句。使用REPLACE插入一条记录时，如果不重复，REPLACE就和INSERT的功能一样，如果有重复记录，REPLACE就使用新记录的值来替换原来的记录值。</p>
+<p>使用REPLACE的最大好处就是可以将DELETE和INSERT合二为一，形成一个原子操作。这样就可以不必考虑在同时使用DELETE和INSERT时添加事务等复杂操作了。</p>
+<p>在使用REPLACE时，表中必须有唯一索引，而且这个索引所在的字段不能允许空值，否则REPLACE就和INSERT完全一样的。</p>
+<p>在执行REPLACE后，系统返回了所影响的行数，如果返回1，说明在表中并没有重复的记录，如果返回2，说明有一条重复记录，系统自动先调用了DELETE删除这条记录，然后再记录用INSERT来插入这条记录。如果返回的值大于2，那说明有多个唯一索引，有多条记录被删除和插入。</p>
+<p>REPLACE的语法和INSERT非常的相似，如下面的REPLACE语句是插入或更新一条记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> <span class="keyword">users</span> (<span class="keyword">id</span>,<span class="keyword">name</span>,age) <span class="keyword">VALUES</span>(<span class="number">123</span>, <span class="string">'赵本山'</span>, <span class="number">50</span>);</span><br><span class="line"><span class="comment"># 插入多条记录</span></span><br><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> <span class="keyword">users</span>(<span class="keyword">id</span>, <span class="keyword">name</span>, age) <span class="keyword">VALUES</span>(<span class="number">123</span>, <span class="string">'赵本山'</span>, <span class="number">50</span>), (<span class="number">134</span>,<span class="string">'Mary'</span>,<span class="number">15</span>);  </span><br><span class="line"><span class="comment"># REPLACE也可以使用SET语句 </span></span><br><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> <span class="keyword">users</span> <span class="keyword">SET</span> <span class="keyword">id</span> = <span class="number">123</span>, <span class="keyword">name</span> = <span class="string">'赵本山'</span>, age = <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
+<p>上面曾提到REPLACE可能影响3条以上的记录，这是因为在表中有超过一个的唯一索引。在这种情况下，REPLACE将考虑每一个唯一索引，并对每一个索引对应的重复记录都删除，然后插入这条新记录。假设有一个table1表，有3个字段a, b, c。它们都有一个唯一索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table1(a <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">UNIQUE</span>,b <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">UNIQUE</span>,c <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">UNIQUE</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设table1中已经有了3条记录</span></span><br><span class="line"><span class="comment"># 　　a b c</span></span><br><span class="line"><span class="comment"># 　　1 1 1</span></span><br><span class="line"><span class="comment"># 　　2 2 2</span></span><br><span class="line"><span class="comment"># 　　3 3 3</span></span><br><span class="line"><span class="comment"># 下面我们使用REPLACE语句向table1中插入一条记录</span></span><br><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> table1(a, b, c) <span class="keyword">VALUES</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="comment"># 返回的结果如下</span></span><br><span class="line">Query OK, 4 rows affected (0.00 sec)</span><br><span class="line"><span class="comment"># 在table1中的记录如下</span></span><br><span class="line"><span class="comment"># 　　a b c</span></span><br><span class="line"><span class="comment"># 　　1 2 3</span></span><br></pre></td></tr></table></figure>
+<h1 id="mybatis使用第二种方法的配置">MyBatis使用第二种方法的配置</h1>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertBatch"</span> <span class="attr">parameterType</span>=<span class="string">"com.example.Client"</span>&gt;</span></span><br><span class="line">	insert into client_info (client_name, client_type, client_time)</span><br><span class="line">	values</span><br><span class="line">	<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"list"</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">		(#&#123;item.clientName, jdbcType=VARCHAR&#125;, #&#123;item.clientType, jdbcType=VARCHAR&#125;,</span><br><span class="line">		#&#123;item.clienTime, jdbcType=TIMESTAMP&#125;)</span><br><span class="line">	<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">	on duplicate key update</span><br><span class="line">	client_name = values(client_name),</span><br><span class="line">	client_type = values(client_type),</span><br><span class="line">	client_time = values(client_time)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参考链接：<br>
+<a href="https://www.twle.cn/l/yufei/mysql/mysql-basic-index.html" target="_blank" rel="noopener">MySQL/MariaDB 基础教程</a></p>
+<h1 id="mysql插入与主键相同值的另外一个字段">MySQL插入与主键相同值的另外一个字段</h1>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> clinet_info(client_name, client_type, client_time) <span class="keyword">values</span>((<span class="keyword">select</span> auto_increment <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema =<span class="string">'test'</span> <span class="keyword">and</span> table_name=<span class="string">'client_info'</span>), <span class="string">'IBM'</span>, <span class="string">'advertising'</span>, <span class="string">'2019-07-01 10:00:00'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema =<span class="string">'test'</span> <span class="keyword">and</span> table_name=<span class="string">'client_info'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="mysql插入数据后返回自增id的方法">MySQL插入数据后返回自增ID的方法</h1>
+<p><a href="https://www.cnblogs.com/duanxz/p/3862356.html" target="_blank" rel="noopener">mysql插入数据后返回自增ID的方法,last_insert_id(),selectkey<br>
+</a></p>
+<p>推荐阅读该博客作者的MySQL和Mybatis标签的相关博客</p>
+<p><a href="https://www.cnblogs.com/duanxz/tag/mysql/" target="_blank" rel="noopener">duanxz’s cnblog</a></p>
+<h1 id="mysql中a表数据update到b表中">MySQL中A表数据update到B表中</h1>
+<p>场景1：表B中id, name, code三个字段均有值；表A中有id, name, 其中code值为null, 现将B表中的code值更新到A表中</p>
+<p>方法1：id不能有重复</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> tbl_a <span class="keyword">set</span> a.code = (<span class="keyword">select</span> code <span class="keyword">from</span> tbl_b b <span class="keyword">where</span> b.id = a.id)</span><br></pre></td></tr></table></figure>
+<p>方法2：适合大量数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> tbl_a a <span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> code <span class="keyword">from</span> tbl_b) b</span><br><span class="line"><span class="keyword">set</span> a.code = b.code</span><br></pre></td></tr></table></figure>
+<p>场景2：表B中id, name, code, detail四个字段均有值；表A中id, name, code, detail。其中id, name有值并且与表B相对应，code, detail值为null。现在将B表中code和detail值更新到A表中。</p>
+<p>方法1：id不能有重复</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> tbl_a a <span class="keyword">set</span></span><br><span class="line">a.code = (<span class="keyword">select</span> code <span class="keyword">from</span> tbl_b b <span class="keyword">where</span> b.id = a.id),</span><br><span class="line">a.detail = (<span class="keyword">select</span> detail <span class="keyword">from</span> tbl_b b <span class="keyword">where</span> b.id = a.id)</span><br></pre></td></tr></table></figure>
+<p>方法2：适合大量数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> tbl_a a <span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> code, detail <span class="keyword">from</span> tbl_b) b</span><br><span class="line"><span class="keyword">set</span> a.code = b.code, a.detail = b.detail</span><br></pre></td></tr></table></figure>
+<p>场景3：A表和B表主键或唯一索引是id，将表中数据全部更新到A中，存在即更新code字段，不存在则插入记录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tbl_a(<span class="keyword">id</span>, <span class="keyword">name</span>, code) <span class="keyword">select</span> <span class="keyword">id</span>, <span class="keyword">name</span>, code <span class="keyword">from</span> tbl_b <span class="keyword">on</span> <span class="keyword">duplicate</span> <span class="keyword">key</span> <span class="keyword">update</span> code = <span class="keyword">values</span>(code)</span><br></pre></td></tr></table></figure>
+<h1 id="本文实战">本文实战</h1>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`test_tbl`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`test_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`test_name`</span> <span class="built_in">varchar</span>(<span class="number">25</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`test_bg_url`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`active`</span> <span class="built_in">tinyint</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`operator`</span> <span class="built_in">varchar</span>(<span class="number">25</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`operator_time`</span> datetime <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`operator_ip`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">2</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test_tbl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_tbl <span class="keyword">DROP</span> <span class="keyword">INDEX</span> test_id;</span><br><span class="line"><span class="comment"># 创建联合唯一索引，方便后续插入更新操作，方式一</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> idx_test_id_active <span class="keyword">ON</span> test_tbl (test_id, active);</span><br><span class="line"><span class="comment"># 创建联合唯一索引，方便后续插入更新操作，方式二</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_tbl <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> <span class="keyword">KEY</span>(test_id, active);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'test_1'</span>, <span class="string">'www.test_1.com'</span>, <span class="number">0</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:00:00'</span>, <span class="string">'127.0.0.1'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> ((<span class="keyword">SELECT</span> AUTO_INCREMENT <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_name=<span class="string">'test_tbl'</span>), <span class="string">'test_2'</span>, <span class="string">'www.test_2.com'</span>, <span class="number">0</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> ((<span class="keyword">SELECT</span> AUTO_INCREMENT <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema =<span class="string">'test'</span>  <span class="keyword">AND</span> table_name=<span class="string">'test_tbl'</span>), <span class="string">'test_2'</span>, <span class="string">'www.test_2.com'</span>, <span class="number">0</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">UPDATE</span> test_tbl <span class="keyword">set</span> test_name = <span class="string">'test_1_update'</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">UPDATE</span> test_tbl <span class="keyword">set</span> test_name = <span class="string">'test_2_update'</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> test_tbl <span class="keyword">WHERE</span> active = <span class="number">1</span>;</span><br><span class="line"><span class="comment"># 单条插入更新操作</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'test_1_update'</span>, <span class="string">'www.test_1.com'</span>, <span class="number">1</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> test_name = <span class="keyword">VALUES</span>(test_name), test_bg_url = <span class="keyword">VALUES</span>(test_bg_url), <span class="keyword">operator</span> = <span class="keyword">VALUES</span>(<span class="keyword">operator</span>), operator_time = <span class="keyword">VALUES</span>(operator_time), operator_ip = <span class="keyword">VALUES</span>(operator_ip);</span><br><span class="line"><span class="comment"># 单条插入更新操作</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">'test_2_update'</span>, <span class="string">'www.test_2.com'</span>, <span class="number">1</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> test_name = <span class="keyword">VALUES</span>(test_name), test_bg_url = <span class="keyword">VALUES</span>(test_bg_url), <span class="keyword">operator</span> = <span class="keyword">VALUES</span>(<span class="keyword">operator</span>), operator_time = <span class="keyword">VALUES</span>(operator_time), operator_ip = <span class="keyword">VALUES</span>(operator_ip);</span><br><span class="line"><span class="comment"># 批量插入更新操作</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> test_tbl (test_id, test_name, test_bg_url, active, <span class="keyword">operator</span>, operator_time, operator_ip) <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'test_1_update'</span>, <span class="string">'www.test_1.com'</span>, <span class="number">1</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>), (<span class="number">2</span>, <span class="string">'test_2_update'</span>, <span class="string">'www.test_2.com'</span>, <span class="number">1</span>, <span class="string">'luckyxue'</span>, <span class="string">'2019-07-01 10:30:00'</span>, <span class="string">'127.0.0.1'</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> test_name = <span class="keyword">VALUES</span>(test_name), test_bg_url = <span class="keyword">VALUES</span>(test_bg_url), <span class="keyword">operator</span> = <span class="keyword">VALUES</span>(<span class="keyword">operator</span>), operator_time = <span class="keyword">VALUES</span>(operator_time), operator_ip = <span class="keyword">VALUES</span>(operator_ip);</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/" data-toggle="tooltip" data-placement="top" title="[JVM] JVM内存结构 VS Java内存模型 VS Java对象模型">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#mysql当插入重复时更新的方法"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">MySQL当插入重复时更新的方法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#not-exists语句"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">NOT EXISTS语句</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#insert中on-duplicate-key-update的使用本文重点"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">INSERT中ON DUPLICATE KEY UPDATE的使用（本文重点）</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#replace语句"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">REPLACE语句</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#mybatis使用第二种方法的配置"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">MyBatis使用第二种方法的配置</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#mysql插入与主键相同值的另外一个字段"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">MySQL插入与主键相同值的另外一个字段</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#mysql插入数据后返回自增id的方法"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">MySQL插入数据后返回自增ID的方法</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#mysql中a表数据update到b表中"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">MySQL中A表数据update到B表中</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#本文实战"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">本文实战</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite-url/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite-url/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

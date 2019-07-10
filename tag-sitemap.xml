@@ -3,15 +3,29 @@
 
 
     <url>
-        <loc>http://yoursite-url/tags/Blog/</loc>
-        <lastmod>2019-07-02T16:06:29.469Z</lastmod>
+        <loc>http://yoursite-url/tags/MySQL/</loc>
+        <lastmod>2019-07-10T16:12:06.534Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yoursite-url/tags/Hexo/</loc>
-        <lastmod>2019-07-02T16:06:29.469Z</lastmod>
+        <loc>http://yoursite-url/tags/JVM/</loc>
+        <lastmod>2019-07-05T05:35:58.067Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/Docker/</loc>
+        <lastmod>2019-07-05T05:28:32.002Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/Blog/</loc>
+        <lastmod>2019-07-05T05:05:57.542Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

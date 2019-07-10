@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content>
-    <meta name="keyword" content>
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          憨才好运 | Blog
+          憨才好运 - Blog
         
     </title>
 
@@ -136,14 +136,14 @@
 
                         
                         <li>
-                            <a href="/about/">About Me</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About Me</a>
                         </li>
                         
                     
@@ -213,29 +213,29 @@
 
 <div class="post-preview">
 
-    <a href="/2019/07/01/hexo-theme-beantech/">
+    <a href="/2019/07/01/Hexo+Github博客搭建小白教程/">
         <h2 class="post-title">
             
                 <i class="fa fa-thumb-tack"></i>
                 <font color=7D26CD>置顶</font>
                 <span class="post-meta-divider">|</span>
             
-            [Hexo] Theme BeanTech
+            [Blog] Hexo + Github博客搭建小白教程
         </h2>
         <h3 class="post-subtitle">
-            This is hexo theme Demo.
+            This is hexo beantech theme Demo.
         </h3>
         <div class="post-content-preview">
             
-Ported Theme of Hux Blog, Thank Huxpro for designing such a flawless theme.
-This BeanTech theme created by YuHsuan modified from the original Porter Kaijun
+本文主要分享通过Hexo Beantech主题和Github从零开始搭建博客之后，添加一些个性化功能以及处理主题自身bug的方法。
+包括一些参考链接和Bean Tech提供的Markdown Demo写法。
 
-Live Demo
-
-
-Usage
-
-I publish the whole ......
+个性化设置及Bug处理
+超详细Hexo+Github博客搭建小白教程
+Hexo博客踩坑
+为博客添加Gitalk评论插件
+注释BeanTech主题遗留的Disqus插件
+通过上面步骤，......
         </div>
     </a>
     
@@ -245,9 +245,111 @@ I publish the whole ......
         </p>
         <div class="tags">
             
-              <a href="/tags/#Hexo" title="Hexo">Hexo</a>
-            
               <a href="/tags/#Blog" title="Blog">Blog</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
+        <h2 class="post-title">
+            
+            [MySQL] MySQL在MyBatis环境下批量进行存在则更新，不存在则插入
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            MySQL当插入重复时更新的方法
+参考链接：MySQL文章标签列表
+NOT EXISTS语句
+假设有一个主键为 client_id 的 clients 表，可以使用下面的语句：
+12345# 批量插入多条记录INSERT INTO clients (client_id, client_name, client_type)  SELECT supplier_id, supplier_name,......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2019-07-07
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#MySQL" title="MySQL">MySQL</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/">
+        <h2 class="post-title">
+            
+            [JVM] JVM内存结构 VS Java内存模型 VS Java对象模型
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+Java作为一门面向对象的、跨平台语言，其对象、内存等一直都是比较难的知识点，而且很多概念的名称看起来又十分相似。比如本文我们要讨论的JVM内存结构、Java内存模型和Java对象模型，这就是三个截然不同的概念，但是很多人容易弄混。
+本文主要对这三个概念加以区分以及简单介绍。
+
+JVM内存结构
+Java内存模型
+Java对象模型
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2019-07-05
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#JVM" title="JVM">JVM</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/">
+        <h2 class="post-title">
+            
+            [Docker] Docker+Gitlab+Jenkins+SpringBoot实现自动化部署
+        </h2>
+        <h3 class="post-subtitle">
+            DevOps实现CI/CD.
+        </h3>
+        <div class="post-content-preview">
+            名词术语
+DevOps:
+CI:
+CD:
+持续集成和持续部署开发流程
+
+我们简单说说这张图：首先我们会将代码文件、测试文件以及Dockerfile都存在代码仓库里，版本控制利用git，这里代码仓库有很多选择，比如github、码云(本次使用)、Coding以及自己搭建的gitlab。然后由持续集成工具进行自动化构建，包括了测试、编译、打包、构建镜像、推送镜像到仓库（有很多选择，如docker......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2019-07-04
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
             
         </div>
     
@@ -285,6 +387,10 @@ I publish the whole ......
     <!-- no hr -->
     <h5><a href="/tags/">FEATURED TAGS</a></h5>
     <div class="tags">
+        
+            
+        
+            
         
             
         
@@ -342,7 +448,19 @@ I publish the whole ......
     <ul>
       
         <li>
-          <a href="/2019/07/01/hexo-theme-beantech/">[Hexo] Theme BeanTech</a>
+          <a href="/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">[MySQL] MySQL在MyBatis环境下批量进行存在则更新，不存在则插入</a>
+        </li>
+      
+        <li>
+          <a href="/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/">[JVM] JVM内存结构 VS Java内存模型 VS Java对象模型</a>
+        </li>
+      
+        <li>
+          <a href="/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/">[Docker] Docker+Gitlab+Jenkins+SpringBoot实现自动化部署</a>
+        </li>
+      
+        <li>
+          <a href="/2019/07/01/Hexo+Github博客搭建小白教程/">[Blog] Hexo + Github博客搭建小白教程</a>
         </li>
       
     </ul>
@@ -355,6 +473,8 @@ I publish the whole ......
 <h5>FRIENDS</h5>
 <ul class="list-inline">
 
+    
+        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
     
 </ul>
 
