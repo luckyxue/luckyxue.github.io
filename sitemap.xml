@@ -3,17 +3,17 @@
 
 
     <sitemap>
-        <loc>http://yoursite-url/post-sitemap.xml</loc>
+        <loc>https://luckyxue.github.io/post-sitemap.xml</loc>
         <lastmod>2019-12-14T09:52:29.730Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>http://yoursite-url/page-sitemap.xml</loc>
+        <loc>https://luckyxue.github.io/page-sitemap.xml</loc>
         <lastmod>2019-07-01T05:52:58.822Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>http://yoursite-url/tag-sitemap.xml</loc>
+        <loc>https://luckyxue.github.io/tag-sitemap.xml</loc>
         <lastmod>2019-12-14T09:52:29.730Z</lastmod>
     </sitemap>
 
