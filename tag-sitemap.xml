@@ -3,36 +3,36 @@
 
 
     <url>
+        <loc>https://luckyxue.github.io/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/</loc>
+        <lastmod>2020-03-15T07:30:15.471Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://luckyxue.github.io/tags/Java-Web/</loc>
-        <lastmod>2019-12-14T09:52:29.730Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://luckyxue.github.io/tags/Java%E5%9F%BA%E7%A1%80/</loc>
-        <lastmod>2019-12-14T09:44:44.900Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://luckyxue.github.io/tags/Blog/</loc>
-        <lastmod>2019-08-10T14:17:49.702Z</lastmod>
+        <lastmod>2020-03-15T07:30:11.192Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://luckyxue.github.io/tags/MySQL/</loc>
-        <lastmod>2019-07-14T15:32:33.361Z</lastmod>
+        <lastmod>2020-03-15T07:29:52.250Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://luckyxue.github.io/tags/Java%E5%9F%BA%E7%A1%80/</loc>
+        <lastmod>2020-03-15T07:29:35.971Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://luckyxue.github.io/tags/Docker/</loc>
-        <lastmod>2019-07-05T05:28:32.002Z</lastmod>
+        <lastmod>2020-03-15T07:27:56.722Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [MySQL]删库跑路？Binlog数据恢复有哪几种方法 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://luckyxue.github.io/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                            
+                        </div>
+                        <h1>[MySQL]删库跑路？Binlog数据恢复有哪几种方法</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-03-13
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>了解一下Binlog恢复数据的保命技巧，删库也不用急着跑路。</p>
+</blockquote>
+<p>一个企业最核心最具有价值的就是数据了，不管你什么架构，一切都是为数据服务的，数据一旦被删除，每过一秒都将对企业造成巨大的损失。尽管如此还是经常发生删库跑路的案例。在刚工作一年时间内，发生在我身边已经有两起类似事故，所以还是需要提前学习一下如何快速对数据进行恢复，当然最好这种事情不要发生在你我身上。</p>
+<h1 id="binlog介绍">Binlog介绍</h1>
+<p>Binlog 就是binary log，二进制日志文件，这个文件记录了MySQL所有的DDL和DML(除了数据查询语句)语句，以事件形式记录，还包含语句所执行的消耗的时间。Binlog日志对于MySQL数据库来说是十分重要的。在数据丢失的紧急情况下，可以尝试用binlog日志功能进行数据恢复操作，其他关系型数据库也是大同小异。</p>
+<h2 id="binlog日志包括两类文件">Binlog日志包括两类文件：</h2>
+<p>1）二进制日志索引文件(文件名后缀为.index):用于记录所有的二进制文件；</p>
+<p>2）二进制日志文件(文件名后缀为.00000*):用于记录数据库所有的DDL和DML(除了数据查询语句select)语句事件。</p>
+<h2 id="binlog的三种模式">Binlog的三种模式:</h2>
+<p>Statement Level模式：MySQL 5.7.7之前的版本默认是这种模式，这种模式只存储执行的SQL语句，没有真正的数据，无法进行数据恢复，生产环境也不会使用此模式；</p>
+<p>Row Level模式：在MySQL 5.7.7之后的版本默认是这种模式，它是基于行的记录，并且会将每一条的数据变化记录到日志文件中，是没有SQL语句的，这种我们可以解析出真正的数据，生产环境中建议采用Row Level模式，当然它也有一定的缺点，比如记录数据时产生大量的binlog，面对存储过程时可能出现数据不一致的情况；</p>
+<p>Mixed模式：它是混合的一种复制模式，默认的情况下是Statement，某些情况下会切换到Row格式;</p>
+<p>在MySQL命令行下使用show variables like ‘log_bin’，命令查看binlog日志是否开启，Value的值为ON表示开启，为OFF表示关闭；<br>
+在MySQL命令行下使用show variabels like ‘binlog_format’，命令查看开启的binlog使用哪种日志模式；</p>
+<h2 id="查看binlog日志的状态">查看Binlog日志的状态</h2>
+<img src="0afa7f76d13f76c0173f1fc62135ed6f.jpg" alt="continuous_deployment" data-action="zoom">
+<h2 id="读取binlog日志中的内容">读取Binlog日志中的内容:</h2>
+<p>binlog是二进制文件，普通文件查看器cat more vi打开都会出现二进制乱码，必须使用自带的 mysqlbinlog 命令查看binlog日志:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog /usr/local/mysql/data/mysql-bin.000005</span><br><span class="line"></span><br><span class="line">mysqlbinlog --base64-output=decode-rows -v /usr/local/mysql/data/mysql-bin.000005</span><br></pre></td></tr></table></figure>
+<p>这种办法读取出binlog日志的全文内容较多，不容易分辨查看pos点信息，这里介绍一种更为方便的查询命令在MySQL的命令界面：</p>
+<p>在mysql命令界面输入：mysql&gt; show binlog events [IN ‘log_name’] [FROM pos] [LIMIT [offset,] row_count]</p>
+<p>IN ‘log_name’：指定要查询的binlog文件名(不指定就是第一个binlog文件)<br>
+FROM pos：指定从哪个pos起始点开始查起(不指定就是从整个文件首个pos点开始算)<br>
+LIMIT [offset,]：偏移量(不指定就是0)<br>
+row_count：查询总条数(不指定就是所有行)</p>
+<img src="e87dd75146e92567808d0a3b5d44f807.jpg" alt="continuous_deployment" data-action="zoom">
+<p>当出现mysqlbinlog: [ERROR] unknown variable ‘default-character-set=utf8mb4’，原因是mysqlbinlog这个工具无法识别binlog中的配置中的default-character-set=utf8mb4这个指令。</p>
+<p>两个方法可以解决这个问题：一是在MySQL的配置/etc/my.cnf中将default-character-set=utf8 修改为 character-set-server = utf8mb4，但是这需要重启MySQL服务，如果MySQL服务正在工作，那样代价会比较大；二是用mysqlbinlog --no-defaults mysql-bin.000001命令打开。</p>
+<h1 id="通过binlog恢复数据">通过Binlog恢复数据</h1>
+<img src="bc7a3bc59a6409ef70baaf7c5cfdd08b.jpg" alt="continuous_deployment" data-action="zoom">
+<p>目前数据库主流的备份方案如下：</p>
+<p>全量备份+Binlog恢复：这种方式适用于小数据库，数据恢复速度较快；</p>
+<img src="00ed3e59849f6e87b08adb13a7271a41.jpg" alt="continuous_deployment" data-action="zoom">
+<p>全量备份+增量备份+Binlog恢复：这种方式适用于大数据库，能够节省磁盘空间，但是数据恢复速度较慢；</p>
+<img src="31b7695cc22917f7c32ab5cd5decd237.jpg" alt="continuous_deployment" data-action="zoom">
+<p>今天先不讨论全量备份或增量备份数据恢复的效率问题，重点讲解一下如何通过binlog来恢复数据。基于最新的完整备份+Binlog进行数据恢复，这时需要把备份导回去，还要找出Binlog DELETE前的pos位置，再进行binlog恢复，恢复完后再把记录恢复到误操的环境上，如果表很大，这时间要很久。我们可以通过上述mysqlbinlog命令查看日志，然后手动将delete语句改成insert语句，但是对于生成环境上一般设置binlog为2G的文件来说，手动替换的效率太低。</p>
+<p>那么有没有可以通过binlog日志反向解析出对应的SQL语句，使用的比较多的一个是不知名大佬开源的binlog-rollback.pl脚本（在此基础上衍生出的python反向解析脚本，文末链接中推荐两款）以及美团大佬开源的flashback工具。Perl脚本需要输入用户名和密码而flashback工具不需要输入用户名和密码并且生成falshback文件，这个文件是反解后的二进制文件，速度有较大提升。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# perl binlog-rollback.pl -f '/usr/local/data/mysql-bin.000001' -o '/tmp/t.sql' -h '127.0.0.1' -u 'root' -p 'password' -P 3306 -i --debug</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# more /tmp/t.sql</span><br><span class="line">DELETE FROM 'test'.'t1' WHERE `id`=2 AND `name`='lisi';</span><br><span class="line">DELETE FROM 'test'.'t1' WHERE `id`=1 AND `name`='zhangsan';</span><br><span class="line">sudo mysqlbinlog -v /Users/xuehaoyun/mysql-bin.000005 </span><br><span class="line">| grep '^### ' </span><br><span class="line">| sed 's/###\s*//g;s/\s*$//g' </span><br><span class="line">| sed 's/^[ \t]*//g' </span><br><span class="line">| grep -E '^(INSERT|UPDATE|DELETE)' </span><br><span class="line">| awk '&#123;if ($1 ~ "^UPDATE") &#123;print $2&#125;else &#123;print $3&#125;&#125;' </span><br><span class="line">| sort</span><br><span class="line">| uniq</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[root@localhost]#</span><span class="bash"> ./binary/flashback --binlogFileNames=/usr/<span class="built_in">local</span>/mysql/data/mysql-bin.000005</span></span><br><span class="line"><span class="meta">[root@localhost]#</span><span class="bash"> mysqlbinlog --base64-output=decode-rows -v binlog_output_base.flashback</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## DELETE FROM `test`.`t1`</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## WHERE</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## @1=1</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## @2='zhangsan'</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## DELETE FROM `test`.`t2`</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## WHERE</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## @1=1</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## @2='lisi'</span></span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>通过全量备份+binlog恢复数据速度还是比较慢，可以通过增加延迟备份从库从另外一个角度来解决问题：</p>
+<img src="9eb1a8193a49c5062e38d120a8e6b4da.jpg" alt="continuous_deployment" data-action="zoom">
+<h2 id="如何避免发生删库事件">如何避免发生删库事件</h2>
+<p>生产环境下经常发生删库事件，大多数情况是因为数据库表管理权限不当，导致权限过大又出现误操作，合理地分配权限对于开发同学也是非常重要的，对于如何管理MySQL数据库表的权限可以阅读数据库大神丁奇的MySQL45讲中第42讲&quot;grant之后要跟着flushprivileges吗&quot;。</p>
+<h1 id="参考链接">参考链接</h1>
+<p><a href="https://blog.csdn.net/gt9000/article/details/87979622" target="_blank" rel="noopener">MySQL根据离线binlog快速&quot;闪回&quot;</a></p>
+<p><a href="https://tech.meituan.com/2017/11/17/mysql-flashback.html" target="_blank" rel="noopener">MyFlash–美团点评的开源MySQL闪回工具</a></p>
+<p><a href="https://github.com/danfengcao/binlog2sql" target="_blank" rel="noopener">Github上Star较多的Python实现的binlog反向解析sql（一）</a></p>
+<p><a href="https://github.com/58daojia-dba/mysqlbinlog_flashback" target="_blank" rel="noopener">Github上Star较多的Python实现的binlog反向解析sql（二）</a></p>
+<h1 id="重点阅读推荐">重点阅读推荐</h1>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA3ODUxNjk0OQ==&amp;mid=2650231496&amp;idx=1&amp;sn=4b625f553b8a2a9cd5aee9d513f45d18&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">MySQL利用binlog恢复误操作数据（Python脚本）</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI4NTA1MDEwNg==&amp;mid=2650760674&amp;idx=1&amp;sn=93e59fa84db2a650981240e3f14be79c&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">MySQL数据恢复的九把瑞士军刀</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzUyNjkzNjQwMQ==&amp;mid=2247484825&amp;idx=1&amp;sn=66f3ee9b5754ba86c822f95e9b4435e7&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">利用frm文件和ibd文件恢复表数据</a></p>
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/03/15/BIO、NIO和AIO的区别/" data-toggle="tooltip" data-placement="top" title="[Java基础]BIO、NIO和AIO的区别">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/03/04/动手实现一个RPC框架/" data-toggle="tooltip" data-placement="top" title="[Java Web]动手实现一个RPC框架">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#binlog介绍"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Binlog介绍</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#binlog日志包括两类文件"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Binlog日志包括两类文件：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#binlog的三种模式"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Binlog的三种模式:</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#查看binlog日志的状态"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">查看Binlog日志的状态</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#读取binlog日志中的内容"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">读取Binlog日志中的内容:</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#通过binlog恢复数据"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">通过Binlog恢复数据</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#如何避免发生删库事件"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">如何避免发生删库事件</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#参考链接"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">参考链接</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#重点阅读推荐"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">重点阅读推荐</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
