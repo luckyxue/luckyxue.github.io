@@ -136,13 +136,6 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/about/">About Me</a>
                         </li>
                         
@@ -151,6 +144,13 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -213,312 +213,349 @@
 
 <div class="post-preview">
 
-    <a href="/2020/03/15/BIO、NIO和AIO的区别/">
+    <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">
         <h2 class="post-title">
             
-            [Java基础]BIO、NIO和AIO的区别
+            Docker环境下安装部署Redis Cluster
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            Java BIO
-BIO 全称Block-IO 是一种同步且阻塞的通信模式。是一个比较传统的通信方式，模式简单，使用方便。但并发处理能力低，通信耗时，依赖网速。
-Java NIO
-Java NIO，全程 Non-Block IO ，是Java SE 1.4版以后，针对网络传输效能优化的新功能。是一种非阻塞同步的通信模式。
-NIO 与原来的 I/O 有同样的作用和目的, 他们之间最重要的区别是......
+            为了应对更高的QPS、更大的数据存储和更多的网络流量的需求，Redis官方提供了原生的集群模式Redis Cluster的解决方案。Redis Cluster作为分布式数据库的典型代表，对理解分布式的理论理解有很大帮助。
+为了实现实现分布式存储，需要对数据分布在不同节点上。数据分布就是通过一定的分区规则，将大数据集分别存储在不同的分区。哈希分布存在数据分散度高、键值分布与业务无关、无法顺序访......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by Lucky Xue on
-            2020-03-15
+            2020-04-21
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#Redis" title="Redis">Redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
+        <h2 class="post-title">
+            
+            Docker环境下安装部署Redis Sentinel
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文记录了在Mac上的Docker环境下安装部署Redis Sentinel集群并挂载外部配置和数据的操作步骤。通过前面文章可知，由于主从复制出现了故障，需要手动进行故障转移，同时写能力和存储能力有有限。所以Redis官方提供了Redis Sentinel部署方式提供高可用的解决方案。Redis Sentinel可以理解成一个特殊的Redis进程，它不存储数据，支持的命令也很有限， 只负责持......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-20
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#Redis" title="Redis">Redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">
+        <h2 class="post-title">
+            
+            Docker环境下安装部署Redis Slave
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文记录了在Mac上的Docker环境下安装部署Redis主从复制集群并挂载外部配置和数据的操作步骤，Redis 的主从数据是异步同步的，所以分布式的 Redis 系统并不满足「一致性」要求。当客户端在 Redis 的主节点修改了数据后，立即返回，即使在主从网络断开的情况下，主节点依旧可以正常对外提供修改服务，所以 Redis 满足「可用性」。
+Redis 保证「最终一致性」，从节点会努力追......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-19
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#Redis" title="Redis">Redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">
+        <h2 class="post-title">
+            
+            Docker环境下安装部署Redis Standalone
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本文记录了在Mac上的Docker环境下安装部署Redis单机版并挂载外部配置和数据的操作步骤，浏览了网上很多Docker环境下安装配置Redis的文章，大多都存在错误，容器启动之后配置文件不生效，本篇博客以实际操作为基础确保是准确无误的。
+关注文末的公众号，后台私信获取完整的配置文件。
+第一步：安装Redis官方镜像
+第二步：启动Redis容器服务
+第三步：验证使用Redis服务
+使用Do......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-18
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Docker" title="Docker">Docker</a>
+            
+              <a href="/tags/#Redis" title="Redis">Redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/17/Redis的线程IO模型/">
+        <h2 class="post-title">
+            
+            Redis的线程IO模型
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Redis中间件是单线程工作模型
+Redis单线程模型也能效率这么高
+很多人会怀疑Redis作为一款高并发中间件，怎么会是单线程工作模型，其原因在于：
+
+纯内存操作;
+核心是基于非阻塞的IO多路复用机制;
+C语言实现，一般来说，C语言实现的程序“距离”操作系统更近，执行速度相对会更快;
+单线程反而避免了多线程的频繁上下文切换问题，预防了多线程可能产生的竞争问题;
+
+Redis单线程模型总结
+......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Redis" title="Redis">Redis</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/06/数据结构与算法优秀文章汇总/">
+        <h2 class="post-title">
+            
+            数据结构与算法优秀文章汇总
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            大佬博客
+labuladong的算法小抄
+动态规划
+一文学会递归解题
+一文学会排列与组合
+巧用递归解决矩阵最大序列和问题
+一文学会动态规划解题
+一文学会回溯算法解题
+一文学会背包解题
+更多优秀文章持续收集整理中…
+关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️
+
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
+        <h2 class="post-title">
+            
+            LeetCode-Best-Time-to-Buy-and-Sell-Stock(买卖股票的最佳时机)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+            
+              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
+        <h2 class="post-title">
+            
+            LeetCode-152.Maxinum Product Sbubarray(最大乘积子数组)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            LeetCode - 152. Maximum Product Subarray(最大乘积子数组)
+题目
+给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字）。
+示例 1:
+1234输入: [2,3,-2,4]输出: 6解释: 子数组 [2,3] 有最大乘积 6。示例 2:
+示例 2:
+123输入: [-2,0,-1]输出: 0解释: 结果不能为 2......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+            
+              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
+        <h2 class="post-title">
+            
+            LeetCode-53.Maximum-Subarrray(最大子序和)
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            最大子序和
+题目
+给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+示例:
+123输入: [-2,1,-3,4,-1,2,1,-5,4],输出: 6解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+递归解法
+123456789101112131415161718192021private static int res;publ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-04-06
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
+            
+              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/03/20/Java的NIO入门/">
+        <h2 class="post-title">
+            
+            Java的NIO入门
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            辛星2018年nio教程第一篇:初识channel和buffer
+辛星2018年nio教程第二篇:详细了解Buffer
+辛星2018年nio教程第三篇:通过nio进行文件拷贝实例
+辛星2018年nio教程第四篇:ByteBuffer的加速技术
+辛星2018年nio教程第五篇:Scatter与Gather
+辛星2018年nio教程第六篇:FileChanne梳理
+辛星2018年nio教程第七篇......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-03-20
         </p>
         <div class="tags">
             
               <a href="/tags/#Java基础" title="Java基础">Java基础</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/">
-        <h2 class="post-title">
-            
-            [MySQL]删库跑路？Binlog数据恢复有哪几种方法
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            
-了解一下Binlog恢复数据的保命技巧，删库也不用急着跑路。
-
-一个企业最核心最具有价值的就是数据了，不管你什么架构，一切都是为数据服务的，数据一旦被删除，每过一秒都将对企业造成巨大的损失。尽管如此还是经常发生删库跑路的案例。在刚工作一年时间内，发生在我身边已经有两起类似事故，所以还是需要提前学习一下如何快速对数据进行恢复，当然最好这种事情不要发生在你我身上。
-Binlog介绍
-Binlo......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-03-13
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#MySQL" title="MySQL">MySQL</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/03/04/动手实现一个RPC框架/">
-        <h2 class="post-title">
-            
-            [Java Web]动手实现一个RPC框架
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            RPC定义
-RPC 框架的目标就是让远程服务调用更加简单、透明，RPC 框架负责屏蔽底层的传输方式（TCP 或者 UDP）、序列化方式（XML/Json/ 二进制）和通信细节。服务调用者可以像调用本地接口一样调用远程的服务提供者，而不需要关心底层通信细节和调用过程。
-
-RPC原理
-我们在实现 RPC 框架之前，需要先掌握 RPC 框架的实现原理。在 RPC 框架中，最关键的就是理解“桩”的实......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-03-04
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java Web" title="Java Web">Java Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/02/10/正版账号竟然登录不上Jetbrains全家桶/">
-        <h2 class="post-title">
-            
-            [效率工具]正版账号竟然登录不上Jetbrains全家桶
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Jetbrains全家桶软件可谓是软件开发从业者的必备利器，国内开发者大多通过各种途径盗版激活。可惜最近开始全网封杀，很多激活码和激活网址失效，当然我也是遇到这样的问题。还好公司买了正版授权，在公司的电脑上没有受到什么影响，但是在个人电脑上使用正版授权的账号登录时，发现竟然一直报错不能激活。
-报错原因如下：
-JetBrains Account connection error: Connec......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-02-10
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#效率工具" title="效率工具">效率工具</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/02/09/HTTP认证-授权方案-三-SAML、OAuth、OpenID与JWT的区别/">
-        <h2 class="post-title">
-            
-            [Java Web]HTTP认证/授权方案(三):SAML、OAuth、OpenID与JWT的区别
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ​在进一步学习HTTP认证/授权方案时，我们会遇到很多名词术语，比如什么是SSO，SSO下不同策略SAML和OAuth的不同，以及OAuth、OpenID和JWT的不同，更重要的是区分authentication(认证)和authorisation(授权)，Session和JWT在不同场景下管理方面的优势和劣势以及access token和refresh token的区别等等。通常为了弄清楚......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-02-09
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java Web" title="Java Web">Java Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/02/05/HTTP认证-授权方案-二-Digest-Access/">
-        <h2 class="post-title">
-            
-            [Java Web]HTTP认证/授权方案(二):Digest Access
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ​HTTP摘要认证与HTTP基本认证一样，都是基于HTTP层面的认证方式，不使用session，因而不支持Remember-me。虽然解决了HTTP基本认证密码明文传输的问题，但并未解决密码明文存储的问题，依然存在安全隐患。HTTP摘要认证与HTTP基本认证相比，仅仅在非加密的传输层中有安全优势，但是其相对复杂的实现流程，使得它并不能成为一种被广泛使用的认证方式。
-概念
-摘要认证(Diges......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-02-05
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java Web" title="Java Web">Java Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/02/02/HTTP认证-授权方案-一-HTTP-Basic/">
-        <h2 class="post-title">
-            
-            [Java Web]HTTP认证/授权方案(一):HTTP Basic
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            ​在学习微服务安全架构与实践的过程中，发现有关HTTP认证或授权的方案有很多，为了避免混淆，经过收集整理网上的资料和阅读技术大牛的文章一步步总结后记录到该系列博客中。
-概念
-基本认证(HTTP Basic)是HTTP 1.0提出的一个非常传统的API认证技术，这个技术是一种用来允许Web浏览器或其他客户端程序在请求时提供用户名和密码口令形式的身份凭证的登录验证方式。HTTP认证是基于质询/回......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-02-02
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java Web" title="Java Web">Java Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/01/31/Java并发编程之AQS学习/">
-        <h2 class="post-title">
-            
-            [Java基础]Java并发编程之AQS学习
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            学习AQS的思路
-AbstractQueuedSynchronizer是Doug Lea写的，简称AQS。从JDK 1.5加入的一个基于FIFO等待队列用于实现同步器的基础框架，学习AQS的目的主要是为了理解原理、提高技术以及应对面试。
-先从应用层面理解为什么需要它、如何使用它；然后再看一看我们JUC的设计者是如何使用它来了解它的应用场景；最后我们再去分析它的结构，这样的话我们就学习的更加轻......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-01-31
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java基础" title="Java基础">Java基础</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/01/26/Java日志框架历史演进及最佳实践/">
-        <h2 class="post-title">
-            
-            [Java Web]Java日志框架历史演进及最佳实践
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Java日志框架历史演进
-日志作为逻辑追踪、线上问题排查、监控报警的有效基础利器被开发人员所熟知。问题发现、定位到解决都离不开它，而且从它的演进过程也能看到现代互联网发展的一个缩影。
-print、alert、echo
-互联网发展的早期，不管是C/S模式（客户端+服务端模式）还是B/S模式（浏览器+服务端模式），因为只有前端和后端交互这一层，验证逻辑基本上用的是前端alert，后台用Syste......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-01-26
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java Web" title="Java Web">Java Web</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2019/12/25/软件建模中使用UML分析与完成设计文档/">
-        <h2 class="post-title">
-            
-            [效率工具]软件建模中使用UML分析与完成设计文档
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            软件建模
-软件建模就是为要开发的软件建造模型。通过建模，我们可以把我事物的本质规律和主要特征，正确建造模型和使用模型，以防在各种细节中迷失方向。软件系统庞大复杂，我们可以抽象软件系统的主要特征和组成部分，在软件开发过程中依照模型的约束开发，系统整体的格局和关系就会可控，相关人员从始至终都能清晰了解软件的设计蓝图和当前的进展，不同的开发工程师会很清楚自己开发的模块和其他同事工作内容的关系与依赖......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2019-12-25
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#效率工具" title="效率工具">效率工具</a>
             
         </div>
     
@@ -562,17 +599,31 @@ print、alert、echo
     <div class="tags">
         
             
+            <a href="/tags/#Java基础" title="Java基础" rel="5">Java基础</a>
+            
+        
+            
+            <a href="/tags/#Docker" title="Docker" rel="5">Docker</a>
+            
+        
+            
+            <a href="/tags/#Redis" title="Redis" rel="5">Redis</a>
+            
         
             
             <a href="/tags/#Java Web" title="Java Web" rel="7">Java Web</a>
             
         
             
-            <a href="/tags/#Java基础" title="Java基础" rel="3">Java基础</a>
+            <a href="/tags/#效率工具" title="效率工具" rel="3">效率工具</a>
             
         
             
-            <a href="/tags/#效率工具" title="效率工具" rel="3">效率工具</a>
+            <a href="/tags/#数据结构与算法" title="数据结构与算法" rel="4">数据结构与算法</a>
+            
+        
+            
+            <a href="/tags/#动态规划" title="动态规划" rel="3">动态规划</a>
             
         
             
@@ -608,6 +659,8 @@ print、alert、echo
             
 
             
+
+            
                 <li>
                     <a target="_blank"  href="https://github.com/luckyxue">
                         <span class="fa-stack fa-lg">
@@ -631,23 +684,23 @@ print、alert、echo
     <ul>
       
         <li>
-          <a href="/2020/03/15/BIO、NIO和AIO的区别/">[Java基础]BIO、NIO和AIO的区别</a>
+          <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">Docker环境下安装部署Redis Cluster</a>
         </li>
       
         <li>
-          <a href="/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/">[MySQL]删库跑路？Binlog数据恢复有哪几种方法</a>
+          <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">Docker环境下安装部署Redis Sentinel</a>
         </li>
       
         <li>
-          <a href="/2020/03/04/动手实现一个RPC框架/">[Java Web]动手实现一个RPC框架</a>
+          <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">Docker环境下安装部署Redis Slave</a>
         </li>
       
         <li>
-          <a href="/2020/02/10/正版账号竟然登录不上Jetbrains全家桶/">[效率工具]正版账号竟然登录不上Jetbrains全家桶</a>
+          <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">Docker环境下安装部署Redis Standalone</a>
         </li>
       
         <li>
-          <a href="/2020/02/09/HTTP认证-授权方案-三-SAML、OAuth、OpenID与JWT的区别/">[Java Web]HTTP认证/授权方案(三):SAML、OAuth、OpenID与JWT的区别</a>
+          <a href="/2020/04/17/Redis的线程IO模型/">Redis的线程IO模型</a>
         </li>
       
     </ul>
@@ -690,6 +743,8 @@ print、alert、echo
                 
 
                 
+
+                
                     <li>
                         <a target="_blank"  href="https://github.com/luckyxue">
                             <span class="fa-stack fa-lg">
@@ -710,16 +765,27 @@ print、alert、echo
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span> 
-                    re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> | 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
                         frameborder="0" scrolling="0" width="91px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
                     </iframe>
+                    -->
                 </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
             </div>
+
         </div>
+
     </div>
+
+   
 </footer>
 
 <!-- jQuery -->
@@ -785,32 +851,14 @@ print、alert、echo
     })
 </script>
 
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 <!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-XXXXXXXX-X';
-    var _gaDomain = 'yoursite';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
 
 
 
 
 <!-- Baidu Tongji -->
-
-
-
 
 
 

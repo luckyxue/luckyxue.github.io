@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Docker环境下安装部署Redis Cluster - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://luckyxue.github.io/2020/04/21/Docker环境下安装部署Redis-Cluster/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                            
+                              <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
+                            
+                        </div>
+                        <h1>Docker环境下安装部署Redis Cluster</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-04-21
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>为了应对更高的QPS、更大的数据存储和更多的网络流量的需求，Redis官方提供了原生的集群模式Redis Cluster的解决方案。Redis Cluster作为分布式数据库的典型代表，对理解分布式的理论理解有很大帮助。<br>
+为了实现实现分布式存储，需要对数据分布在不同节点上。数据分布就是通过一定的分区规则，将大数据集分别存储在不同的分区。哈希分布存在数据分散度高、键值分布与业务无关、无法顺序访问、无法批量操作等特点，典型的产品如一致性哈希Memcache和Redis Cluster等；顺序分布存在数据分散度易倾斜、键值业务相关、可顺序访问和支持批量操作等特点，典型的产品如HBase等。</p>
+<h1 id="原生命令安装-理解架构">原生命令安装-理解架构</h1>
+<p>第一步：创建redis容器服务<br>
+第二步：各个redis容器握手<br>
+第三步：各个redis容器分配Hash槽</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 端口</span><br><span class="line">port 7001</span><br><span class="line"><span class="meta">#</span> 是否是守护进程</span><br><span class="line">daemonize no</span><br><span class="line"><span class="meta">#</span> 存放的目录</span><br><span class="line">dir ./</span><br><span class="line"><span class="meta">#</span> 日志名称</span><br><span class="line">logfile "7001.log"</span><br><span class="line"><span class="meta">#</span> RDB文件名称</span><br><span class="line">dbfilename "dump-7001.rdb"</span><br><span class="line"><span class="meta">#</span> 开启集群模式</span><br><span class="line">cluster-enabled yes</span><br><span class="line"><span class="meta">#</span> 集群配置文件</span><br><span class="line">cluster-config-file nodes-7001.conf</span><br><span class="line"><span class="meta">#</span> 集群中所有节点都可用则系统可用</span><br><span class="line">cluster-require-full-coverage no</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 快速复制生成其他节点的配置文件</span><br><span class="line">sed 's/7001/7002/g' redis-7001.conf &gt; redis-7002.conf</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 7001节点与7002节点握手meet</span><br><span class="line">redis-cli -p 7001 cluster meet 127.0.0.1 7002</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 7001节点分配0号槽</span><br><span class="line">redis-cli -p 7001 cluster addslot 0</span><br></pre></td></tr></table></figure>
+<h2 id="创建redis-cluster容器服务">创建Redis Cluster容器服务</h2>
+<h3 id="编写dockerfile文件">编写Dockerfile文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>基础镜像</span><br><span class="line">FROM redis</span><br><span class="line"><span class="meta">#</span>修复时区</span><br><span class="line">RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">RUN echo 'Asia/Shanghai' &gt;/etc/timezone</span><br><span class="line"><span class="meta">#</span>环境变量</span><br><span class="line">ENV REDIS_PORT 7000</span><br><span class="line"><span class="meta">#</span>ENV REDIS_PORT_NODE 17000</span><br><span class="line"><span class="meta">#</span>暴露变量</span><br><span class="line">EXPOSE $REDIS_PORT</span><br><span class="line"><span class="meta">#</span>EXPOSE $REDIS_PORT_NODE</span><br><span class="line"><span class="meta">#</span>复制</span><br><span class="line">COPY entrypoint.sh /usr/local/bin/</span><br><span class="line">COPY redis.conf /usr/local/etc/</span><br><span class="line"><span class="meta">#</span>for config rewrite</span><br><span class="line">RUN chmod 777 /usr/local/etc/redis.conf</span><br><span class="line">RUN chmod +x /usr/local/bin/entrypoint.sh</span><br><span class="line"><span class="meta">#</span>入口</span><br><span class="line">ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]</span><br><span class="line"><span class="meta">#</span>命令</span><br><span class="line">CMD ["redis-server", "/usr/local/etc/redis.conf"]</span><br></pre></td></tr></table></figure>
+<h3 id="编写entrypointsh文件">编写entrypoint.sh文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"><span class="meta">#</span>只作用于当前进程,不作用于其创建的子进程</span><br><span class="line">set -e</span><br><span class="line"><span class="meta">#</span>$0--Shell本身的文件名 $1--第一个参数 $@--所有参数列表</span><br><span class="line"><span class="meta">#</span> allow the container to be started with `--user`</span><br><span class="line">if [ "$1" = 'redis-server' -a "$(id -u)" = '0' ]; then</span><br><span class="line">    sed -i 's/REDIS_PORT/'$REDIS_PORT'/g' /usr/local/etc/redis.conf</span><br><span class="line">    chown -R redis .  #改变当前文件所有者</span><br><span class="line">    exec gosu redis "$0" "$@"  #gosu是sudo轻量级”替代品”</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec "$@"</span><br></pre></td></tr></table></figure>
+<h3 id="编写redis通用配置文件">编写Redis通用配置文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>端口</span><br><span class="line">port REDIS_PORT</span><br><span class="line"><span class="meta">#</span>开启集群</span><br><span class="line">cluster-enabled yes</span><br><span class="line"><span class="meta">#</span>配置文件</span><br><span class="line">cluster-config-file nodes.conf</span><br><span class="line">cluster-node-timeout 5000</span><br><span class="line"><span class="meta">#</span>更新操作后进行日志记录</span><br><span class="line">appendonly yes</span><br><span class="line"><span class="meta">#</span>设置主服务的连接密码</span><br><span class="line"><span class="meta">#</span> masterauth</span><br><span class="line"><span class="meta">#</span>设置从服务的连接密码</span><br><span class="line"><span class="meta">#</span> requirepass</span><br></pre></td></tr></table></figure>
+<p>注意：<br>
+requirepass和masterauth不能启用，否则redis-trib创建集群失败。<br>
+protected-mode 保护模式是禁止公网访问，但是不能设置密码和bind ip。<br>
+以上编写了3个文件，其实可以创建镜像了，不过也可以在docker-compose中自动创建。</p>
+<h3 id="编写docker-composeyml文件">编写docker-compose.yml文件</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">version: '3'</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line"> redis1:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7001/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7001</span><br><span class="line">  ports:</span><br><span class="line">    - '7001:7001'       #服务端口</span><br><span class="line">    - '17001:17001'   #集群端口</span><br><span class="line"></span><br><span class="line"> redis2:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7002/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7002</span><br><span class="line">  ports:</span><br><span class="line">    - '7002:7002'</span><br><span class="line">    - '17002:17002'</span><br><span class="line"></span><br><span class="line"> redis3:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7003/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7003</span><br><span class="line">  ports:</span><br><span class="line">    - '7003:7003'</span><br><span class="line">    - '17003:17003'</span><br><span class="line"></span><br><span class="line"> redis4:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7004/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7004</span><br><span class="line">  ports:</span><br><span class="line">    - '7004:7004'</span><br><span class="line">    - '17004:17004'</span><br><span class="line"></span><br><span class="line"> redis5:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7005/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7005</span><br><span class="line">  ports:</span><br><span class="line">    - '7005:7005'</span><br><span class="line">    - '17005:17005'</span><br><span class="line"></span><br><span class="line"> redis6:</span><br><span class="line">  build: ./</span><br><span class="line">  volumes:</span><br><span class="line">   - ./redis/7006/data:/data</span><br><span class="line">  environment:</span><br><span class="line">   - REDIS_PORT=7006</span><br><span class="line">  ports:</span><br><span class="line">    - '7006:7006'</span><br><span class="line">    - '17006:17006'</span><br></pre></td></tr></table></figure>
+<h2 id="mac上宿主机访问docker容器的服务">Mac上宿主机访问Docker容器的服务</h2>
+<p>根据上一篇文章，我们知道在Mac上由于没有docker0端口，宿主机是没法直接ping容器的ip地址的，但是我们现在需要引用第三方封装好的服务对我们上面建立的6个redis容器进行hash槽分片，并且建立好3主3从的依赖关系，所以我们还是需要通过代理方式来实现网络互通。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看docker容器现有的网络列表</span><br><span class="line">docker network ls</span><br><span class="line"></span><br><span class="line">NETWORK ID          NAME                            DRIVER              SCOPE</span><br><span class="line">1709e94caf34        bridge                          bridge              local</span><br><span class="line">35b8c1f86000        docker-mac-network_default      bridge              local</span><br><span class="line">6b0d41370c4e        host                            host                local</span><br><span class="line">1a8b3bce27bc        none                            null                local</span><br><span class="line">a0516e13c024        redis_cluster_default           bridge              local</span><br><span class="line">c062d641ba3b        redis_sentinel_bridge_default   bridge              local</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看新建的redis_cluster网络情况，由于输出太长这里就不完整展示，只展示网关情况</span><br><span class="line">docker inspect redis_cluster_default</span><br><span class="line"></span><br><span class="line">"Config": [</span><br><span class="line">    &#123;</span><br><span class="line">        "Subnet": "172.20.0.0/16",</span><br><span class="line">        "Gateway": "172.20.0.1"</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 修改上一篇中我们创建的docker-mac-network文件夹中VPN配置文件docker-for-mac.ovpn</span><br><span class="line"><span class="meta">#</span> 在配置文件的底部新增一行</span><br><span class="line"></span><br><span class="line">route 172.20.0.0 255.240.0.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后在ping一下redis_cluster集群中的任意一节点的ip地址</span><br><span class="line"></span><br><span class="line">ping 172.20.0.2</span><br><span class="line">PING 172.20.0.2 (172.20.0.2): 56 data bytes</span><br><span class="line">64 bytes from 172.20.0.2: icmp_seq=0 ttl=63 time=2.072 ms</span><br></pre></td></tr></table></figure>
+<h2 id="引用封装好的容器进行hash槽分片">引用封装好的容器进行Hash槽分片</h2>
+<p>设置了3个Master，3个Slave</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm -it inem0o/redis-trib create --replicas 1 172.20.0.1:7001 172.20.0.1:7002 172.20.0.1:7003 172.20.0.1:7004 172.20.0.1:7005 172.20.0.1:7006</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>&gt;&gt; Creating cluster</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Performing hash slots allocation on 6 nodes...</span><br><span class="line">Using 3 masters:</span><br><span class="line">172.20.0.1:7001</span><br><span class="line">172.20.0.1:7002</span><br><span class="line">172.20.0.1:7003</span><br><span class="line">Adding replica 172.20.0.1:7004 to 172.20.0.1:7001</span><br><span class="line">Adding replica 172.20.0.1:7005 to 172.20.0.1:7002</span><br><span class="line">Adding replica 172.20.0.1:7006 to 172.20.0.1:7003</span><br><span class="line">M: f8ffc3ab409a4e4a106afbb3014f1fdf7926f005 172.20.0.1:7001</span><br><span class="line">   slots:0-5460 (5461 slots) master</span><br><span class="line">M: 2b26fc43942aec8bfe4e40065ff95883ba65460b 172.20.0.1:7002</span><br><span class="line">   slots:5461-10922 (5462 slots) master</span><br><span class="line">M: 82bb8588cf9eb97d1523dca6bc3e9a5177cd8893 172.20.0.1:7003</span><br><span class="line">   slots:10923-16383 (5461 slots) master</span><br><span class="line">S: 04456ac87241aee205f1be464604c4e5ca797c3e 172.20.0.1:7004</span><br><span class="line">   replicates f8ffc3ab409a4e4a106afbb3014f1fdf7926f005</span><br><span class="line">S: 76e9e147726b431fd99a61b4c08c4d804280f7f0 172.20.0.1:7005</span><br><span class="line">   replicates 2b26fc43942aec8bfe4e40065ff95883ba65460b</span><br><span class="line">S: 614b17ef2a2f66bc1423743c43efb77f6b8d9417 172.20.0.1:7006</span><br><span class="line">   replicates 82bb8588cf9eb97d1523dca6bc3e9a5177cd8893</span><br><span class="line">Can I set the above configuration? (type 'yes' to accept): yes</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Nodes configuration updated</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Assign a different config epoch to each node</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Sending CLUSTER MEET messages to join the cluster</span><br><span class="line">Waiting for the cluster to join....</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Performing Cluster Check (using node 172.20.0.1:7001)</span><br><span class="line">M: f8ffc3ab409a4e4a106afbb3014f1fdf7926f005 172.20.0.1:7001</span><br><span class="line">   slots:0-5460 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 614b17ef2a2f66bc1423743c43efb77f6b8d9417 172.20.0.1:7006@17006</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 82bb8588cf9eb97d1523dca6bc3e9a5177cd8893</span><br><span class="line">M: 82bb8588cf9eb97d1523dca6bc3e9a5177cd8893 172.20.0.1:7003@17003</span><br><span class="line">   slots:10923-16383 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 04456ac87241aee205f1be464604c4e5ca797c3e 172.20.0.1:7004@17004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates f8ffc3ab409a4e4a106afbb3014f1fdf7926f005</span><br><span class="line">S: 76e9e147726b431fd99a61b4c08c4d804280f7f0 172.20.0.1:7005@17005</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 2b26fc43942aec8bfe4e40065ff95883ba65460b</span><br><span class="line">M: 2b26fc43942aec8bfe4e40065ff95883ba65460b 172.20.0.1:7002@17002</span><br><span class="line">   slots:5461-10922 (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Check for open slots...</span><br><span class="line"><span class="meta">&gt;</span>&gt;&gt; Check slots coverage...</span><br></pre></td></tr></table></figure>
+<h2 id="验证redis-cluster集群创建成功">验证Redis Cluster集群创建成功</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 登录到其中一条cluster节点上</span><br><span class="line">docker exec -it redis_cluster_redis1_1 redis-cli -c -h 127.0.0.1 -p 7001</span><br><span class="line"><span class="meta">#</span> 查看cluster集群的基本信息</span><br><span class="line">cluster info</span><br><span class="line"><span class="meta">#</span> 可以看到cluster集群运行状态OK，3个主节点，3个从节点，16384个槽位全部分配</span><br><span class="line"></span><br><span class="line">cluster_state:ok</span><br><span class="line">cluster_slots_assigned:16384</span><br><span class="line">cluster_slots_ok:16384</span><br><span class="line">cluster_slots_pfail:0</span><br><span class="line">cluster_slots_fail:0</span><br><span class="line">cluster_known_nodes:6</span><br><span class="line">cluster_size:3</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看节点的握手情况</span><br><span class="line"></span><br><span class="line">127.0.0.1:7001&gt; cluster nodes</span><br><span class="line">614b17ef2a2f66bc1423743c43efb77f6b8d9417 172.20.0.1:7006@17006 slave 82bb8588cf9eb97d1523dca6bc3e9a5177cd8893 0 1587880284000 6 connected</span><br><span class="line">82bb8588cf9eb97d1523dca6bc3e9a5177cd8893 172.20.0.1:7003@17003 master - 0 1587880285284 3 connected 10923-16383</span><br><span class="line">f8ffc3ab409a4e4a106afbb3014f1fdf7926f005 172.20.0.2:7001@17001 myself,master - 0 1587880283000 1 connected 0-5460</span><br><span class="line">04456ac87241aee205f1be464604c4e5ca797c3e 172.20.0.1:7004@17004 slave f8ffc3ab409a4e4a106afbb3014f1fdf7926f005 0 1587880285590 4 connected</span><br><span class="line">76e9e147726b431fd99a61b4c08c4d804280f7f0 172.20.0.1:7005@17005 slave 2b26fc43942aec8bfe4e40065ff95883ba65460b 0 1587880284258 5 connected</span><br><span class="line">2b26fc43942aec8bfe4e40065ff95883ba65460b 172.20.0.1:7002@17002 master - 0 1587880284257 2 connected 5461-10922</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看槽的分布情况</span><br><span class="line"></span><br><span class="line">127.0.0.1:7001&gt; cluster nodes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 向集群中的7001节点存储数据，cluster集群对数据进行hash分片自动存放到7002节点的槽位区间中</span><br><span class="line"><span class="meta">#</span> 集群自动重定向，然后就可以获取存储的数据了</span><br><span class="line"></span><br><span class="line">127.0.0.1:7001&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:7001&gt; set name hancaihaoyun</span><br><span class="line"><span class="meta">-&gt;</span> Redirected to slot [5798] located at 172.20.0.1:7002</span><br><span class="line">OK</span><br><span class="line">172.20.0.1:7002&gt; get name</span><br><span class="line">"hancaihaoyun"</span><br></pre></td></tr></table></figure>
+<h1 id="redis官方提供工具安装">Redis官方提供工具安装</h1>
+<h1 id="jediscluster使用">JedisCluster使用</h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;HostAndPort&gt; nodeList = <span class="keyword">new</span> HashSet&lt;HostAndPort&gt;();</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host1, port1));</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host2, port2));</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host3, port3));</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host4, port4));</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host5, port5));</span><br><span class="line">nodeList.add(<span class="keyword">new</span> HostAndPort(host6, port6));</span><br><span class="line">JedisCluster redisCluster = <span class="keyword">new</span> JedisCluster(nodeList, timeout, poolConfig);</span><br></pre></td></tr></table></figure>
+<p>使用技巧</p>
+<p>单例：内置了所有节点的连接池<br>
+无需手动借还连接池<br>
+合理设置commons-pool</p>
+<h1 id="参考链接">参考链接</h1>
+<p><a href="https://www.jianshu.com/p/813a79ddf932" target="_blank" rel="noopener">Redis-Cluster集群</a><br>
+<a href="https://www.jianshu.com/p/b7dea62bcd8b" target="_blank" rel="noopener">Docker方式部署redis-cluster</a><br>
+<a href="https://www.jianshu.com/p/d6c8d438cea9" target="_blank" rel="noopener">Docker-compose redis cluster</a></p>
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/" data-toggle="tooltip" data-placement="top" title="Docker环境下安装部署Redis Sentinel">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#原生命令安装-理解架构"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">原生命令安装-理解架构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#创建redis-cluster容器服务"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">创建Redis Cluster容器服务</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#编写dockerfile文件"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">编写Dockerfile文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#编写entrypointsh文件"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">编写entrypoint.sh文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#编写redis通用配置文件"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">编写Redis通用配置文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#编写docker-composeyml文件"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">编写docker-compose.yml文件</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#mac上宿主机访问docker容器的服务"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Mac上宿主机访问Docker容器的服务</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引用封装好的容器进行hash槽分片"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">引用封装好的容器进行Hash槽分片</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#验证redis-cluster集群创建成功"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">验证Redis Cluster集群创建成功</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#redis官方提供工具安装"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Redis官方提供工具安装</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#jediscluster使用"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">JedisCluster使用</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#参考链接"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">参考链接</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Docker" title="Docker">Docker</a>
+                        
+                          <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2020 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
