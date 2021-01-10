@@ -3,17 +3,17 @@
 
 
     <sitemap>
-        <loc>https://hancaihaoyun.gitee.io/blog/post-sitemap.xml</loc>
+        <loc>https://hancaihaoyun.github.io/post-sitemap.xml</loc>
         <lastmod>2021-01-10T12:38:54.839Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://hancaihaoyun.gitee.io/blog/page-sitemap.xml</loc>
+        <loc>https://hancaihaoyun.github.io/page-sitemap.xml</loc>
         <lastmod>2020-05-17T13:14:26.411Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://hancaihaoyun.gitee.io/blog/tag-sitemap.xml</loc>
+        <loc>https://hancaihaoyun.github.io/tag-sitemap.xml</loc>
         <lastmod>2020-10-18T03:21:16.263Z</lastmod>
     </sitemap>
 
