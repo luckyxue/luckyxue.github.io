@@ -9,8 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="luckyxue&#39;s blog">
     <meta name="keyword" content="luckyxue blog 憨才好运">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
@@ -18,24 +23,24 @@
         
     </title>
 
-    <link rel="canonical" href="https://luckyxue.github.io/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/blog/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
+    <link rel="stylesheet" href="/blog/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    <link rel="stylesheet" href="/blog/css/rocket.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
+    <link rel="stylesheet" href="/blog/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    <link rel="stylesheet" href="/blog/css/toc.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -75,7 +80,7 @@
     }
     
     #signature{
-        background-image: url('/img/signature/LuckyxueSign-white.png');
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
     }
     
 </style>
@@ -90,7 +95,7 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                              <a class="tag" href="/blog/tags/#MySQL" title="MySQL">MySQL</a>
                             
                         </div>
                         <h1>MySQL在MyBatis环境下批量进行存在则更新，不存在则插入</h1>
@@ -121,7 +126,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">憨才好运</a>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -134,7 +139,7 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/blog/">Home</a>
                     </li>
 
                     
@@ -144,21 +149,21 @@
 
                         
                         <li>
-                            <a href="/about/">About Me</a>
+                            <a href="/blog/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/blog/about/">About Me</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
@@ -215,7 +220,7 @@
                 post-container">
 
                 <h1 id="mysql当插入重复时更新的方法">MySQL当插入重复时更新的方法</h1>
-<p>参考链接：<a href="https://lobert.iteye.com/category/190161" target="_blank" rel="noopener">MySQL文章标签列表</a></p>
+<p>参考链接：<a href="https://lobert.iteye.com/category/190161" target="_blank" rel="noopener">home198979博主的MySQL标签文章列表</a></p>
 <h2 id="not-exists语句">NOT EXISTS语句</h2>
 <p>假设有一个主键为 client_id 的 clients 表，可以使用下面的语句：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 批量插入多条记录</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> clients (client_id, client_name, client_type)  </span><br><span class="line"><span class="keyword">SELECT</span> supplier_id, supplier_name, <span class="string">'advertising'</span>  </span><br><span class="line"><span class="keyword">FROM</span> suppliers  </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">not</span> <span class="keyword">exists</span>(<span class="keyword">select</span> * <span class="keyword">from</span> clients <span class="keyword">where</span> clients.client_id = suppliers.supplier_id);</span><br></pre></td></tr></table></figure>
@@ -254,7 +259,7 @@
 <p><a href="https://www.cnblogs.com/duanxz/p/3862356.html" target="_blank" rel="noopener">mysql插入数据后返回自增ID的方法,last_insert_id(),selectkey<br>
 </a></p>
 <p>推荐阅读该博客作者的MySQL和Mybatis标签的相关博客</p>
-<p><a href="https://www.cnblogs.com/duanxz/tag/mysql/" target="_blank" rel="noopener">duanxz’s cnblog</a></p>
+<p><a href="https://www.cnblogs.com/duanxz/tag/mysql/" target="_blank" rel="noopener">duanxz博主的MySQL标签文章列表</a></p>
 <h1 id="mysql中a表数据update到b表中">MySQL中A表数据update到B表中</h1>
 <p>场景1：表B中id, name, code三个字段均有值；表A中有id, name, 其中code值为null, 现将B表中的code值更新到A表中</p>
 <p>方法1：id不能有重复</p>
@@ -281,12 +286,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/12/07/Servlet、Filter、Listener、Interceptor、Aspect的作用和区别/" data-toggle="tooltip" data-placement="top" title="Servlet、Filter、Listener、Interceptor、Aspect的作用和区别">&larr; Previous Post</a>
+                            <a href="/blog/2019/12/07/Servlet、Filter、Listener、Interceptor、Aspect的作用和区别/" data-toggle="tooltip" data-placement="top" title="Servlet、Filter、Listener、Interceptor、Aspect的作用和区别">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/" data-toggle="tooltip" data-placement="top" title="JVM内存结构 VS Java内存模型 VS Java对象模型">Next Post &rarr;</a>
+                            <a href="/blog/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/" data-toggle="tooltip" data-placement="top" title="JVM内存结构 VS Java内存模型 VS Java对象模型">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -346,10 +351,10 @@
                 
                 <section>
                     <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                          <a class="tag" href="/blog/tags/#MySQL" title="MySQL">MySQL</a>
                         
                     </div>
                 </section>
@@ -429,7 +434,25 @@
                 
 
                 
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
 
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -447,7 +470,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Lucky Xue 2020 
+                    Copyright &copy; Lucky Xue 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
@@ -477,13 +500,13 @@
 </footer>
 
 <!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
+<script src="/blog/js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="/blog/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
+<script src="/blog/js/hux-blog.min.js"></script>
 
 
 <!-- async load function -->
@@ -521,7 +544,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -554,7 +577,7 @@
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
 <!-- Image to hack wechat -->
-<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

@@ -9,8 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="luckyxue&#39;s blog">
     <meta name="keyword" content="luckyxue blog 憨才好运">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
@@ -18,24 +23,24 @@
         
     </title>
 
-    <link rel="canonical" href="https://luckyxue.github.io/2020/03/15/Java中SPI机制/">
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/03/15/Java中SPI机制/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/blog/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
+    <link rel="stylesheet" href="/blog/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    <link rel="stylesheet" href="/blog/css/rocket.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
+    <link rel="stylesheet" href="/blog/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    <link rel="stylesheet" href="/blog/css/toc.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -75,7 +80,7 @@
     }
     
     #signature{
-        background-image: url('/img/signature/LuckyxueSign-white.png');
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
     }
     
 </style>
@@ -90,7 +95,7 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Java基础" title="Java基础">Java基础</a>
+                              <a class="tag" href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
                             
                         </div>
                         <h1>Java中SPI机制</h1>
@@ -121,7 +126,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">憨才好运</a>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -134,7 +139,7 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/blog/">Home</a>
                     </li>
 
                     
@@ -144,21 +149,21 @@
 
                         
                         <li>
-                            <a href="/about/">About Me</a>
+                            <a href="/blog/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/blog/about/">About Me</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
@@ -214,7 +219,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>​在<a href="https://luckyxue.github.io/2020/03/04/%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AARPC%E6%A1%86%E6%9E%B6/">动手实现一个简单的RPC框架</a>一文中自定义的注册中心、网络通信与序列化反序列化等都是通过SPI插件和工厂类的方式实现的，只要按照 SPI 的规范，把协议的实现加入到运行时 CLASSPATH 中就可以了，就相当于告诉 Java 执行环境，在哪些目录下可以找到你所要执行的 Java 程序所需要的类或者包。我们将每个功能点抽象成一个接口，将这个接口作为插件的契约，然后把这个功能的接口与功能的实现分离并提供接口的默认实现。首先它的可扩展性很好，实现了开闭原则，用户可以非常方便地通过插件扩展实现自己的功能，而且不需要修改核心功能的本身；其次就是保持了核心包的精简，依赖外部包少。那么，什么是SPI呢？</p>
+                <p>​在<a href="https://luckyxue.github.io/2020/03/04/%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AARPC%E6%A1%86%E6%9E%B6/" target="_blank" rel="noopener">动手实现一个简单的RPC框架</a>一文中自定义的注册中心、网络通信与序列化反序列化等都是通过SPI插件和工厂类的方式实现的，只要按照 SPI 的规范，把协议的实现加入到运行时 CLASSPATH 中就可以了，就相当于告诉 Java 执行环境，在哪些目录下可以找到你所要执行的 Java 程序所需要的类或者包。我们将每个功能点抽象成一个接口，将这个接口作为插件的契约，然后把这个功能的接口与功能的实现分离并提供接口的默认实现。首先它的可扩展性很好，实现了开闭原则，用户可以非常方便地通过插件扩展实现自己的功能，而且不需要修改核心功能的本身；其次就是保持了核心包的精简，依赖外部包少。那么，什么是SPI呢？</p>
 <h1 id="spi定义">SPI定义</h1>
 <p>SPI全称Service Provider Interface，是Java提供的一套用来被第三方实现或者扩展的API，它可以用来启用框架扩展和替换组件。Java SPI 实际上是“基于接口的编程＋策略模式＋配置文件”组合实现的动态加载机制。</p>
 <p>系统设计的抽象，往往有很多不同的实现方案，在面向对象的程序里，一般是模块之间基于接口编程，模块之间不对实现类进行硬编码。一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。为了实现在模块装配的时候能不在程序里动态指明，这就需要一种服务发现机制。<br>
@@ -300,12 +305,12 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2020/03/20/Java的NIO入门/" data-toggle="tooltip" data-placement="top" title="Java的NIO入门">&larr; Previous Post</a>
+                            <a href="/blog/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/" data-toggle="tooltip" data-placement="top" title="LeetCode-53.Maximum-Subarrray(最大子序和)">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/03/15/BIO、NIO和AIO的区别/" data-toggle="tooltip" data-placement="top" title="BIO、NIO和AIO的区别">Next Post &rarr;</a>
+                            <a href="/blog/2020/03/15/BIO、NIO和AIO的区别/" data-toggle="tooltip" data-placement="top" title="BIO、NIO和AIO的区别">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -365,10 +370,10 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
                 
                 <section>
                     <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Java基础" title="Java基础">Java基础</a>
+                          <a class="tag" href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
                         
                     </div>
                 </section>
@@ -448,7 +453,25 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
                 
 
                 
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
 
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -466,7 +489,7 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Lucky Xue 2020 
+                    Copyright &copy; Lucky Xue 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
@@ -496,13 +519,13 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
 </footer>
 
 <!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
+<script src="/blog/js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="/blog/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
+<script src="/blog/js/hux-blog.min.js"></script>
 
 
 <!-- async load function -->
@@ -540,7 +563,7 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -573,7 +596,7 @@ JDK SPI 维护的是扩展实现类 List 列表，而 Dubbo SPI 维护的是扩�
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
 <!-- Image to hack wechat -->
-<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

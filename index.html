@@ -9,8 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="luckyxue&#39;s blog">
     <meta name="keyword" content="luckyxue blog 憨才好运">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
@@ -18,24 +23,24 @@
         
     </title>
 
-    <link rel="canonical" href="https://luckyxue.github.io/">
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/blog/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
+    <link rel="stylesheet" href="/blog/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    <link rel="stylesheet" href="/blog/css/rocket.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
+    <link rel="stylesheet" href="/blog/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    <link rel="stylesheet" href="/blog/css/toc.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -69,13 +74,13 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/home-bg.png') 
+            background-image: url('/blog/img/header_img/home-bg.png') 
             /*config*/
         
     }
     
     #signature{
-        background-image: url('/img/signature/LuckyxueSign-white.png');
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
     }
     
 </style>
@@ -113,7 +118,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">憨才好运</a>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -126,7 +131,7 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/blog/">Home</a>
                     </li>
 
                     
@@ -136,21 +141,21 @@
 
                         
                         <li>
-                            <a href="/about/">About Me</a>
+                            <a href="/blog/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/blog/about/">About Me</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
@@ -213,7 +218,296 @@
 
 <div class="post-preview">
 
-    <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">
+    <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/">
+        <h2 class="post-title">
+            
+            使用kubeadm安装kubernetes集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            本篇文章主要参考了微信公众号先超发布的《安装kubernetes集群-灵活安装k8s各个版本高可用集群》这篇文章，完全从 0 开始，在 Bare-metal 环境下使用 kubeadm 工具部署了一个完整的 Kubernetes 集群：这个集群有一个 Master 节点和1个 Worker 节点；使用 Flannel 作为容器网络插件；使用 Dashboard 插件提供了可视化的 Web 界......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-10-18
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#kubernetes" title="kubernetes">kubernetes</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/08/22/Nginx实现高可用集群/">
+        <h2 class="post-title">
+            
+            Nginx实现高可用集群
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            编译并安装Nginx
+官网地址www.nginx.org，nginx是由1994年毕业于俄罗斯国立莫斯科鲍曼科技大学的同学为俄罗斯rambler.ru公司开发的，开发工作最早从2002年开始，第一次公开发布时间是2004年10月4日，版本号是0.1.0
+Nginx是单进程单线程模型，即启动的工作进程只有一个进程响应客户端请求，不像apache可以在一个进程内启动多个线程响应可请求，因此在内存......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-08-22
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#Java Web" title="Java Web">Java Web</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/06/02/SpringBean基础/">
+        <h2 class="post-title">
+            
+            Untitled
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            定义Spring Bean
+什么是BeanDefinition？
+BeanDefinition是Spring Framwork中定义的Bean的配置元信息接口，包括：
+
+Bean的类名
+Bean行为配置元素，如作用域、自动绑定的模式、生命周期回调等
+其他Bean引用，又可称作合作者（Collaborators)或者依赖（Dependencies)
+配置设置，比如Bean属性（Properti......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-06-02
+        </p>
+        <div class="tags">
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/12/ShardingSphere分库分表入门/">
+        <h2 class="post-title">
+            
+            ShardingSpere分库分表入门
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            
+本文在原文芋道 Spring Boot 分库分表入门的基础上进行了简单修改，转载是为了记录总结。
+
+概述
+数据库分库分表已经有非常成熟稳定的解决方案，网上相关的博客文章也是不计其数，推荐阅读两个资料：
+《Apache ShardingSphere 官方文档》
+ShardingSphere 是目前最好用的数据库中间件之一，很多时候，我们使用它来实现分库分表，或者读写分离。
+当然，它不仅仅能够......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-12
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+            
+              <a href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">
+        <h2 class="post-title">
+            
+            数据库中间件ShardingSpere的介绍
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Sharding-Sphere是什么?
+Sharding-Sphere是一套开源的分布式数据库中间件解决方案组成的生态圈，它由Sharding-JDBC、Sharding-Proxy和Sharding-Sidecar这3款相互独立的产品组成。他们均提供标准化的数据分片、读写分离、柔性事务和数据治理功能，可适用于如Java同构、异构语言、容器、云原生等各种多样化的应用场景。
+Sharding-......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-10
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+            
+              <a href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/09/Zookeeper实战与源码剖析学习笔记/">
+        <h2 class="post-title">
+            
+            Zookeeper实战与源码剖析学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            安装zookeeper
+12345678910111213141516171819202122# brew搜索zookeeper应用brew search zookeeper# brew安装zookeeperbrew install -v zookeeper# 启动zookeeper服务端，输入以下信息zkServer startZooKeeper JMX enabled by defaul......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-09
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#Zookeeper" title="Zookeeper">Zookeeper</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/09/Reactor线程模型与操作系统IO模型/">
+        <h2 class="post-title">
+            
+            Reactor线程模型与操作系统IO模型
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Reactor线程模型
+Reactor是什么?
+The reactor design_pattern is an event_handling pattern for handling service requests delivered concurrently to a service handler by one or more inputs. The service handler ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-09
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/04/如何使用线程编写异步代码/">
+        <h2 class="post-title">
+            
+            如何使用线程编写异步代码
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            如何编写优雅的异步代码 — CompletableFuture
+...
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-04
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/05/02/Mac提升生产力的工具/">
+        <h2 class="post-title">
+            
+            Mac提升生产力的工具
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            解决Homebrew下载更新极慢的问题
+近期使用Homebrew去下载安装软件的时候总是卡在update阶段，时间非常久，难以忍受。记录一下解决方法，使用Homebrew安装软件的时候一直卡在Update阶段。同时发现从github.com下载文件也极度缓慢（几十KB/s）。
+问题定位:
+使用brew update --verbose观察update过程:
+12345678910111213......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by Lucky Xue on
+            2020-05-02
+        </p>
+        <div class="tags">
+            
+              <a href="/blog/tags/#效率工具" title="效率工具">效率工具</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/2020/04/21/Docker环境下安装部署Redis-Cluster/">
         <h2 class="post-title">
             
             Docker环境下安装部署Redis Cluster
@@ -233,329 +527,9 @@
         </p>
         <div class="tags">
             
-              <a href="/tags/#Docker" title="Docker">Docker</a>
+              <a href="/blog/tags/#Docker" title="Docker">Docker</a>
             
-              <a href="/tags/#Redis" title="Redis">Redis</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
-        <h2 class="post-title">
-            
-            Docker环境下安装部署Redis Sentinel
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文记录了在Mac上的Docker环境下安装部署Redis Sentinel集群并挂载外部配置和数据的操作步骤。通过前面文章可知，由于主从复制出现了故障，需要手动进行故障转移，同时写能力和存储能力有有限。所以Redis官方提供了Redis Sentinel部署方式提供高可用的解决方案。Redis Sentinel可以理解成一个特殊的Redis进程，它不存储数据，支持的命令也很有限， 只负责持......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-20
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Docker" title="Docker">Docker</a>
-            
-              <a href="/tags/#Redis" title="Redis">Redis</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">
-        <h2 class="post-title">
-            
-            Docker环境下安装部署Redis Slave
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文记录了在Mac上的Docker环境下安装部署Redis主从复制集群并挂载外部配置和数据的操作步骤，Redis 的主从数据是异步同步的，所以分布式的 Redis 系统并不满足「一致性」要求。当客户端在 Redis 的主节点修改了数据后，立即返回，即使在主从网络断开的情况下，主节点依旧可以正常对外提供修改服务，所以 Redis 满足「可用性」。
-Redis 保证「最终一致性」，从节点会努力追......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-19
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Docker" title="Docker">Docker</a>
-            
-              <a href="/tags/#Redis" title="Redis">Redis</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">
-        <h2 class="post-title">
-            
-            Docker环境下安装部署Redis Standalone
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            本文记录了在Mac上的Docker环境下安装部署Redis单机版并挂载外部配置和数据的操作步骤，浏览了网上很多Docker环境下安装配置Redis的文章，大多都存在错误，容器启动之后配置文件不生效，本篇博客以实际操作为基础确保是准确无误的。
-关注文末的公众号，后台私信获取完整的配置文件。
-第一步：安装Redis官方镜像
-第二步：启动Redis容器服务
-第三步：验证使用Redis服务
-使用Do......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-18
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Docker" title="Docker">Docker</a>
-            
-              <a href="/tags/#Redis" title="Redis">Redis</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/17/Redis的线程IO模型/">
-        <h2 class="post-title">
-            
-            Redis的线程IO模型
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            Redis中间件是单线程工作模型
-Redis单线程模型也能效率这么高
-很多人会怀疑Redis作为一款高并发中间件，怎么会是单线程工作模型，其原因在于：
-
-纯内存操作;
-核心是基于非阻塞的IO多路复用机制;
-C语言实现，一般来说，C语言实现的程序“距离”操作系统更近，执行速度相对会更快;
-单线程反而避免了多线程的频繁上下文切换问题，预防了多线程可能产生的竞争问题;
-
-Redis单线程模型总结
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-17
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Redis" title="Redis">Redis</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/06/数据结构与算法优秀文章汇总/">
-        <h2 class="post-title">
-            
-            数据结构与算法优秀文章汇总
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            大佬博客
-labuladong的算法小抄
-动态规划
-一文学会递归解题
-一文学会排列与组合
-巧用递归解决矩阵最大序列和问题
-一文学会动态规划解题
-一文学会回溯算法解题
-一文学会背包解题
-更多优秀文章持续收集整理中…
-关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️
-
-...
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
-        <h2 class="post-title">
-            
-            LeetCode-Best-Time-to-Buy-and-Sell-Stock(买卖股票的最佳时机)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️
-...
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
-            
-              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
-        <h2 class="post-title">
-            
-            LeetCode-152.Maxinum Product Sbubarray(最大乘积子数组)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            LeetCode - 152. Maximum Product Subarray(最大乘积子数组)
-题目
-给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字）。
-示例 1:
-1234输入: [2,3,-2,4]输出: 6解释: 子数组 [2,3] 有最大乘积 6。示例 2:
-示例 2:
-123输入: [-2,0,-1]输出: 0解释: 结果不能为 2......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
-            
-              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
-        <h2 class="post-title">
-            
-            LeetCode-53.Maximum-Subarrray(最大子序和)
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            最大子序和
-题目
-给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-示例:
-123输入: [-2,1,-3,4,-1,2,1,-5,4],输出: 6解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-递归解法
-123456789101112131415161718192021private static int res;publ......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-04-06
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#数据结构与算法" title="数据结构与算法">数据结构与算法</a>
-            
-              <a href="/tags/#动态规划" title="动态规划">动态规划</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/03/20/Java的NIO入门/">
-        <h2 class="post-title">
-            
-            Java的NIO入门
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            辛星2018年nio教程第一篇:初识channel和buffer
-辛星2018年nio教程第二篇:详细了解Buffer
-辛星2018年nio教程第三篇:通过nio进行文件拷贝实例
-辛星2018年nio教程第四篇:ByteBuffer的加速技术
-辛星2018年nio教程第五篇:Scatter与Gather
-辛星2018年nio教程第六篇:FileChanne梳理
-辛星2018年nio教程第七篇......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by Lucky Xue on
-            2020-03-20
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Java基础" title="Java基础">Java基础</a>
+              <a href="/blog/tags/#Redis" title="Redis">Redis</a>
             
         </div>
     
@@ -571,7 +545,7 @@ labuladong的算法小抄
     
     
         <li class="next">
-            <a href="/archives/2/">Older Posts &rarr;</a>
+            <a href="/blog/archives/2/">Older Posts &rarr;</a>
         </li>
     
 </ul>
@@ -595,39 +569,51 @@ labuladong的算法小抄
 
 <section>
     <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
     <div class="tags">
         
             
-            <a href="/tags/#Java基础" title="Java基础" rel="5">Java基础</a>
+            <a href="/blog/tags/#Java基础" title="Java基础" rel="6">Java基础</a>
             
         
             
-            <a href="/tags/#Docker" title="Docker" rel="5">Docker</a>
+            <a href="/blog/tags/#Docker" title="Docker" rel="5">Docker</a>
             
         
             
-            <a href="/tags/#Redis" title="Redis" rel="5">Redis</a>
+            <a href="/blog/tags/#Redis" title="Redis" rel="5">Redis</a>
             
         
             
-            <a href="/tags/#Java Web" title="Java Web" rel="7">Java Web</a>
+            <a href="/blog/tags/#Java Web" title="Java Web" rel="8">Java Web</a>
             
         
             
-            <a href="/tags/#效率工具" title="效率工具" rel="3">效率工具</a>
+            <a href="/blog/tags/#效率工具" title="效率工具" rel="4">效率工具</a>
             
         
             
-            <a href="/tags/#数据结构与算法" title="数据结构与算法" rel="4">数据结构与算法</a>
+            <a href="/blog/tags/#数据结构与算法" title="数据结构与算法" rel="4">数据结构与算法</a>
             
         
             
-            <a href="/tags/#动态规划" title="动态规划" rel="3">动态规划</a>
+            <a href="/blog/tags/#动态规划" title="动态规划" rel="3">动态规划</a>
             
         
             
-            <a href="/tags/#MySQL" title="MySQL" rel="2">MySQL</a>
+            <a href="/blog/tags/#MySQL" title="MySQL" rel="2">MySQL</a>
+            
+        
+            
+            <a href="/blog/tags/#数据库中间件" title="数据库中间件" rel="2">数据库中间件</a>
+            
+        
+            
+            <a href="/blog/tags/#ShardingSphere" title="ShardingSphere" rel="2">ShardingSphere</a>
+            
+        
+            
+        
             
         
     </div>
@@ -637,11 +623,11 @@ labuladong的算法小抄
     
         <!-- Short About -->
 <section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
+    <h5><a href="/blog/about/">ABOUT ME</a></h5>
     <div class="short-about">
 
         
-            <img id = "avatar_pic" src="/img/icon.png" />
+            <img id = "avatar_pic" src="/blog/img/icon.png" />
         
 
         
@@ -657,7 +643,25 @@ labuladong的算法小抄
             
 
             
+                <li>
+                    <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">博</i>
+                        </span>
+                    </a>
+                </li>
+            
 
+            
+                <li>
+                    <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">码</i>
+                        </span>
+                    </a>
+                </li>
             
 
             
@@ -684,23 +688,23 @@ labuladong的算法小抄
     <ul>
       
         <li>
-          <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">Docker环境下安装部署Redis Cluster</a>
+          <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/">使用kubeadm安装kubernetes集群</a>
         </li>
       
         <li>
-          <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">Docker环境下安装部署Redis Sentinel</a>
+          <a href="/blog/2020/08/22/Nginx实现高可用集群/">Nginx实现高可用集群</a>
         </li>
       
         <li>
-          <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">Docker环境下安装部署Redis Slave</a>
+          <a href="/blog/2020/06/02/SpringBean基础/">(no title)</a>
         </li>
       
         <li>
-          <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">Docker环境下安装部署Redis Standalone</a>
+          <a href="/blog/2020/05/12/ShardingSphere分库分表入门/">ShardingSpere分库分表入门</a>
         </li>
       
         <li>
-          <a href="/2020/04/17/Redis的线程IO模型/">Redis的线程IO模型</a>
+          <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">数据库中间件ShardingSpere的介绍</a>
         </li>
       
     </ul>
@@ -741,7 +745,25 @@ labuladong的算法小抄
                 
 
                 
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
 
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -759,7 +781,7 @@ labuladong的算法小抄
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Lucky Xue 2020 
+                    Copyright &copy; Lucky Xue 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
@@ -789,13 +811,13 @@ labuladong的算法小抄
 </footer>
 
 <!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
+<script src="/blog/js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="/blog/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
+<script src="/blog/js/hux-blog.min.js"></script>
 
 
 <!-- async load function -->
@@ -833,7 +855,7 @@ labuladong的算法小抄
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -866,7 +888,7 @@ labuladong的算法小抄
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
 <!-- Image to hack wechat -->
-<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

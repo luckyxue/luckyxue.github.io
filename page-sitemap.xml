@@ -2,34 +2,34 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://luckyxue.github.io</loc>
+        <loc>https://hancaihaoyun.gitee.io/blog</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
     
     <url>
-        <loc>https://luckyxue.github.io/archive/</loc>
+        <loc>https://hancaihaoyun.gitee.io/blog/about/</loc>
+        <lastmod>2020-05-17T13:14:26.411Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://hancaihaoyun.gitee.io/blog/archive/</loc>
         <lastmod>2019-07-01T05:52:58.822Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://luckyxue.github.io/about/</loc>
-        <lastmod>2019-07-01T05:13:55.591Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://luckyxue.github.io/404.html</loc>
+        <loc>https://hancaihaoyun.gitee.io/blog/404.html</loc>
         <lastmod>2017-09-23T13:40:20.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://luckyxue.github.io/tags/</loc>
+        <loc>https://hancaihaoyun.gitee.io/blog/tags/</loc>
         <lastmod>2017-09-23T13:40:20.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>

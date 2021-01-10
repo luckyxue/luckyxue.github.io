@@ -9,8 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="luckyxue&#39;s blog">
     <meta name="keyword" content="luckyxue blog 憨才好运">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
@@ -18,24 +23,24 @@
         
     </title>
 
-    <link rel="canonical" href="https://luckyxue.github.io/tags/">
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/tags/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
     
     <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/blog/css/highlight.css">
 
-    <link rel="stylesheet" href="/css/widget.css">
+    <link rel="stylesheet" href="/blog/css/widget.css">
 
-    <link rel="stylesheet" href="/css/rocket.css">
+    <link rel="stylesheet" href="/blog/css/rocket.css">
 
-    <link rel="stylesheet" href="/css/signature.css">
+    <link rel="stylesheet" href="/blog/css/signature.css">
 
-    <link rel="stylesheet" href="/css/toc.css">
+    <link rel="stylesheet" href="/blog/css/toc.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -69,13 +74,13 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/tag-bg.png')
+            background-image: url('/blog/img/header_img/tag-bg.png')
             /*page*/
         
     }
     
     #signature{
-        background-image: url('/img/signature/LuckyxueSign-white.png');
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
     }
     
 </style>
@@ -113,7 +118,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">憨才好运</a>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -126,7 +131,7 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/blog/">Home</a>
                     </li>
 
                     
@@ -136,21 +141,21 @@
 
                         
                         <li>
-                            <a href="/about/">About Me</a>
+                            <a href="/blog/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/blog/about/">About Me</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
@@ -200,21 +205,29 @@
             <!-- 标签云 -->
             <div id='tag_cloud' class="tags">
                 
-                    <a href="#Java基础" title="Java基础" rel="5">Java基础</a>
+                    <a href="#Java基础" title="Java基础" rel="6">Java基础</a>
                 
                     <a href="#Docker" title="Docker" rel="5">Docker</a>
                 
                     <a href="#Redis" title="Redis" rel="5">Redis</a>
                 
-                    <a href="#Java Web" title="Java Web" rel="7">Java Web</a>
+                    <a href="#Java Web" title="Java Web" rel="8">Java Web</a>
                 
-                    <a href="#效率工具" title="效率工具" rel="3">效率工具</a>
+                    <a href="#效率工具" title="效率工具" rel="4">效率工具</a>
                 
                     <a href="#数据结构与算法" title="数据结构与算法" rel="4">数据结构与算法</a>
                 
                     <a href="#动态规划" title="动态规划" rel="3">动态规划</a>
                 
                     <a href="#MySQL" title="MySQL" rel="2">MySQL</a>
+                
+                    <a href="#数据库中间件" title="数据库中间件" rel="2">数据库中间件</a>
+                
+                    <a href="#ShardingSphere" title="ShardingSphere" rel="2">ShardingSphere</a>
+                
+                    <a href="#Zookeeper" title="Zookeeper" rel="1">Zookeeper</a>
+                
+                    <a href="#kubernetes" title="kubernetes" rel="1">kubernetes</a>
                 
             </div>
 
@@ -231,9 +244,9 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/03/20/Java的NIO入门/">
+                     <a href="/blog/2020/05/09/Reactor线程模型与操作系统IO模型/">
                         <h2 class="post-title">
-                            Java的NIO入门
+                            Reactor线程模型与操作系统IO模型
                         </h2>
                         
                     </a>
@@ -246,7 +259,22 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/03/15/Java中SPI机制/">
+                     <a href="/blog/2020/05/04/如何使用线程编写异步代码/">
+                        <h2 class="post-title">
+                            如何使用线程编写异步代码
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/03/15/Java中SPI机制/">
                         <h2 class="post-title">
                             Java中SPI机制
                         </h2>
@@ -261,7 +289,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/03/15/BIO、NIO和AIO的区别/">
+                     <a href="/blog/2020/03/15/BIO、NIO和AIO的区别/">
                         <h2 class="post-title">
                             BIO、NIO和AIO的区别
                         </h2>
@@ -276,7 +304,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/01/31/Java并发编程之AQS学习/">
+                     <a href="/blog/2020/01/31/Java并发编程之AQS学习/">
                         <h2 class="post-title">
                             Java并发编程之AQS学习
                         </h2>
@@ -291,7 +319,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/">
+                     <a href="/blog/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/">
                         <h2 class="post-title">
                             JVM内存结构 VS Java内存模型 VS Java对象模型
                         </h2>
@@ -313,7 +341,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">
+                     <a href="/blog/2020/04/21/Docker环境下安装部署Redis-Cluster/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Cluster
                         </h2>
@@ -328,7 +356,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
+                     <a href="/blog/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Sentinel
                         </h2>
@@ -343,7 +371,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">
+                     <a href="/blog/2020/04/19/Docker环境下安装部署Redis-Slave/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Slave
                         </h2>
@@ -358,7 +386,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">
+                     <a href="/blog/2020/04/18/Docker环境下安装部署Redis-Standalone/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Standalone
                         </h2>
@@ -373,7 +401,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/">
+                     <a href="/blog/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/">
                         <h2 class="post-title">
                             Docker+Gitlab+Jenkins+SpringBoot实现自动化部署
                         </h2>
@@ -395,7 +423,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/21/Docker环境下安装部署Redis-Cluster/">
+                     <a href="/blog/2020/04/21/Docker环境下安装部署Redis-Cluster/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Cluster
                         </h2>
@@ -410,7 +438,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
+                     <a href="/blog/2020/04/20/Docker环境下安装部署Redis-Sentinel/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Sentinel
                         </h2>
@@ -425,7 +453,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/19/Docker环境下安装部署Redis-Slave/">
+                     <a href="/blog/2020/04/19/Docker环境下安装部署Redis-Slave/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Slave
                         </h2>
@@ -440,7 +468,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/18/Docker环境下安装部署Redis-Standalone/">
+                     <a href="/blog/2020/04/18/Docker环境下安装部署Redis-Standalone/">
                         <h2 class="post-title">
                             Docker环境下安装部署Redis Standalone
                         </h2>
@@ -455,7 +483,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/17/Redis的线程IO模型/">
+                     <a href="/blog/2020/04/17/Redis的线程IO模型/">
                         <h2 class="post-title">
                             Redis的线程IO模型
                         </h2>
@@ -477,7 +505,22 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/03/04/动手实现一个RPC框架/">
+                     <a href="/blog/2020/08/22/Nginx实现高可用集群/">
+                        <h2 class="post-title">
+                            Nginx实现高可用集群
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/03/04/动手实现一个RPC框架/">
                         <h2 class="post-title">
                             动手实现一个RPC框架
                         </h2>
@@ -492,7 +535,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/02/09/HTTP认证-授权方案-三-SAML、OAuth、OpenID与JWT的区别/">
+                     <a href="/blog/2020/02/09/HTTP认证-授权方案-三-SAML、OAuth、OpenID与JWT的区别/">
                         <h2 class="post-title">
                             HTTP认证/授权方案(三):SAML、OAuth、OpenID与JWT的区别
                         </h2>
@@ -507,7 +550,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/02/05/HTTP认证-授权方案-二-Digest-Access/">
+                     <a href="/blog/2020/02/05/HTTP认证-授权方案-二-Digest-Access/">
                         <h2 class="post-title">
                             HTTP认证/授权方案(二):Digest Access
                         </h2>
@@ -522,7 +565,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/02/02/HTTP认证-授权方案-一-HTTP-Basic/">
+                     <a href="/blog/2020/02/02/HTTP认证-授权方案-一-HTTP-Basic/">
                         <h2 class="post-title">
                             HTTP认证/授权方案(一):HTTP Basic
                         </h2>
@@ -537,7 +580,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/01/26/Java日志框架历史演进及最佳实践/">
+                     <a href="/blog/2020/01/26/Java日志框架历史演进及最佳实践/">
                         <h2 class="post-title">
                             Java日志框架历史演进及最佳实践
                         </h2>
@@ -552,7 +595,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/12/16/深入理解Cookie和Session/">
+                     <a href="/blog/2019/12/16/深入理解Cookie和Session/">
                         <h2 class="post-title">
                             深入理解Cookie和Session
                         </h2>
@@ -567,7 +610,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/12/07/Servlet、Filter、Listener、Interceptor、Aspect的作用和区别/">
+                     <a href="/blog/2019/12/07/Servlet、Filter、Listener、Interceptor、Aspect的作用和区别/">
                         <h2 class="post-title">
                             Servlet、Filter、Listener、Interceptor、Aspect的作用和区别
                         </h2>
@@ -589,7 +632,22 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/02/10/正版账号竟然登录不上Jetbrains全家桶/">
+                     <a href="/blog/2020/05/02/Mac提升生产力的工具/">
+                        <h2 class="post-title">
+                            Mac提升生产力的工具
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/02/10/正版账号竟然登录不上Jetbrains全家桶/">
                         <h2 class="post-title">
                             正版账号竟然登录不上Jetbrains全家桶
                         </h2>
@@ -604,7 +662,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/12/25/软件建模中使用UML分析与完成设计文档/">
+                     <a href="/blog/2019/12/25/软件建模中使用UML分析与完成设计文档/">
                         <h2 class="post-title">
                             软件建模中使用UML分析与完成设计文档
                         </h2>
@@ -619,14 +677,10 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/07/01/Hexo+Github博客搭建小白教程/">
+                     <a href="/blog/2019/07/01/Hexo+Github博客搭建小白教程/">
                         <h2 class="post-title">
                             Hexo + Github博客搭建小白教程
                         </h2>
-                        
-                            <h3 class="post-subtitle">
-                                This is hexo beantech theme Demo.
-                            </h3>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -645,7 +699,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/数据结构与算法优秀文章汇总/">
+                     <a href="/blog/2020/04/06/数据结构与算法优秀文章汇总/">
                         <h2 class="post-title">
                             数据结构与算法优秀文章汇总
                         </h2>
@@ -660,7 +714,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
+                     <a href="/blog/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
                         <h2 class="post-title">
                             LeetCode-Best-Time-to-Buy-and-Sell-Stock(买卖股票的最佳时机)
                         </h2>
@@ -675,7 +729,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
+                     <a href="/blog/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
                         <h2 class="post-title">
                             LeetCode-152.Maxinum Product Sbubarray(最大乘积子数组)
                         </h2>
@@ -690,7 +744,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
+                     <a href="/blog/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
                         <h2 class="post-title">
                             LeetCode-53.Maximum-Subarrray(最大子序和)
                         </h2>
@@ -712,7 +766,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
+                     <a href="/blog/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/">
                         <h2 class="post-title">
                             LeetCode-Best-Time-to-Buy-and-Sell-Stock(买卖股票的最佳时机)
                         </h2>
@@ -727,7 +781,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
+                     <a href="/blog/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/">
                         <h2 class="post-title">
                             LeetCode-152.Maxinum Product Sbubarray(最大乘积子数组)
                         </h2>
@@ -742,7 +796,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
+                     <a href="/blog/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/">
                         <h2 class="post-title">
                             LeetCode-53.Maximum-Subarrray(最大子序和)
                         </h2>
@@ -764,7 +818,7 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/">
+                     <a href="/blog/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/">
                         <h2 class="post-title">
                             删库跑路？Binlog数据恢复有哪几种方法
                         </h2>
@@ -779,9 +833,127 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
+                     <a href="/blog/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/">
                         <h2 class="post-title">
                             MySQL在MyBatis环境下批量进行存在则更新，不存在则插入
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="数据库中间件">
+                    <span class="tag-text">数据库中间件</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/05/12/ShardingSphere分库分表入门/">
+                        <h2 class="post-title">
+                            ShardingSpere分库分表入门
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">
+                        <h2 class="post-title">
+                            数据库中间件ShardingSpere的介绍
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="ShardingSphere">
+                    <span class="tag-text">ShardingSphere</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/05/12/ShardingSphere分库分表入门/">
+                        <h2 class="post-title">
+                            ShardingSpere分库分表入门
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">
+                        <h2 class="post-title">
+                            数据库中间件ShardingSpere的介绍
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Zookeeper">
+                    <span class="tag-text">Zookeeper</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/05/09/Zookeeper实战与源码剖析学习笔记/">
+                        <h2 class="post-title">
+                            Zookeeper实战与源码剖析学习笔记
+                        </h2>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="kubernetes">
+                    <span class="tag-text">kubernetes</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/">
+                        <h2 class="post-title">
+                            使用kubeadm安装kubernetes集群
                         </h2>
                         
                     </a>
@@ -812,7 +984,25 @@
                 
 
                 
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
 
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -830,7 +1020,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Lucky Xue 2020 
+                    Copyright &copy; Lucky Xue 2021 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
@@ -860,13 +1050,13 @@
 </footer>
 
 <!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
+<script src="/blog/js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
+<script src="/blog/js/bootstrap.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
+<script src="/blog/js/hux-blog.min.js"></script>
 
 
 <!-- async load function -->
@@ -904,7 +1094,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("https://luckyxue.github.io/js/jquery.tagcloud.js",function(){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -937,7 +1127,7 @@
 	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
     <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
 <!-- Image to hack wechat -->
-<img src="https://luckyxue.github.io/img/icon_wechat.png" width="0" height="0" />
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>
