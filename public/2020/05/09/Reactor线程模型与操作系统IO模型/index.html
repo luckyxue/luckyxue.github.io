@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Reactor线程模型与操作系统IO模型 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/05/09/Reactor线程模型与操作系统IO模型/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
+                            
+                        </div>
+                        <h1>Reactor线程模型与操作系统IO模型</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-05-09
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="reactor线程模型">Reactor线程模型</h1>
+<h2 id="reactor是什么">Reactor是什么?</h2>
+<p>The reactor design_pattern is an event_handling pattern for handling service requests delivered concurrently to a service handler by one or more inputs. The service handler then demultiplexes the incoming requests and dispatches them synchronously to the associated request handlers.</p>
+<p>通过wiki中的定义我们可以发现Reactor的重点</p>
+<ul>
+<li>事件驱动</li>
+<li>可以处理一个或多个输入源</li>
+<li>通过多路复用将请求的事件分发给对应的处理器处理</li>
+</ul>
+<p>根据大神Doug Lea 在 《Scalable IO in Java 》中的介绍，Reacotr模型主要分为三个角色</p>
+<ul>
+<li>Reactor：把IO事件分配给对应的handler处理</li>
+<li>Acceptor：处理客户端连接事件</li>
+<li>Handler：处理非阻塞的任务</li>
+</ul>
+<h2 id="为什么使用reactor">为什么使用Reactor？</h2>
+<img src="67A06A334F8E.png" alt="continuous_deployment" data-action="zoom">
+<p>传统阻塞IO模型的不足:</p>
+<ul>
+<li>每个连接都需要独立线程处理，当并发数大时，创建线程数多，占用资源</li>
+<li>采用阻塞IO模型，连接建立后，若当前线程没有数据可读，线程会阻塞在读操作上，造成资源浪费</li>
+</ul>
+<p>针对传统阻塞IO模型的两个问题，可以采用如下的方案</p>
+<ul>
+<li>基于池化思想，避免为每个连接创建线程，连接完成后将业务处理交给线程池处理</li>
+<li>基于IO复用模型，多个连接共用同一个阻塞对象，不用等待所有的连接。遍历到有新数据可以处理时，操作系统会通知程序，线程跳出阻塞状态，进行业务逻辑处理</li>
+</ul>
+<p>Reactor线程模型的思想就是基于IO复用和线程池的结合</p>
+<h2 id="reactor线程模型分类">Reactor线程模型分类</h2>
+<p>根据Reactor的数量和处理资源的线程数量的不同，分为三类：</p>
+<ul>
+<li>单Reactor单线程模型</li>
+<li>单Reactor多线程模型</li>
+<li>多Reactor多线程模型</li>
+</ul>
+<h3 id="单reactor单线程模型">单Reactor单线程模型</h3>
+<img src="021EF95FCDB6.png" alt="continuous_deployment" data-action="zoom">
+<p>这种模型在Reactor中处理事件，并分发事件，如果是连接事件交给acceptor处理，如果是读写事件和业务处理就交给handler处理，但始终只有一个线程执行所有的事情</p>
+<p>该线程模型的不足</p>
+<ul>
+<li>仅用一个线程处理请求，对于多核资源机器来说是有点浪费的</li>
+<li>当处理读写任务的线程负载过高后，处理速度下降，事件会堆积，严重的会超时，可能导致客户端重新发送请求，性能越来越差</li>
+<li>单线程也会有可靠性的问题</li>
+</ul>
+<p>针对上面的种种不足，就有了下面的线程模型</p>
+<h3 id="单reactor多线程模型">单Reactor多线程模型</h3>
+<img src="095BE036078B.png" alt="continuous_deployment" data-action="zoom">
+<p>这种模型和第一种模型到的主要区别是把业务处理从之前的单一线程脱离出来，换成线程池处理，也就是Reactor线程只处理连接事件和读写事件，业务处理交给线程池处理，充分利用多核机器的资源、提高性能并且增加可靠性</p>
+<p>该线程模型的不足</p>
+<ul>
+<li>Reactor线程承担所有的事件，例如监听和响应，高并发场景下单线程存在性能问题</li>
+</ul>
+<h3 id="多reactor多线程模型">多Reactor多线程模型</h3>
+<img src="2C3849868321.png" alt="continuous_deployment" data-action="zoom">
+<p>这种模型下和第二种模型相比是把Reactor线程拆分了mainReactor和subReactor两个部分，mainReactor只处理连接事件，读写事件交给subReactor来处理。业务逻辑还是由线程池来处理</p>
+<p>mainRactor只处理连接事件，用一个线程来处理就好。处理读写事件的subReactor个数一般和CPU数量相等，一个subReactor对应一个线程，业务逻辑由线程池处理</p>
+<p>这种模型使各个模块职责单一，降低耦合度，性能和稳定性都有提高</p>
+<p>这种模型在许多项目中广泛应用，比如Netty的主从线程模型等</p>
+<h3 id="reactor三种模式形象比喻">Reactor三种模式形象比喻</h3>
+<p>餐厅一般有接待员和服务员，接待员负责在门口接待顾客，服务员负责全程服务顾客</p>
+<p>Reactor的三种线程模型可以用接待员和服务员类比</p>
+<ul>
+<li>单Reactor单线程模型：接待员和服务员是同一个人，一直为顾客服务。客流量较少适合</li>
+<li>单Reactor多线程模型：一个接待员，多个服务员。客流量大，一个人忙不过来，由专门的接待员在门口接待顾客，然后安排好桌子后，由一个服务员一直服务，一般每个服务员负责一片中的几张桌子</li>
+<li>多Reactor多线程模型：多个接待员，多个服务员。这种就是客流量太大了，一个接待员忙不过来了</li>
+</ul>
+<h1 id="操作系统io模型">操作系统IO模型</h1>
+<p>面试的时候也许你被问到过IO模型，可能你知道有五种，可是却不一定能准确指出他们之间的关系，下面我们介绍下这五种IO模型</p>
+<p>五种IO模型</p>
+<ul>
+<li>阻塞IO</li>
+<li>非阻塞IO</li>
+<li>IO复用（select和poll）</li>
+<li>信号驱动</li>
+<li>异步IO（Posix.1 的 aio…系列函数）</li>
+</ul>
+<p>一个输入操作一般分为两个阶段：</p>
+<ul>
+<li>等待数据准备好</li>
+<li>把数据从内核拷贝到进程</li>
+</ul>
+<p>一个套接字的输入操作，第一步是等待数据到达网络，当分组到达时，它被拷贝到内核中的某个缓冲区，第二步是将数据从内核缓冲区拷贝到应用缓冲区</p>
+<p>那我们来分别看下这五种IO模型</p>
+<p>阻塞IO模型</p>
+<p>阻塞IO是最通用的IO模型，使用该模型接收数据时，在数据没有到之前程序会一直等待。例如函数recvfrom，内核会一直阻塞该请求直到有数据到才返回，如下图所示：</p>
+<p>如上图所示，进程在调用recvfrom时，该系统调用直到数据到达且拷贝到应用缓冲区或出错才返回。那阻塞的时间就是从调用recvfrom开始到返回的这段时间，当进程返回成功指示时，应用进程开始处理数据报。</p>
+<p>非阻塞IO模型</p>
+<p>当把套接字设置成非阻塞方式时，即通知内核：当请求的IO操作非得让进程睡眠不能完成时，不要让进程睡眠，而应返回一个错误，直到数据准备好，并将数据拷贝到应用缓冲区返回成功指示，进程调用结束。如下图所示：</p>
+<p>从图中我们可以看出，进程会反复调用recvfrom，前三次调用一直没有数据返回，因此立即返回一个EWOULDBLOCK错误，在第四次调用的时候，数据才准备好，并拷贝到了应用缓冲区，recvfrom返回成功指示，然后就时进程处理数据</p>
+<p>当一个应用进程像这样对一个非阻塞描述字循环调用recvfrom时，我们称之为轮训。应用进程连续不断的查询内核，验证某操作是否准备好，这样会极大的浪费CPU的时间</p>
+<p>IO复用模型</p>
+<p>IO复用模型支持调用select或poll，会阻塞在select或poll上，而不是阻塞于真正的IO系统调用。阻塞在select调用，等待数据报套接口可读。当select返回套接口可读条件时，再调用recvfrom将数据拷贝到应用缓冲区。如下入所示：</p>
+<p>通过阻塞IO模型和IO复用模型的对比，我们发现由之前的一次系统调用变成了两次系统调用，好像变差了，其实并没有，select可以等待多个描述字准备好，同时select可以设置超时时间。</p>
+<p>信号驱动IO模型</p>
+<p>信号驱动IO是让内核在描述字准备好时用信号SIGIO通知我们。首先允许套接口进行信号驱动IO，然后通过系统调用sigacation安装信号处理程序。此系统调用立即返回，进程继续工作，是非阻塞的。当数据报准备好被读时，为该进程生成一个SIGIO信号，随后在信号处理程序中调用recvfrom读取数据报，并通知主循环数据已经准备好被处理或者通知主循环让它来读取数据报，如下图所示：</p>
+<p>异步IO模型</p>
+<p>异步IO让内核启动操作，并在整个操作完成后（包括将数据从内核拷贝到用户空间）通知我们。如下图所示：</p>
+<p>异步IO模型和信号驱动IO模型的主要区别是：信号驱动IO是由内核通知我们何时启动IO操作，而异步IO是由内核通知我们IO操作何时完成</p>
+<p>五种IO模型的对比</p>
+<p>通过上面对五种IO模型的介绍，我们发现前四种IO模型的主要区别点在于第一阶段，第二阶段基本相同：在数据从内核拷贝到调用者的缓冲区时，进程阻塞在recvfrom调用。异步IO模型的两个阶段是和前四种不同的，对比如下图所示：</p>
+<p>我们发现五种IO模型没有提到同步IO模型，却提到了异步IO模型，这是为什么？</p>
+<p>首先我们看下Posix对同步IO和异步IO的定义：</p>
+<p>同步IO操作引起请求进程阻塞，直到IO操作完成</p>
+<p>异步IO操作不引起请求进程阻塞<br>
+我们可以发现，根据上面的定义，前四种模式：阻塞IO模型、非阻塞IO模型、IO多路复用模型和信号驱动模型，其实都属于同步IO模型，因为他们四个都会经历真正的IO操作（recvfrom）且阻塞了进程，只有异步IO模型与异步IO的定义匹配</p>
+<h1 id="参考资料">参考资料</h1>
+
+
+	<div class="row">
+    <embed src="ScalableIOinJava.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2020/05/09/Zookeeper实战与源码剖析学习笔记/" data-toggle="tooltip" data-placement="top" title="Zookeeper实战与源码剖析学习笔记">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/2020/05/04/如何使用线程编写异步代码/" data-toggle="tooltip" data-placement="top" title="如何使用线程编写异步代码">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#reactor线程模型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Reactor线程模型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#reactor是什么"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Reactor是什么?</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么使用reactor"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">为什么使用Reactor？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#reactor线程模型分类"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Reactor线程模型分类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#单reactor单线程模型"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">单Reactor单线程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#单reactor多线程模型"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">单Reactor多线程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#多reactor多线程模型"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">多Reactor多线程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#reactor三种模式形象比喻"><span class="toc-nav-number">1.3.4.</span> <span class="toc-nav-text">Reactor三种模式形象比喻</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#操作系统io模型"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">操作系统IO模型</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#参考资料"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">参考资料</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#Java基础" title="Java基础">Java基础</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

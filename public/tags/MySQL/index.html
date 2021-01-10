@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/tags/MySQL/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/blog/undefined')
+            /*page*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>憨才好运</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">个人博客</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 归档列表 -->
+            
+            
+
+             <!-- 归档列表 -->
+
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2020">
+                    <span class="tag-text">2020</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    10-18
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/" style="color: #0085a1">
+                        <span>
+                            使用kubeadm安装kubernetes集群
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    08-22
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/08/22/Nginx实现高可用集群/" style="color: #0085a1">
+                        <span>
+                            Nginx实现高可用集群
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    06-02
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/06/02/SpringBean基础/" style="color: #0085a1">
+                        <span>
+                            Untitled
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-12
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/12/ShardingSphere分库分表入门/" style="color: #0085a1">
+                        <span>
+                            ShardingSpere分库分表入门
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-10
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/" style="color: #0085a1">
+                        <span>
+                            数据库中间件ShardingSpere的介绍
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-09
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/09/Zookeeper实战与源码剖析学习笔记/" style="color: #0085a1">
+                        <span>
+                            Zookeeper实战与源码剖析学习笔记
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-09
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/09/Reactor线程模型与操作系统IO模型/" style="color: #0085a1">
+                        <span>
+                            Reactor线程模型与操作系统IO模型
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-04
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/04/如何使用线程编写异步代码/" style="color: #0085a1">
+                        <span>
+                            如何使用线程编写异步代码
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    05-02
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/05/02/Mac提升生产力的工具/" style="color: #0085a1">
+                        <span>
+                            Mac提升生产力的工具
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-21
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/21/Docker环境下安装部署Redis-Cluster/" style="color: #0085a1">
+                        <span>
+                            Docker环境下安装部署Redis Cluster
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-20
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/20/Docker环境下安装部署Redis-Sentinel/" style="color: #0085a1">
+                        <span>
+                            Docker环境下安装部署Redis Sentinel
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-19
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/19/Docker环境下安装部署Redis-Slave/" style="color: #0085a1">
+                        <span>
+                            Docker环境下安装部署Redis Slave
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-18
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/18/Docker环境下安装部署Redis-Standalone/" style="color: #0085a1">
+                        <span>
+                            Docker环境下安装部署Redis Standalone
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-17
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/17/Redis的线程IO模型/" style="color: #0085a1">
+                        <span>
+                            Redis的线程IO模型
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-06
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/06/数据结构与算法优秀文章汇总/" style="color: #0085a1">
+                        <span>
+                            数据结构与算法优秀文章汇总
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-06
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/06/LeetCode-Best-Time-to-Buy-and-Sell-Stock-买卖股票的最佳时机/" style="color: #0085a1">
+                        <span>
+                            LeetCode-Best-Time-to-Buy-and-Sell-Stock(买卖股票的最佳时机)
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-06
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/06/LeetCode-152-Maxinum-Product-Sbubarray-最大乘积子数组/" style="color: #0085a1">
+                        <span>
+                            LeetCode-152.Maxinum Product Sbubarray(最大乘积子数组)
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    04-06
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/04/06/LeetCode-53-Maximum-Subarrray-最大子序和/" style="color: #0085a1">
+                        <span>
+                            LeetCode-53.Maximum-Subarrray(最大子序和)
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    03-15
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/03/15/Java中SPI机制/" style="color: #0085a1">
+                        <span>
+                            Java中SPI机制
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    03-15
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/03/15/BIO、NIO和AIO的区别/" style="color: #0085a1">
+                        <span>
+                            BIO、NIO和AIO的区别
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    03-13
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/03/13/删库跑路？Binlog数据恢复有哪几种方法/" style="color: #0085a1">
+                        <span>
+                            删库跑路？Binlog数据恢复有哪几种方法
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    03-04
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/03/04/动手实现一个RPC框架/" style="color: #0085a1">
+                        <span>
+                            动手实现一个RPC框架
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    02-10
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/02/10/正版账号竟然登录不上Jetbrains全家桶/" style="color: #0085a1">
+                        <span>
+                            正版账号竟然登录不上Jetbrains全家桶
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    02-09
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/02/09/HTTP认证-授权方案-三-SAML、OAuth、OpenID与JWT的区别/" style="color: #0085a1">
+                        <span>
+                            HTTP认证/授权方案(三):SAML、OAuth、OpenID与JWT的区别
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    02-05
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/02/05/HTTP认证-授权方案-二-Digest-Access/" style="color: #0085a1">
+                        <span>
+                            HTTP认证/授权方案(二):Digest Access
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    02-02
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/02/02/HTTP认证-授权方案-一-HTTP-Basic/" style="color: #0085a1">
+                        <span>
+                            HTTP认证/授权方案(一):HTTP Basic
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    01-31
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/01/31/Java并发编程之AQS学习/" style="color: #0085a1">
+                        <span>
+                            Java并发编程之AQS学习
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    01-26
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2020/01/26/Java日志框架历史演进及最佳实践/" style="color: #0085a1">
+                        <span>
+                            Java日志框架历史演进及最佳实践
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                </ul>
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-calendar-times-o listing-seperator" id="2019">
+                    <span class="tag-text">2019</span>
+                </span>
+                <ul>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    12-25
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/12/25/软件建模中使用UML分析与完成设计文档/" style="color: #0085a1">
+                        <span>
+                            软件建模中使用UML分析与完成设计文档
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    12-16
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/12/16/深入理解Cookie和Session/" style="color: #0085a1">
+                        <span>
+                            深入理解Cookie和Session
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    12-07
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/12/07/Servlet、Filter、Listener、Interceptor、Aspect的作用和区别/" style="color: #0085a1">
+                        <span>
+                            Servlet、Filter、Listener、Interceptor、Aspect的作用和区别
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    07-07
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/07/07/MySQL在MyBatis环境下批量进行存在则更新，不存在则插入/" style="color: #0085a1">
+                        <span>
+                            MySQL在MyBatis环境下批量进行存在则更新，不存在则插入
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    07-05
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/07/05/JVM内存结构 VS Java内存模型 VS Java对象模型/" style="color: #0085a1">
+                        <span>
+                            JVM内存结构 VS Java内存模型 VS Java对象模型
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    07-04
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/" style="color: #0085a1">
+                        <span>
+                            Docker+Gitlab+Jenkins+SpringBoot实现自动化部署
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <li >
+                    07-01
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="/blog/2019/07/01/Hexo+Github博客搭建小白教程/" style="color: #0085a1">
+                        <span>
+                            Hexo + Github博客搭建小白教程
+                        </span>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </li>
+                
+                </ul>
+            </div>
+            
+
+
+        </div>
+    </div>
+</div>
+
+                <!-- 如果开启评论功能 -->
+                
+            </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+            <a href="/blog/tags/#Java基础" title="Java基础" rel="6">Java基础</a>
+            
+        
+            
+            <a href="/blog/tags/#Docker" title="Docker" rel="5">Docker</a>
+            
+        
+            
+            <a href="/blog/tags/#Redis" title="Redis" rel="5">Redis</a>
+            
+        
+            
+            <a href="/blog/tags/#Java Web" title="Java Web" rel="8">Java Web</a>
+            
+        
+            
+            <a href="/blog/tags/#效率工具" title="效率工具" rel="4">效率工具</a>
+            
+        
+            
+            <a href="/blog/tags/#数据结构与算法" title="数据结构与算法" rel="4">数据结构与算法</a>
+            
+        
+            
+            <a href="/blog/tags/#动态规划" title="动态规划" rel="3">动态规划</a>
+            
+        
+            
+            <a href="/blog/tags/#MySQL" title="MySQL" rel="2">MySQL</a>
+            
+        
+            
+        
+            
+            <a href="/blog/tags/#数据库中间件" title="数据库中间件" rel="2">数据库中间件</a>
+            
+        
+            
+            <a href="/blog/tags/#ShardingSphere" title="ShardingSphere" rel="2">ShardingSphere</a>
+            
+        
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/blog/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+
+        
+            <img id = "avatar_pic" src="/blog/img/icon.png" />
+        
+
+        
+            <p>Stay hungry, Stay foolish</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
+
+            
+
+            
+                <li>
+                    <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">博</i>
+                        </span>
+                    </a>
+                </li>
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">码</i>
+                        </span>
+                    </a>
+                </li>
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/luckyxue">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/">使用kubeadm安装kubernetes集群</a>
+        </li>
+      
+        <li>
+          <a href="/blog/2020/08/22/Nginx实现高可用集群/">Nginx实现高可用集群</a>
+        </li>
+      
+        <li>
+          <a href="/blog/2020/06/02/SpringBean基础/">(no title)</a>
+        </li>
+      
+        <li>
+          <a href="/blog/2020/05/12/ShardingSphere分库分表入门/">ShardingSpere分库分表入门</a>
+        </li>
+      
+        <li>
+          <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">数据库中间件ShardingSpere的介绍</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+    
+</ul>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          数据库中间件ShardingSpere的介绍 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/05/10/数据库中间件ShardingShpere的介绍/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+                            
+                              <a class="tag" href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+                            
+                        </div>
+                        <h1>数据库中间件ShardingSpere的介绍</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-05-10
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="sharding-sphere是什么">Sharding-Sphere是什么?</h1>
+<p>Sharding-Sphere是一套开源的分布式数据库中间件解决方案组成的生态圈，它由Sharding-JDBC、Sharding-Proxy和Sharding-Sidecar这3款相互独立的产品组成。他们均提供标准化的数据分片、读写分离、柔性事务和数据治理功能，可适用于如Java同构、异构语言、容器、云原生等各种多样化的应用场景。</p>
+<p>Sharding-Sphere定位为关系型数据库中间件，旨在充分合理地在分布式的场景下利用关系型数据库的计算和存储能力，而并非实现一个全新的关系型数据库。它与NoSQL和NewSQL是并存而非互斥的关系。NoSQL和NewSQL作为新技术探索的前沿，是非常值得推荐的。而Sharding-Sphere关注未来不变的东西，进而抓住事物本质。关系型数据库当今依然占有巨大市场，是各个公司核心业务的基石，我们目前阶段更加关注在原有基础上的增量，而非颠覆。其架构如下图所示：</p>
+<img src="shardingsphere-scope_cn.png" alt="continuous_deployment" data-action="zoom">
+<h1 id="sharding-sphere家族都有谁">Sharding-Sphere家族都有谁?</h1>
+<p>Sharding-JDBC, Sharding-Proxy以及Sharding-Sidecar 共同组成了Sharding-Sphere。他们分别定位、适用于不同的应用场景。您也可以将他们组合使用以得到增益的性能表现。</p>
+<h2 id="sharding-jdbc">Sharding-JDBC</h2>
+<p>Sharding-JDBC是Sharding-Sphere的第一个产品，也是Sharding-Sphere的前身。 它定位为轻量级Java框架，在Java的JDBC层提供分库分表、读写分离、数据库治理、柔性事务等服务。它使用客户端直连数据库，以jar包形式提供服务，无需额外部署和依赖，可理解为增强版的JDBC驱动，完全兼容JDBC和各种ORM框架。</p>
+<h2 id="sharding-proxy">Sharding-Proxy</h2>
+<p>Sharding-Proxy是Sharding-Sphere的第二个产品。 它定位为透明化的数据库代理端，提供封装了数据库二进制协议的服务端版本，用于完成对异构语言的支持。 Sharding-Proxy屏蔽了底层的分库分表，您可以像使用一个简单的数据库一样来操作分库分表的数据。目前提供MySQL版本，它可以使用任何兼容MySQL协议的访问客户端(如：MySQL Command Client, MySQL Workbench等)来访问Sharding-Proxy，进而进行DDL/DML等操作来变更数据，对DBA更加友好。</p>
+<h2 id="mixed-scheme-of-sharding-jdbc-amp-sharding-proxy">Mixed scheme of Sharding-JDBC &amp; Sharding-Proxy</h2>
+<p>为了得到更好的性能以及友好的交互体验，您可以同时使用Sharding-JDBC和Sharding-Proxy。</p>
+<p>线上应用使用Sharding-JDBC直连数据库以获取最优性能，使用MySQL命令行或UI客户端连接Sharding-Proxy方便的查询数据和执行各种DDL语句。它们使用同一个注册中心集群，通过管理端配置注册中心中的数据，即可由注册中心自动将配置变更推送至JDBC和Proxy应用。若数据库拆分的过多而导致连接数会暴涨，则可以考虑直接在线上使用Sharding-Proxy，以达到有效控制连接数的目的。其架构如下如所示：</p>
+<img src="shardingsphere-scope_cn.png" alt="continuous_deployment" data-action="zoom">
+<h2 id="sharding-sidecar">Sharding-Sidecar</h2>
+<p>Sharding-Sidecar是Sharding-Sphere的第三个产品，目前仍处在孵化中。 定位为Kubernetes或Mesos的云原生数据库代理。其核心思想是Database Mesh，即通过无中心、零侵入的方案提供与数据库交互的啮合层。关注重点在于如何将分布式的数据访问应用与数据库有机串联起来。</p>
+<h1 id="sharding-sphere的功能特性">Sharding-Sphere的功能特性</h1>
+<h2 id="分库分表">分库分表</h2>
+<p>为解决关系型数据库面对海量数据由于数据量过大而导致的性能问题，将数据进行分片是行之有效的解决方案，而将集中于单一节点的数据拆分并分别存储到多个数据库或表，称为分库分表。作为分布式数据库中间件，我们的目标是透明化分库分表所带来的影响，让使用方尽量像使用一个数据库一样使用水平拆分之后的数据库。</p>
+<h2 id="读写分离">读写分离</h2>
+<p>面对日益增加的系统访问量，数据库的吞吐量面临着巨大瓶颈。 对于同一时间有大量并发读操作和较少写操作类型的应用系统来说，将单一的数据库拆分为主库和从库，主库负责处理事务性的增删改操作，从库负责处理查询操作，能够有效的避免由数据更新导致的行锁，使得整个系统的查询性能得到极大的改善。透明化读写分离所带来的影响，让使用方尽量像使用一个数据库一样使用主从数据库，是读写分离中间件的主要功能。</p>
+<h2 id="柔性事务">柔性事务</h2>
+<p>对于分布式的数据库来说，强一致性分布式事务在性能方面存在明显不足。追求最终一致性的柔性事务，在性能和一致性上则显得更加平衡。 Sharding-Sphere目前支持最大努力送达型柔性事务，未来也将支持TCC柔性事务。若不使用柔性事务，Sharding-Sphere也会自动包含弱XA事务支持。</p>
+<h2 id="数据治理">数据治理</h2>
+<p>Sharding-Sphere提供注册中心、配置动态化、数据库熔断禁用、调用链路等治理能力。</p>
+<p>暖心Tips：</p>
+<p>① 使用Sharding-JDBC，可加入以下Maven依赖：</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shardingsphere<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sharding-jdbc-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$</span><span class="template-variable">&#123;latest.release.version&#125;</span><span class="xml"><span class="tag">&lt;/<span class="name">version</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>② 使用Sharding-Proxy，可在这里下载：</p>
+<p><a href="https://github.com/sharding-sphere/sharding-sphere-doc/raw/master/dist/sharding-proxy-3.0.0.M1.tar.gz" target="_blank" rel="noopener">https://github.com/sharding-sphere/sharding-sphere-doc/raw/master/dist/sharding-proxy-3.0.0.M1.tar.gz</a></p>
+<p>此外，我们的DOCKER下载命令如下所示：</p>
+<p>docker pull shardingsphere/sharding-proxy</p>
+<h1 id="星路历程">星路历程</h1>
+<p>Sharding-Sphere自2016开源以来，不断精进、不断发展，被越来越多的企业和个人认可：在Github上收获4000+的star，1700+forks，60+的各大公司企业使用它，为Sharding-Sphere提供了重要的成功案例。此外，越来越多的企业伙伴和个人也加入到Sharding-Sphere的开源项目中，为它的成长和发展贡献了巨大力量。</p>
+<p>未来，我们将不断优化当前的特性，精益求精；同时，大家关注的柔性事务、数据治理等更多新特性也会陆续登场。Sharding-Sidecar也将成为云原生的数据库中间件！</p>
+<p>愿所有有识之士能加入我们，一同描绘Sharding-Sidecar的新未来！</p>
+<p>愿正在阅读的你也能助我们一臂之力，转载分享文章、加入关注我们！</p>
+<p>项目地址</p>
+<p><a href="https://github.com/sharding-sphere/sharding-sphere/" target="_blank" rel="noopener">https://github.com/sharding-sphere/sharding-sphere/</a></p>
+<p><a href="https://gitee.com/sharding-sphere/sharding-sphere/" target="_blank" rel="noopener">https://gitee.com/sharding-sphere/sharding-sphere/</a></p>
+<p>更多信息请浏览官网：</p>
+<p><a href="http://shardingsphere.io/" target="_blank" rel="noopener">http://shardingsphere.io/</a></p>
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2020/05/12/ShardingSphere分库分表入门/" data-toggle="tooltip" data-placement="top" title="ShardingSpere分库分表入门">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/2020/05/09/Zookeeper实战与源码剖析学习笔记/" data-toggle="tooltip" data-placement="top" title="Zookeeper实战与源码剖析学习笔记">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#sharding-sphere是什么"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Sharding-Sphere是什么?</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#sharding-sphere家族都有谁"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Sharding-Sphere家族都有谁?</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sharding-jdbc"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">Sharding-JDBC</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sharding-proxy"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Sharding-Proxy</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#mixed-scheme-of-sharding-jdbc-amp-sharding-proxy"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">Mixed scheme of Sharding-JDBC &amp; Sharding-Proxy</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#sharding-sidecar"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">Sharding-Sidecar</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#sharding-sphere的功能特性"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Sharding-Sphere的功能特性</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分库分表"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">分库分表</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#读写分离"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">读写分离</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#柔性事务"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">柔性事务</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#数据治理"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">数据治理</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#星路历程"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">星路历程</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+                        
+                          <a class="tag" href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

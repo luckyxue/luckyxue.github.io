@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Hexo + Github博客搭建小白教程 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2019/07/01/Hexo+Github博客搭建小白教程/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#效率工具" title="效率工具">效率工具</a>
+                            
+                        </div>
+                        <h1>Hexo + Github博客搭建小白教程</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2019-07-01
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>本文主要分享通过Hexo Beantech主题和Github从零开始搭建博客之后，添加一些个性化功能以及处理主题自身bug的方法。<br>
+包括一些参考链接和Bean Tech提供的Markdown Demo写法。</p>
+</blockquote>
+<h2 id="mac安装nodejs">Mac安装Node.js</h2>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">brew link <span class="keyword">node</span> <span class="title"># 查看</span></span><br><span class="line"><span class="title">brew</span> uninstall <span class="keyword">node</span> <span class="title"># 卸载node</span></span><br><span class="line">brew install <span class="keyword">node</span> <span class="title"># 安装node</span></span><br><span class="line">npm -v <span class="comment"># 正确显示表示node安装成功</span></span><br><span class="line"><span class="keyword">node</span> <span class="title">-v</span> <span class="comment"># 正确显示表示node安装成功</span></span><br><span class="line">brew list <span class="comment"># brew list显示node</span></span><br><span class="line"></span><br><span class="line">npm install -g cnpm --<span class="attr">registry=</span>https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<h2 id="个性化设置及bug处理">个性化设置及Bug处理</h2>
+<p><a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">超详细Hexo+Github博客搭建小白教程</a><br>
+<a href="https://convivae.top/2019/03/29/Hexo%20%E5%8D%9A%E5%AE%A2%E8%B8%A9%E5%9D%91/" target="_blank" rel="noopener">Hexo博客踩坑</a><br>
+<a href="https://knightcai.github.io/2017/12/19/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0-Gitalk-%E8%AF%84%E8%AE%BA%E6%8F%92%E4%BB%B6/" target="_blank" rel="noopener">为博客添加Gitalk评论插件</a></p>
+<h2 id="注释beantech主题遗留的disqus插件">注释BeanTech主题遗留的Disqus插件</h2>
+<p>通过上面步骤，我们为博客添加了Gittale评论插件，但是BeanTech主题原先自带的Disqus评论插件还在起作用，如果不进行修改就会在文章的最后显示下面的报错信息：</p>
+<p><code>We were unable to load Disqus. If you are a moderator please see our troubleshooting guide.</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">将多说评论插件注释掉即可取消报错信息</span><br><span class="line">vim _config.yml</span><br><span class="line"><span class="comment"># Disqus settings</span></span><br><span class="line"><span class="comment"># disqus_username: your-disqus-ID</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Duoshuo settings</span></span><br><span class="line"><span class="comment"># duoshuo_username: kaijun</span></span><br><span class="line"><span class="comment"># Share component is depend on Comment so we can NOT use share only.</span></span><br><span class="line"><span class="comment"># duoshuo_share: false # set to false if you want to use Comment without Sharing</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除beantech主题的cname文件">删除BeanTech主题的CNAME文件</h2>
+<p>如果我们没有将自己的博客绑定域名，提交给Github仓库就会报下面的信息：</p>
+<p><code>The page build completed successfully, but returned the following warning for the</code>master<code>branch: The CNAME</code>yoursite-url<code>is not properly formatted. See https://help.github.com/articles/troubleshooting-custom-domains/#github-repository-setup-errors for more information.</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm <span class="built_in">source</span>/CNAME <span class="comment">#删除CNAME文件即可取消报错信息</span></span><br></pre></td></tr></table></figure>
+<h2 id="markdown编写示例">Markdown编写示例</h2>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&gt; Ported Theme of [Hux Blog](https://github.com/Huxpro/huxpro.github.io), Thank [Huxpro](https://github.com/Huxpro) for designing such a flawless theme.</span></span><br><span class="line"><span class="string">&gt; </span></span><br><span class="line"><span class="string">&gt; This BeanTech theme created by [YuHsuan](http://beantech.org) modified from the original Porter [Kaijun](http://kaijun.rocks/hexo-theme-huxblog/)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># [Live Demo](http://beantech.org)</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string">&lt;img src="http://beantech.org/img/beantech-desktop.png" alt = "BeanTech Desktop" data-action="zoom" /&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># Usage</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string">I publish the whole project for your convenience, so you can just follow the instruction down below, then you can easily customiz your own blog!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Let's begin!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## Init</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string">```bash</span></span><br><span class="line"><span class="string">git clone https://github.com/YenYuHsuan/hexo-theme-beantech.git ./hexo-beantech</span></span><br><span class="line"><span class="string">cd hexo-beantech</span></span><br><span class="line"><span class="string">npm install</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">## Modify</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string">Modify `_config.yml` file with your own info.</span></span><br><span class="line"><span class="string">Especially the section:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### Deployment</span></span><br><span class="line"><span class="string">Replace to your own repo!</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="string"></span><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/&lt;yourAccount&gt;/&lt;repo&gt;</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">&lt;your-branch&gt;</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Sidebar settings</span></span><br><span class="line"><span class="string">Copy</span> <span class="string">your</span> <span class="string">avatar</span> <span class="string">image</span> <span class="string">to</span> <span class="string">`&lt;root&gt;/img/`</span> <span class="string">and</span> <span class="string">modify</span> <span class="string">the</span> <span class="string">`_config.yml`:</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="attr">sidebar:</span> <span class="literal">true</span>    <span class="comment"># whether or not using Sidebar.</span></span><br><span class="line"><span class="attr">sidebar-about-description:</span> <span class="string">"&lt;your description&gt;"</span></span><br><span class="line"><span class="attr">sidebar-avatar:</span> <span class="string">img/&lt;your</span> <span class="string">avatar</span> <span class="string">path&gt;</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string">and</span> <span class="string">activate</span> <span class="string">your</span> <span class="string">personal</span> <span class="string">widget</span> <span class="string">you</span> <span class="string">like</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="attr">widgets:</span>         <span class="comment"># here are widget you can use, you can comment out</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">featured-tags</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">short-about</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">recent-posts</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">friends-blog</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">archive</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">category</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string">if</span> <span class="string">you</span> <span class="string">want</span> <span class="string">to</span> <span class="string">add</span> <span class="string">sidebar</span> <span class="string">widget,</span> <span class="string">please</span> <span class="string">add</span> <span class="string">at</span> <span class="string">`layout/_widget`.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Signature Setup</span></span><br><span class="line"><span class="string">Copy</span> <span class="string">your</span> <span class="string">signature</span> <span class="string">image</span> <span class="string">to</span> <span class="string">`&lt;root&gt;/img/signature`</span> <span class="string">and</span> <span class="string">modify</span> <span class="string">the</span> <span class="string">`_config.yml`:</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="attr">signature:</span> <span class="literal">true</span>   <span class="comment"># show signature</span></span><br><span class="line"><span class="attr">signature-img:</span> <span class="string">img/signature/&lt;your-signature-ID&gt;</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Go to top icon Setup</span></span><br><span class="line"><span class="string">My</span> <span class="string">icon</span> <span class="string">is</span> <span class="string">using</span> <span class="string">iron</span> <span class="string">man,</span> <span class="string">you</span> <span class="string">can</span> <span class="string">change</span> <span class="string">to</span> <span class="string">your</span> <span class="string">own</span> <span class="string">icon</span> <span class="string">at</span> <span class="string">`css/image`.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Post tag</span></span><br><span class="line"><span class="string">You</span> <span class="string">can</span> <span class="string">decide</span> <span class="string">to</span> <span class="string">show</span> <span class="string">post</span> <span class="string">tags</span> <span class="string">or</span> <span class="string">not.</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">true</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string">![home_posts_tag-true](home_posts_tag-true.png)</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="attr">home_posts_tag:</span> <span class="literal">false</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string">![home_posts_tag-false](home_posts_tag-false.png)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Markdown render</span></span><br><span class="line"><span class="string">My</span> <span class="string">markdown</span> <span class="string">render</span> <span class="string">engine</span> <span class="string">plugin</span> <span class="string">is</span> <span class="string">[hexo-renderer-markdown-it](https://github.com/celsomiranda/hexo-renderer-markdown-it).</span></span><br><span class="line"><span class="string">```yml</span></span><br><span class="line"><span class="comment"># Markdown-it config</span></span><br><span class="line"><span class="comment">## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki</span></span><br><span class="line"><span class="attr">markdown:</span></span><br><span class="line"><span class="attr">  render:</span></span><br><span class="line"><span class="attr">    html:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    xhtmlOut:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    breaks:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    linkify:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    typographer:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    quotes:</span> <span class="string">'“”‘’'</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"><span class="string">and</span> <span class="string">if</span> <span class="string">you</span> <span class="string">want</span> <span class="string">to</span> <span class="string">change</span> <span class="string">the</span> <span class="string">header</span> <span class="string">anchor</span> <span class="string">'ℬ'</span><span class="string">,</span> <span class="string">you</span> <span class="string">can</span> <span class="string">go</span> <span class="string">to</span> <span class="string">`layout/post.ejs`</span> <span class="string">to</span> <span class="string">change</span> <span class="string">it.</span></span><br><span class="line"><span class="string">```javascript</span></span><br><span class="line"><span class="string">async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function()&#123;</span></span><br><span class="line">        <span class="string">anchors.options</span> <span class="string">=</span> <span class="string">&#123;</span></span><br><span class="line"><span class="attr">          visible:</span> <span class="string">'hover'</span><span class="string">,</span></span><br><span class="line"><span class="attr">          placement:</span> <span class="string">'left'</span><span class="string">,</span></span><br><span class="line"><span class="attr">          icon:</span> <span class="string">ℬ</span> <span class="string">//</span> <span class="string">this</span> <span class="string">is</span> <span class="string">the</span> <span class="string">header</span> <span class="string">anchor</span> <span class="string">"unicode"</span> <span class="string">icon</span></span><br><span class="line">        <span class="string">&#125;;</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Hexo Basics</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">Some</span> <span class="string">hexo</span> <span class="attr">command:</span></span><br><span class="line"><span class="string">```bash</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">new</span> <span class="string">post</span> <span class="string">"&lt;post name&gt;"</span> <span class="comment"># you can change post to another layout if you want</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">hexo</span> <span class="string">generate</span> <span class="comment"># generate the static file</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">server</span> <span class="comment"># run hexo in local environment</span></span><br><span class="line"><span class="string">hexo</span> <span class="string">deploy</span> <span class="comment"># hexo will push the static files automatically into the specific branch(gh-pages) of your repo!</span></span><br><span class="line"><span class="string">```</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Have fun ^_^ </span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">&lt;!--</span> <span class="string">Place</span> <span class="string">this</span> <span class="string">tag</span> <span class="string">in</span> <span class="string">your</span> <span class="string">head</span> <span class="string">or</span> <span class="string">just</span> <span class="string">before</span> <span class="string">your</span> <span class="string">close</span> <span class="string">body</span> <span class="string">tag.</span> <span class="bullet">--&gt;</span></span><br><span class="line"><span class="string">&lt;script</span> <span class="string">async</span> <span class="string">defer</span> <span class="string">src="https://buttons.github.io/buttons.js"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">&lt;!--</span> <span class="string">Place</span> <span class="string">this</span> <span class="string">tag</span> <span class="string">where</span> <span class="string">you</span> <span class="string">want</span> <span class="string">the</span> <span class="string">button</span> <span class="string">to</span> <span class="string">render.</span> <span class="bullet">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="string">Please</span> <span class="string">&lt;a</span> <span class="string">class="github-button"</span> <span class="string">href="https://github.com/YenYuHsuan/hexo-theme-beantech"</span> <span class="string">data-icon="octicon-star"</span> <span class="string">aria-label="Star</span> <span class="string">YenYuHsuan/hexo-theme-beantech</span> <span class="string">on</span> <span class="string">GitHub"&gt;Star&lt;/a&gt;</span> <span class="string">this</span> <span class="string">Project</span> <span class="string">if</span> <span class="string">you</span> <span class="string">like</span> <span class="string">it!</span> <span class="string">&lt;a</span> <span class="string">class="github-button"</span> <span class="string">href="https://github.com/YenYuHsuan"</span> <span class="string">aria-label="Follow</span> <span class="string">@YenYuHsuan</span> <span class="string">on</span> <span class="string">GitHub"&gt;Follow&lt;/a&gt;</span> <span class="string">would</span> <span class="string">also</span> <span class="string">be</span> <span class="string">appreciated!</span></span><br><span class="line"><span class="string">Peace!</span></span><br></pre></td></tr></table></figure>
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2019/07/04/Docker+Gitlab+Jenkins+SpringBoot实现自动化部署/" data-toggle="tooltip" data-placement="top" title="Docker+Gitlab+Jenkins+SpringBoot实现自动化部署">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#mac安装nodejs"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Mac安装Node.js</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#个性化设置及bug处理"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">个性化设置及Bug处理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#注释beantech主题遗留的disqus插件"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">注释BeanTech主题遗留的Disqus插件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#删除beantech主题的cname文件"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">删除BeanTech主题的CNAME文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#markdown编写示例"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Markdown编写示例</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#效率工具" title="效率工具">效率工具</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

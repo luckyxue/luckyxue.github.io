@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/06/02/SpringBean基础/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1></h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-06-02
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="定义spring-bean">定义Spring Bean</h1>
+<p>什么是BeanDefinition？<br>
+BeanDefinition是Spring Framwork中定义的Bean的配置元信息接口，包括：</p>
+<ul>
+<li>Bean的类名</li>
+<li>Bean行为配置元素，如作用域、自动绑定的模式、生命周期回调等</li>
+<li>其他Bean引用，又可称作合作者（Collaborators)或者依赖（Dependencies)</li>
+<li>配置设置，比如Bean属性（Properties)</li>
+</ul>
+<h2 id="beandefinition元信息">BeanDefinition元信息</h2>
+<p>属性（Property)<br>
+Class | Bean全类名，必须是具体类，不能用抽象类或接口<br>
+Name | Bean的名称或者ID<br>
+Scope | Bean的作用域（如：singleton、prototype等）<br>
+Constructor arguments | Bean构造器参数（用于依赖注入）<br>
+Propertes | Bean属性设置（用于</p>
+<h2 id="beandefinition构建">BeanDefinition构建</h2>
+<ul>
+<li>通过BeanDefinitionBuilder</li>
+<li>通过AbstractBeanDefinition以及派生类</li>
+</ul>
+<h2 id="通过beandefinitionbuilder构建">通过BeanDefinitionBuilder构建</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.通过 BeanDefinitionBuilder 构建</span></span><br><span class="line">BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(User.class);</span><br><span class="line"><span class="comment">// 通过属性设置</span></span><br><span class="line">beanDefinitionBuilder</span><br><span class="line">        .addPropertyValue(<span class="string">"id"</span>, <span class="number">1</span>)</span><br><span class="line">        .addPropertyValue(<span class="string">"name"</span>, <span class="string">"小马哥"</span>);</span><br><span class="line"><span class="comment">// 获取 BeanDefinition 实例</span></span><br><span class="line">BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();</span><br><span class="line"><span class="comment">// BeanDefinition 并非 Bean 终态，可以自定义修改</span></span><br></pre></td></tr></table></figure>
+<h2 id="通过abstractbeandefinition以及派生类构建">通过AbstractBeanDefinition以及派生类构建</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 通过 AbstractBeanDefinition 以及派生类</span></span><br><span class="line">GenericBeanDefinition genericBeanDefinition = <span class="keyword">new</span> GenericBeanDefinition();</span><br><span class="line"><span class="comment">// 设置 Bean 类型</span></span><br><span class="line">genericBeanDefinition.setBeanClass(User.class);</span><br><span class="line"><span class="comment">// 通过 MutablePropertyValues 批量操作属性</span></span><br><span class="line">MutablePropertyValues propertyValues = <span class="keyword">new</span> MutablePropertyValues();</span><br><span class="line"><span class="comment">//        propertyValues.addPropertyValue("id", 1);</span></span><br><span class="line"><span class="comment">//        propertyValues.addPropertyValue("name", "小马哥");</span></span><br><span class="line">propertyValues</span><br><span class="line">        .add(<span class="string">"id"</span>, <span class="number">1</span>)</span><br><span class="line">        .add(<span class="string">"name"</span>, <span class="string">"小马哥"</span>);</span><br><span class="line"><span class="comment">// 通过 set MutablePropertyValues 批量操作属性</span></span><br><span class="line">genericBeanDefinition.setPropertyValues(propertyValues);</span><br></pre></td></tr></table></figure>
+<h1 id="命令spring-bean">命令Spring Bean</h1>
+<h2 id="bean-的名称">Bean 的名称</h2>
+<p>每个 Bean 拥有一个或多个标识符（identifiers），这些标识符在 Bean 所在的容器必须是唯一<br>
+的。通常，一个 Bean 仅有一个标识符，如果需要额外的，可考虑使用别名（Alias）来扩充。<br>
+在基于 XML 的配置元信息中，开发人员可用 id 或者 name 属性来规定 Bean 的 标识符。通常<br>
+Bean 的 标识符由字母组成，允许出现特殊字符。如果要想引入 Bean 的别名的话，可在<br>
+name 属性使用半角逗号（“,”）或分号（“;”) 来间隔。<br>
+Bean 的 id 或 name 属性并非必须制定，如果留空的话，容器会为 Bean 自动生成一个唯一的<br>
+名称。Bean 的命名尽管没有限制，不过官方建议采用驼峰的方式，更符合 Java 的命名约定。</p>
+<h2 id="bean-名称生成器beannamegenerator">Bean 名称生成器（BeanNameGenerator）</h2>
+<ul>
+<li>由 Spring Framework 2.0.3 引入，框架內建两种实现：<br>
+DefaultBeanNameGenerator：默认通用 BeanNameGenerator 实现</li>
+<li>AnnotationBeanNameGenerator：基于注解扫描的 BeanNameGenerator 实现，起始于<br>
+Spring Framework 2.5，关联的官方文档：<br>
+With component scanning in the classpath, Spring generates bean names for unnamed components,<br>
+following the rules described earlier: essentially, taking the simple class name and turning its initial<br>
+character to lower-case. However, in the (unusual) special case when there is more than one<br>
+character and both the first and second characters are upper case, the original casing gets preserved.<br>
+These are the same rules as defined by java.beans.Introspector.decapitalize (which Spring uses here).</li>
+</ul>
+<h1 id="spring-bean别名">Spring Bean别名</h1>
+<p>Bean 别名（Alias）的价值<br>
+• 复用现有的 BeanDefinition<br>
+• 更具有场景化的命名方法，比如：<br>
+<alias name="myApp-dataSource" alias="subsystemA-dataSource"><br>
+<alias name="myApp-dataSource" alias="subsystemB-dataSource"></alias></alias></p>
+<h1 id="beandefinition-注册">BeanDefinition 注册</h1>
+<ul>
+<li>XML 配置元信息<br>
+• &lt;bean name=”…” … /&gt;</li>
+<li>Java 注解配置元信息<br>
+• @Bean<br>
+• @Component<br>
+• @Import</li>
+<li>Java API 配置元信息<br>
+• 命名方式：BeanDefinitionRegistry#registerBeanDefinition(String,BeanDefinition)<br>
+• 非命名方式：<br>
+BeanDefinitionReaderUtils#registerWithGeneratedName(AbstractBeanDefinition,Be<br>
+anDefinitionRegistry)<br>
+• 配置类方式：AnnotatedBeanDefinitionReader#register(Class…)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 配置 XML 配置文件</span></span><br><span class="line">    <span class="comment">// 启动 Spring 应用上下文</span></span><br><span class="line">    BeanFactory beanFactory = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"classpath:/META-INF/bean-definitions-context.xml"</span>);</span><br><span class="line">    <span class="comment">// 通过别名 xiaomage-user 获取曾用名 user 的 bean</span></span><br><span class="line">    User user = beanFactory.getBean(<span class="string">"user"</span>, User.class);</span><br><span class="line">    User xiaomageUser = beanFactory.getBean(<span class="string">"xiaomage-user"</span>, User.class);</span><br><span class="line">    System.out.println(<span class="string">"xiaomage-user 是否与 user Bean 相同："</span> + (user == xiaomageUser));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationBeanDefinitionDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建 BeanFactory 容器</span></span><br><span class="line">        AnnotationConfigApplicationContext applicationContext = <span class="keyword">new</span> AnnotationConfigApplicationContext();</span><br><span class="line">        <span class="comment">// 注册 Configuration Class（配置类）</span></span><br><span class="line">        applicationContext.register(Config.class);</span><br><span class="line">        <span class="comment">// 启动 Spring 应用上下文</span></span><br><span class="line">        applicationContext.refresh();</span><br><span class="line">        <span class="comment">// 按照类型依赖查找</span></span><br><span class="line">        System.out.println(<span class="string">"Config 类型的所有 Beans"</span> + applicationContext.getBeansOfType(Config.class));</span><br><span class="line">        System.out.println(<span class="string">"User 类型的所有 Beans"</span> + applicationContext.getBeansOfType(User.class));</span><br><span class="line">        <span class="comment">// 显示地关闭 Spring 应用上下文</span></span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 通过 @Bean 方式定义</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 通过 Java 注解的方式，定义了一个 Bean</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Bean</span>(name = &#123;<span class="string">"user"</span>, <span class="string">"xiaomage-user"</span>&#125;)</span><br><span class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">user</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            User user = <span class="keyword">new</span> User();</span><br><span class="line">            user.setId(<span class="number">1L</span>);</span><br><span class="line">            user.setName(<span class="string">"小马哥"</span>);</span><br><span class="line">            <span class="keyword">return</span> user;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationBeanDefinitionDemo2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建 BeanFactory 容器</span></span><br><span class="line">        AnnotationConfigApplicationContext applicationContext = <span class="keyword">new</span> AnnotationConfigApplicationContext();</span><br><span class="line">        <span class="comment">// 注册 Configuration Class（配置类）</span></span><br><span class="line">        applicationContext.register(Config.class);</span><br><span class="line">        <span class="comment">// 启动 Spring 应用上下文</span></span><br><span class="line">        applicationContext.refresh();</span><br><span class="line">        <span class="comment">// 按照类型依赖查找</span></span><br><span class="line">        System.out.println(<span class="string">"Config 类型的所有 Beans"</span> + applicationContext.getBeansOfType(Config.class));</span><br><span class="line">        System.out.println(<span class="string">"User 类型的所有 Beans"</span> + applicationContext.getBeansOfType(User.class));</span><br><span class="line">        <span class="comment">// 显示地关闭 Spring 应用上下文</span></span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 通过 @Component 方式</span></span><br><span class="line">    <span class="meta">@Component</span> <span class="comment">// 定义当前类作为 Spring Bean（组件）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 通过 @Bean 方式定义</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 通过 Java 注解的方式，定义了一个 Bean</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Bean</span>(name = &#123;<span class="string">"user"</span>, <span class="string">"xiaomage-user"</span>&#125;)</span><br><span class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">user</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            User user = <span class="keyword">new</span> User();</span><br><span class="line">            user.setId(<span class="number">1L</span>);</span><br><span class="line">            user.setName(<span class="string">"小马哥"</span>);</span><br><span class="line">            <span class="keyword">return</span> user;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3. 通过 @Import 来进行导入</span></span><br><span class="line"><span class="meta">@Import</span>(AnnotationBeanDefinitionDemo.Config.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnnotationBeanDefinitionDemo3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建 BeanFactory 容器</span></span><br><span class="line">        AnnotationConfigApplicationContext applicationContext = <span class="keyword">new</span> AnnotationConfigApplicationContext();</span><br><span class="line">        <span class="comment">// 注册 Configuration Class（配置类）</span></span><br><span class="line">        applicationContext.register(AnnotationBeanDefinitionDemo3.class);</span><br><span class="line">        <span class="comment">// 启动 Spring 应用上下文</span></span><br><span class="line">        applicationContext.refresh();</span><br><span class="line">        <span class="comment">// 按照类型依赖查找</span></span><br><span class="line">        System.out.println(<span class="string">"Config 类型的所有 Beans"</span> + applicationContext.getBeansOfType(Config.class));</span><br><span class="line">        System.out.println(<span class="string">"User 类型的所有 Beans"</span> + applicationContext.getBeansOfType(User.class));</span><br><span class="line">        <span class="comment">// 显示地关闭 Spring 应用上下文</span></span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 通过 @Component 方式</span></span><br><span class="line">    <span class="meta">@Component</span> <span class="comment">// 定义当前类作为 Spring Bean（组件）</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 1. 通过 @Bean 方式定义</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 通过 Java 注解的方式，定义了一个 Bean</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Bean</span>(name = &#123;<span class="string">"user"</span>, <span class="string">"xiaomage-user"</span>&#125;)</span><br><span class="line">        <span class="function"><span class="keyword">public</span> User <span class="title">user</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            User user = <span class="keyword">new</span> User();</span><br><span class="line">            user.setId(<span class="number">1L</span>);</span><br><span class="line">            user.setName(<span class="string">"小马哥"</span>);</span><br><span class="line">            <span class="keyword">return</span> user;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2020/08/22/Nginx实现高可用集群/" data-toggle="tooltip" data-placement="top" title="Nginx实现高可用集群">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/2020/05/12/ShardingSphere分库分表入门/" data-toggle="tooltip" data-placement="top" title="ShardingSpere分库分表入门">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

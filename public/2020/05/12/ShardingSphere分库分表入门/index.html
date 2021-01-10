@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ShardingSpere分库分表入门 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/05/12/ShardingSphere分库分表入门/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+                            
+                              <a class="tag" href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+                            
+                        </div>
+                        <h1>ShardingSpere分库分表入门</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-05-12
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>本文在原文<a href="http://www.iocoder.cn/Spring-Boot/sharding-datasource/?self" target="_blank" rel="noopener">芋道 Spring Boot 分库分表入门</a>的基础上进行了简单修改，转载是为了记录总结。</p>
+</blockquote>
+<h1 id="概述">概述</h1>
+<p>数据库分库分表已经有非常成熟稳定的解决方案，网上相关的博客文章也是不计其数，推荐阅读两个资料：</p>
+<p><a href="https://shardingsphere.apache.org/document/current/cn/overview/" target="_blank" rel="noopener">《Apache ShardingSphere 官方文档》</a></p>
+<pre><code>ShardingSphere 是目前最好用的数据库中间件之一，很多时候，我们使用它来实现分库分表，或者读写分离。
+当然，它不仅仅能够提供上述两个功能，也能提供分布式事务、数据库治理。
+</code></pre>
+<p><a href="https://www.zhihu.com/question/352256403" target="_blank" rel="noopener">《为什么几乎所有的开源数据库中间件都是国内公司开源的？并且几乎都停止了更新？》</a></p>
+<pre><code>这个是知乎上的一个讨论，适合我们来吃瓜，看看各路大神对这块的想法。
+生命不息，吃瓜不止。
+</code></pre>
+<p>目前，国内使用比较多的分库分表的中间件，主要有：</p>
+<ul>
+<li>Apache ShardingSphere</li>
+<li>Mycat</li>
+</ul>
+<p>个人比较推荐使用 ShardingSphere ，主要有几个原因：</p>
+<ul>
+<li>在京东、当当等大型互联网公司落地使用，并且已经提供的有 100+ 企业的成功案例。</li>
+<li>关于 100+ 案例，并不是指的 100+ 公司采用，而是登记给 ShardingSphere 团队的公司数。实际肯定远超这个数字，毕竟大多数团队采用的话，都没去主动登记。</li>
+<li>社区强大，已经进入 Apache 孵化。并且有京东全职的开发团队，也有总共 88+ contributors 。</li>
+<li>功能完善，不仅仅提供分库分表、读写分离，也提供分布式事务、数据库治理等功能。</li>
+<li>代码质量非常高，项目负责人<a href="https://github.com/terrymanu" target="_blank" rel="noopener">张亮</a>简直是个代码质量狂魔！</li>
+</ul>
+<pre><code>之前学习 Sharding-JDBC 时，尝试写过一套源码解析文章。代码简直易读到爆炸。
+亮哥自己也在某次采访中，提到如下内容：以工匠精神去雕琢细节。 开放出去的源代码会在一定的范围内引起共鸣。一个值得研读开源项目，其代码必须经过雕琢，让其规范、一致、优雅、易懂，尽量将细节做到极致。通过代码质量给予使用者信心。
+所以呢，非常推荐尝试去阅读下 ShardingSphere 。
+</code></pre>
+<p>可能会有会提到 Mycat ，为什么不推荐使用它？😈 默默不评价。如果在选型中考虑 Mycat 的话，推荐可以看看 <a href="https://github.com/actiontech/dble" target="_blank" rel="noopener">dble</a> 项目。</p>
+<p>本文，我们会使用 ShardingSphere 的子项目 Sharding-JDBC 完成分库分表和读写分离的功能，会提供两个示例。如果对 Sharding-JDBC 不是很了解，推荐先去阅读下 《Apache ShardingSphere 官方文档 —— 概览》 ，很简短。</p>
+<h1 id="分库分表">分库分表</h1>
+<p>示例代码对应仓库：lab-18-sharding-datasource-01 。</p>
+<p>本小节，我们会使用 Sharding-JDBC 实现分库分表的功能。我们会将 orders 订单表，拆分到 2 个库，每个库 4 个订单表，一共 8 个表。库表的情况如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db_orders_0 库</span><br><span class="line">  ├── orders_0</span><br><span class="line">  └── orders_2</span><br><span class="line">  └── orders_4</span><br><span class="line">  └── orders_6</span><br><span class="line">db_orders_1 库</span><br><span class="line">  ├── orders_1</span><br><span class="line">  └── orders_3</span><br><span class="line">  └── orders_5</span><br><span class="line">  └── orders_7</span><br></pre></td></tr></table></figure>
+<ul>
+<li>偶数后缀的表，在 db_orders_0 库下。</li>
+<li>奇数后缀的表，在 db_orders_1 库下。<br>
+我们使用订单表上的 user_id 用户编号，进行分库分表的规则：</li>
+<li>首先，按照 index = user_id % 2 计算，将记录路由到 db_orders_${index} 库。</li>
+<li>然后，按照 index = user_id % 8 计算，将记录路由到 orders_${index} 表。<br>
+举个例子：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">用户编号</th>
+<th style="text-align:center">库</th>
+<th style="text-align:center">表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">db_orders_1</td>
+<td style="text-align:center">orders_1</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">db_orders_0</td>
+<td style="text-align:center">orders_2</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">db_orders_1</td>
+<td style="text-align:center">orders_3</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">db_orders_0</td>
+<td style="text-align:center">orders_4</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">db_orders_1</td>
+<td style="text-align:center">orders_5</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">db_orders_0</td>
+<td style="text-align:center">orders_6</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">db_orders_1</td>
+<td style="text-align:center">orders_7</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">db_orders_0</td>
+<td style="text-align:center">orders_8</td>
+</tr>
+</tbody>
+</table>
+<p>考虑到部分表不需要分库分表，例如说 order_config 订单配置表，所以我们会配置路由到 db_orders_0 库下。</p>
+<p>具体 orders 和 order_config 两个表的创建语句，我们在 TODO 提供。</p>
+<p>因为本文重心在于提供示例。可以碰到不理解的地方，看看如下文档：</p>
+<p><a href="https://shardingsphere.apache.org/document/current/cn/features/sharding/" target="_blank" rel="noopener">《ShardingSphere &gt; 概念 &amp; 功能 &gt; 数据分片》</a><br>
+<a href="https://shardingsphere.apache.org/document/current/cn/manual/sharding-jdbc/usage/sharding/" target="_blank" rel="noopener">《ShardingSphere &gt; 用户手册 &gt; Sharding-JDBC &gt; 使用手册 &gt; 数据分片》</a><br>
+<a href="https://shardingsphere.apache.org/document/current/cn/manual/sharding-jdbc/configuration/" target="_blank" rel="noopener">《ShardingSphere &gt; 用户手册 &gt; Sharding-JDBC &gt; 配置手册》</a></p>
+<h2 id="引入依赖">引入依赖</h2>
+<p>在 pom.xml 文件中，引入相关依赖。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lab-18-sharding-datasource-01<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 实现对数据库连接池的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span> <span class="comment">&lt;!-- 本示例，我们使用 MySQL --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.48<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 实现对 MyBatis 的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 实现对 Sharding-JDBC 的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shardingsphere<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sharding-jdbc-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0-RC2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 保证 Spring AOP 相关的依赖包 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-aspects<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 方便等会写单元测试 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>具体每个依赖的作用，自己认真看下我添加的所有注释噢。</p>
+<h2 id="application">Application</h2>
+<p>创建 Application.java 类，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Application.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@MapperScan</span>(basePackages = <span class="string">"io.gitee.hancaihaoyun.sharding.mapper"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加 @MapperScan 注解，io.gitee.hancaihaoyun.sharding.mapper 包路径下，就是我们 Mapper 接口所在的包路径。</p>
+<h2 id="应用配置文件">应用配置文件</h2>
+<p>在 resources 目录下，创建 application.yaml 配置文件。配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="comment"># ShardingSphere 配置项</span></span><br><span class="line"><span class="attr">  shardingsphere:</span></span><br><span class="line"><span class="attr">    datasource:</span></span><br><span class="line">      <span class="comment"># 所有数据源的名字</span></span><br><span class="line"><span class="attr">      names:</span> <span class="string">ds-orders-0,</span> <span class="string">ds-orders-1</span></span><br><span class="line">      <span class="comment"># 订单 orders 数据源配置 00</span></span><br><span class="line"><span class="attr">      ds-orders-0:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span> <span class="comment"># 使用 Hikari 数据库连接池</span></span><br><span class="line"><span class="attr">        driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">        jdbc-url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/db_orders_0?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span></span><br><span class="line">      <span class="comment"># 订单 orders 数据源配置 01</span></span><br><span class="line"><span class="attr">      ds-orders-1:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span> <span class="comment"># 使用 Hikari 数据库连接池</span></span><br><span class="line"><span class="attr">        driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">        jdbc-url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/db_orders_1?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span></span><br><span class="line">    <span class="comment"># 分片规则</span></span><br><span class="line"><span class="attr">    sharding:</span></span><br><span class="line"><span class="attr">      tables:</span></span><br><span class="line">        <span class="comment"># orders 表配置</span></span><br><span class="line"><span class="attr">        orders:</span></span><br><span class="line"><span class="attr">          actualDataNodes:</span> <span class="string">ds-orders-0.orders_$-&gt;&#123;[0,2,4,6]&#125;,</span> <span class="string">ds-orders-1.orders_$-&gt;&#123;[1,3,5,7]&#125;</span> <span class="comment"># 映射到 ds-orders-0 和 ds-orders-1 数据源的 orders 表们</span></span><br><span class="line"><span class="attr">          key-generator:</span> <span class="comment"># 主键生成策略</span></span><br><span class="line"><span class="attr">            column:</span> <span class="string">id</span></span><br><span class="line"><span class="attr">            type:</span> <span class="string">SNOWFLAKE</span></span><br><span class="line"><span class="attr">          database-strategy:</span></span><br><span class="line"><span class="attr">            inline:</span></span><br><span class="line"><span class="attr">              algorithm-expression:</span> <span class="string">ds-orders-$-&gt;&#123;user_id</span> <span class="string">%</span> <span class="number">2</span><span class="string">&#125;</span></span><br><span class="line"><span class="attr">              sharding-column:</span> <span class="string">user_id</span></span><br><span class="line"><span class="attr">          table-strategy:</span></span><br><span class="line"><span class="attr">            inline:</span></span><br><span class="line"><span class="attr">              algorithm-expression:</span> <span class="string">orders_$-&gt;&#123;user_id</span> <span class="string">%</span> <span class="number">8</span><span class="string">&#125;</span></span><br><span class="line"><span class="attr">              sharding-column:</span> <span class="string">user_id</span></span><br><span class="line">        <span class="comment"># order_config 表配置</span></span><br><span class="line"><span class="attr">        order_config:</span></span><br><span class="line"><span class="attr">          actualDataNodes:</span> <span class="string">ds-orders-0.order_config</span> <span class="comment"># 仅映射到 ds-orders-0 数据源的 order_config 表</span></span><br><span class="line">    <span class="comment"># 拓展属性配置</span></span><br><span class="line"><span class="attr">    props:</span></span><br><span class="line"><span class="attr">      sql:</span></span><br><span class="line"><span class="attr">        show:</span> <span class="literal">true</span> <span class="comment"># 打印 SQL</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mybatis 配置内容</span></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line"><span class="attr">  config-location:</span> <span class="attr">classpath:mybatis-config.xml</span> <span class="comment"># 配置 MyBatis 配置文件路径</span></span><br><span class="line"><span class="attr">  mapper-locations:</span> <span class="attr">classpath:mapper/*.xml</span> <span class="comment"># 配置 Mapper XML 地址</span></span><br><span class="line"><span class="attr">  type-aliases-package:</span> <span class="string">io.gitee.hancaihaoyun.sharding.dataobject</span> <span class="comment"># 配置数据库实体包路径</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 mybatis 配置项下，设置 mybatis-spring-boot-starter 自动化配置 MyBatis 需要的参数。</li>
+<li>在 spring.shardingsphere 配置项下，设置 sharding-jdbc-spring-boot-starter 自动化配置 Sharding-JDBC 需要的参数。比较复杂，我们一个一个来看。<br>
+spring.shardingsphere.datasource 配置项，我们配置了 ds-orders-0 和 ds-orders-1 两个数据源，分别对应 db_orders_0 和 db_orders_1 两个数据库。</li>
+</ul>
+<p>spring.shardingsphere.sharding 配置项，我们配置了 orders 和 order_config 逻辑表 。</p>
+<pre><code>逻辑表 ：水平拆分的数据库（表）的相同逻辑和数据结构表的总称。例：订单数据根据主键尾数拆分为 10 张表，分别是 t_order_0 到 t_order_9 ，他们的逻辑表名为 t_order 。
+真实表 ：在分片的数据库中真实存在的物理表。即上个示例中的 t_order_0 到 t_order_9 。
+数据节点 ：数据分片的最小单元。由数据源名称和数据表组成，例：ds_0.t_order_0 。
+</code></pre>
+<ul>
+<li>orders 配置项，设置 orders 逻辑表，使用分库分表的规则。
+<ul>
+<li>actualDataNodes ：对应的数据节点，使用的是行表达式 。这里的意思是，ds-orders-0.orders_0, ds-orders-0.orders_2, ds-orders-0.orders_4, ds-orders-0.orders_6, ds-orders-1.orders_1, ds-orders-1.orders_3, ds-orders-1.orders_5, ds-orders-1.orders_7 。</li>
+<li>key-generator ：主键生成策略。这里采用分布式主键 SNOWFLAKE 方案。更多可以看 《 ShardingSphere &gt; 概念 &amp; 功能 &gt; 数据分片 &gt; 其他功能 &gt; 分布式主键》 文档。</li>
+<li>database-strategy ：按照 index = user_id % 2 分库，路由到 ds-orders-${index} 数据源（库）。</li>
+<li>table-strategy ：index = user_id % 8 分表，路由到 orders_${index} 数据表。</li>
+</ul>
+</li>
+<li>order_config 配置项，设置 order_config 逻辑表，不使用分库分表。
+<ul>
+<li>actualDataNodes ：对应的数据节点，只对应数据源（库）为 ds-orders-0 的 order_config 表。</li>
+<li>spring.shardingsphere.props 配置项，设置拓展属性配置。</li>
+</ul>
+</li>
+<li>sql.show ：设置打印 SQL 。因为我们编写的 SQL 会被 Sharding-JDBC 进行处理，实际执行的可能不是我们编写的，通过打印，方便我们观察和理解。</li>
+</ul>
+<h2 id="mybatis-配置文件">MyBatis 配置文件</h2>
+<p>在 resources 目录下，创建 mybatis-config.xml 配置文件。配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 使用驼峰命名法转换字段。 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"mapUnderscoreToCamelCase"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Integer"</span> <span class="attr">type</span>=<span class="string">"java.lang.Integer"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"Long"</span> <span class="attr">type</span>=<span class="string">"java.lang.Long"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"HashMap"</span> <span class="attr">type</span>=<span class="string">"java.util.HashMap"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"LinkedHashMap"</span> <span class="attr">type</span>=<span class="string">"java.util.LinkedHashMap"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"ArrayList"</span> <span class="attr">type</span>=<span class="string">"java.util.ArrayList"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">typeAlias</span> <span class="attr">alias</span>=<span class="string">"LinkedList"</span> <span class="attr">type</span>=<span class="string">"java.util.LinkedList"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>因为在数据库中的表的字段，我们是使用下划线风格，而数据库实体的字段使用驼峰风格，所以通过 mapUnderscoreToCamelCase = true 来自动转换。</p>
+<h2 id="实体类">实体类</h2>
+<p>在 io.gitee.hancaihaoyun.sharding.model 包路径下，创建本小节的实体。</p>
+<h3 id="ordermodel">OrderModel</h3>
+<p>创建 OrderModel.java 类。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderModel.java</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 订单model</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderModel</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 订单编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用户编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Integer userId;</span><br><span class="line">    <span class="comment">// ... 省略 setting/getting 方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 db_orders_0 数据库下，创建 orders_0、orders_2、orders_4、orders_6 数据表。SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">NAMES</span> utf8mb4;</span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_0</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_0`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_0`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_2</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_2`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_2`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">8</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_4</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_4`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_4`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_6</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_6`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_6`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>在 db_orders_1 数据库下，创建 orders_1、orders_3、orders_5、orders_7 数据表。SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">NAMES</span> utf8mb4;</span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_1</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_1`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_1`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_3</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_3`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_3`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_5</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_5`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_5`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders_7</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders_7`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders_7`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="orderconfigmodel">OrderConfigModel</h3>
+<p>创建 OrderConfigModel.java 类。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderConfigModel.java</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 订单配置model</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderConfigModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付超时时间</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 单位：分钟</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Integer payTimeout;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... 省略 setting/getting 方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 db_orders_0 数据库下，创建 orders_0 数据表。SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for order_config</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`order_config`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`order_config`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'编号'</span>,</span><br><span class="line">  <span class="string">`pay_timeout`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'支付超时时间;单位：分钟'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单配置表'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="mapper">Mapper</h2>
+<p>在 io.gitee.hancaihaoyun.sharding.mapper 包路径下，创建相应的 Mapper 接口。</p>
+<h3 id="ordermapper">OrderMapper</h3>
+<p>创建 OrderMapper.java 类。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderMapper.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">OrderModel <span class="title">selectById</span><span class="params">(@Param(<span class="string">"id"</span>)</span> Integer id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;OrderModel&gt; <span class="title">selectListByUserId</span><span class="params">(@Param(<span class="string">"userId"</span>)</span> Integer userId)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(OrderModel order)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 resources/mapper 路径下，创建 OrderMapper.xml 接口。代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"io.gitee.hancaihaoyun.sharding.mapper.OrderMapper"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"FIELDS"</span>&gt;</span></span><br><span class="line">        id, user_id</span><br><span class="line">    <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectById"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"OrderDO"</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"FIELDS"</span> /&gt;</span></span><br><span class="line">        FROM orders</span><br><span class="line">        WHERE id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectListByUserId"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"OrderDO"</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"FIELDS"</span> /&gt;</span></span><br><span class="line">        FROM orders</span><br><span class="line">        WHERE user_id = #&#123;userId&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insert"</span> <span class="attr">parameterType</span>=<span class="string">"OrderDO"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"true"</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span>&gt;</span></span><br><span class="line">        INSERT INTO orders (</span><br><span class="line">            user_id</span><br><span class="line">        ) VALUES (</span><br><span class="line">            #&#123;userId&#125;</span><br><span class="line">        )</span><br><span class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="orderconfigmapper">OrderConfigMapper</h3>
+<p>创建 OrderConfigMapper.java 类。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderConfigMapper.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderConfigMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">OrderConfigModel <span class="title">selectById</span><span class="params">(@Param(<span class="string">"id"</span>)</span> Integer id)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 resources/mapper 路径下，创建 OrderConfigMapper.xml 接口。代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"io.gitee.hancaihaoyun.sharding.mapper.OrderConfigMapper"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"FIELDS"</span>&gt;</span></span><br><span class="line">        id, pay_timeout</span><br><span class="line">    <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectById"</span> <span class="attr">parameterType</span>=<span class="string">"Integer"</span> <span class="attr">resultType</span>=<span class="string">"OrderConfigDO"</span>&gt;</span></span><br><span class="line">        SELECT</span><br><span class="line">            <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"FIELDS"</span> /&gt;</span></span><br><span class="line">        FROM order_config</span><br><span class="line">        WHERE id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="简单测试">简单测试</h2>
+<h3 id="orderconfigmappertest">OrderConfigMapperTest</h3>
+<p>创建 OrderConfigMapperTest 测试类，我们来测试一下简单的 OrderConfigMapper 的每个操作。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderConfigMapperTest.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = Application.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderConfigMapperTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderConfigMapper orderConfigMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectById</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OrderConfigModel orderConfig = orderConfigMapper.selectById(<span class="number">1</span>);</span><br><span class="line">        System.out.println(orderConfig);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>testSelectById() 测试方法执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// Logic SQL</span><br><span class="line">2020-05-10 20:21:48.845  INFO 32393 --- [           main] ShardingSphere-SQL                       : Logic SQL: SELECT</span><br><span class="line"></span><br><span class="line">        id, pay_timeout</span><br><span class="line"></span><br><span class="line">        FROM order_config</span><br><span class="line">        WHERE id = ?</span><br><span class="line"></span><br><span class="line">// Actual SQL</span><br><span class="line">2020-05-10 20:21:48.845  INFO 32393 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-0 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, pay_timeout</span><br><span class="line"></span><br><span class="line">        FROM order_config</span><br><span class="line">        WHERE id = ? ::: [1]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Logic SQL ：逻辑 SQL 日志，就是我们编写的。</li>
+<li>Actual SQL ：物理 SQL 日志，实际 Sharding-JDBC 向数据库真正发起的日志。<br>
+在这里，我们可以看到 ds-orders-0 ，表名该物理 SQL ，是路由到 ds-orders-0 数据源执行。<br>
+同时，查询的是 order_config 表。<br>
+符合我们配置的 order_config 逻辑表，不使用分库分表，对应的数据节点仅有 ds-orders-0.order_config 。</li>
+</ul>
+<h3 id="ordermappertest">OrderMapperTest</h3>
+<p>创建 OrderMapperTest 测试类，我们来测试一下简单的 OrderMapper 的每个操作。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderMapperTest.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = ShardingApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderMapperTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectById</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OrderModel order = orderMapper.selectById(<span class="number">1</span>);</span><br><span class="line">        System.out.println(order);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectListByUserId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;OrderModel&gt; orders = orderMapper.selectListByUserId(<span class="number">1</span>);</span><br><span class="line">        System.out.println(orders.size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsert</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OrderModel order = <span class="keyword">new</span> OrderModel();</span><br><span class="line">        order.setUserId(<span class="number">1</span>);</span><br><span class="line">        orderMapper.insert(order);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>① #testSelectByI() 测试方法</p>
+<p>执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">// Logic SQL</span><br><span class="line">2020-05-10 21:41:15.053  INFO 33184 --- [           main] ShardingSphere-SQL                       : Logic SQL: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders</span><br><span class="line">        WHERE id = ?</span><br><span class="line"></span><br><span class="line">// Actual SQL</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-0 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_0</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-0 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_2</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-0 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_4</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-0 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_6</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_1</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_3</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_5</span><br><span class="line">        WHERE id = ? ::: [1]</span><br><span class="line">2020-05-10 21:41:15.054  INFO 33184 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_7</span><br><span class="line">        WHERE id = ? ::: [1]</span><br></pre></td></tr></table></figure>
+<p>明明只有一条 Logic SQL 操作，却发起了 8 条 Actual SQL 操作。这是为什么呢？</p>
+<p>我们使用 id = ? 作为查询条件，因为 Sharding-JDBC 解析不到我们配置的 user_id 片键（分库分表字段），作为查询字段，所以只好 全库表路由 ，查询所有对应的数据节点，也就是配置的所有数据库的数据表。这样，在获得所有查询结果后，通过 归并引擎 合并返回最终结果。</p>
+<p>通过将 Actual SQL 在每个数据库的数据表执行，返回的结果都是符合条件的。</p>
+<p>这样，和使用 Logic SQL 在逻辑表中执行的结果，实际是一致的。</p>
+<p>可以试着想一想噢。如果还是有疑惑，可以给我留言。</p>
+<p>那么，一次性发起这么多条 Actual SQL 是不是会顺序执行，导致很慢呢？实际上，Sharding-JDBC 有 执行引擎 ，会并行执行这多条 Actual SQL 操作。所以呢，最终操作时长，由最慢的 Actual SQL 所决定。</p>
+<p>虽然说，执行引擎 提供了并行执行 Actual SQL 操作的能力，我们还是推荐尽可能查询的时候，带有片键（分库分表字段）。对 Sharding-JDBC 性能感兴趣的，可以看看 <a href="https://shardingsphere.apache.org/document/current/cn/manual/sharding-jdbc/stress-test/" target="_blank" rel="noopener">《Sharding-JDBC 性能测试报告》</a> 。</p>
+<p>② #testSelectListByUserId() 测试方法</p>
+<p>执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// Logic SQL</span><br><span class="line">2020-05-10 22:00:16.640  INFO 33407 --- [           main] ShardingSphere-SQL                       : Logic SQL: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders</span><br><span class="line">        WHERE user_id = ?</span><br><span class="line"></span><br><span class="line">// Actual SQL</span><br><span class="line">2020-05-10 22:00:16.640  INFO 33407 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: SELECT</span><br><span class="line"></span><br><span class="line">        id, user_id</span><br><span class="line"></span><br><span class="line">        FROM orders_1</span><br><span class="line">        WHERE user_id = ? ::: [1]</span><br></pre></td></tr></table></figure>
+<p>一条 Logic SQL 操作，发起了 1 条 Actual SQL 操作。这是为什么呢？<br>
+我们使用 user_id = ? 作为查询条件，因为 Sharding-JDBC 解析到我们配置的 user_id 片键（分库分表字段），作为查询字段，所以可以 标准路由 ，仅查询一个数据节点。这种，是 Sharding-JDBC 最为推荐使用的分片方式。<br>
+分库：user_id % 2 = 1 % 2 = 1 ，所以路由到 ds-orders-1 数据源。<br>
+分表：user_id % 8 = 1 % 8 = 1 ，所以路由到 orders_1 数据表。<br>
+两者一结合，只查询 ds-orders-1.orders_1 数据节点。<br>
+② #testInsert() 测试方法</p>
+<p>执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Logic SQL</span><br><span class="line">2020-05-10 22:05:52.203  INFO 33510 --- [           main] ShardingSphere-SQL                       : Logic SQL: INSERT INTO orders (</span><br><span class="line">            user_id</span><br><span class="line">        ) VALUES (</span><br><span class="line">            ?</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">// Actual SQL</span><br><span class="line">2020-05-10 22:05:52.203  INFO 33510 --- [           main] ShardingSphere-SQL                       : Actual SQL: ds-orders-1 ::: INSERT INTO orders_1 (</span><br><span class="line">            user_id</span><br><span class="line">        , id) VALUES (?, ?) ::: [1, 400772257330233345]</span><br></pre></td></tr></table></figure>
+<p>不考虑 广播表 的情况下，插入语句必须带有片键（分库分表字段），否则 执行引擎 不知道插入到哪个数据库的哪个数据表中。毕竟，插入操作必然是单库单表。<br>
+我们会发现，Actual SQL 相比 Logic SQL 来说，增加了主键 id 为 400772257330233345 。这是为什么呢？我们配置 orders 逻辑表，使用 SNOWFLAKE 算法生成分布式主键，而 改写引擎 在发现我们的 Logic SQL 并未设置插入的 id 主键编号，它会自动生成主键，改写 Logic SQL ，附加 id 成 Logic SQL 。<br>
+至此，我们已经完成了一个 Sharding-JDBC 的简单的分库分表的示例。我建议的话，如果准备应用到项目之前，通读 <a href="https://shardingsphere.apache.org/document/current/cn/overview/" target="_blank" rel="noopener">《ShardingSphere 文档》</a> 。学习不全面，线上两行泪。</p>
+<h1 id="读写分离">读写分离</h1>
+<p>在 <a href="http://www.iocoder.cn/Spring-Boot/sharding-datasource/?self#" target="_blank" rel="noopener">《芋道 Spring Boot 多数据源（读写分离）入门》 的 「9. Sharding-JDBC 读写分离」</a> 小节中，我们已经提供了使用 Sharding-JDBC 实现读写分离的入门示例。</p>
+<p>本小节，我们会使用 MyBatis-Plus 替换掉原生 MyBatis ，进一步简化该示例。</p>
+<p>当然，即使你没看过上述示例，也不影响本小节的阅读与入门。<br>
+可能没有使用过 MyBatis-Plus ，也请放心，一样不会有影响。</p>
+<h2 id="引入依赖">引入依赖</h2>
+<p>在 pom.xml 文件中，引入相关依赖。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.3.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lab-18-sharding-datasource-02<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 实现对数据库连接池的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span> <span class="comment">&lt;!-- 本示例，我们使用 MySQL --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.48<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 实现对 Sharding-JDBC 的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shardingsphere<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>sharding-jdbc-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.0-RC2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 实现对 MyBatis Plus 的自动化配置 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 方便等会写单元测试 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>具体每个依赖的作用，自己认真看下我添加的所有注释噢。</p>
+<h2 id="readwritesplitapplication">ReadWriteSplitApplication</h2>
+<p>创建 ReadWriteSplitApplication.java 类，配置 @MapperScan 注解，扫描对应 Mapper 接口所在的包路径。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ReadWriteSplitApplication.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@MapperScan</span>(basePackages = <span class="string">"io.gitee.hancaihaoyun.readwritesplit.mapper"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReadWriteSplitApplication</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 io.gitee.hancaihaoyun.readwritesplit.mapper 包路径下，就是我们 Mapper 接口所在的包路径。</p>
+<h2 id="应用配置文件">应用配置文件</h2>
+<p>在 resources 目录下，创建 application.yaml 配置文件。配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="comment"># ShardingSphere 配置项</span></span><br><span class="line"><span class="attr">  shardingsphere:</span></span><br><span class="line">    <span class="comment"># 数据源配置</span></span><br><span class="line"><span class="attr">    datasource:</span></span><br><span class="line">      <span class="comment"># 所有数据源的名字</span></span><br><span class="line"><span class="attr">      names:</span> <span class="string">db-master,</span> <span class="string">db-slave-1,</span> <span class="string">db-slave-2</span></span><br><span class="line">      <span class="comment"># 订单 orders 主库的数据源配置</span></span><br><span class="line"><span class="attr">      db-master:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span> <span class="comment"># 使用 Hikari 数据库连接池</span></span><br><span class="line"><span class="attr">        driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">        jdbc-url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/db_orders?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span></span><br><span class="line">      <span class="comment"># 订单 orders 从库数据源配置</span></span><br><span class="line"><span class="attr">      db-slave-1:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span> <span class="comment"># 使用 Hikari 数据库连接池</span></span><br><span class="line"><span class="attr">        driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">        jdbc-url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/db_orders_01?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span></span><br><span class="line">      <span class="comment"># 订单 orders 从库数据源配置</span></span><br><span class="line"><span class="attr">      db-slave-2:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span> <span class="comment"># 使用 Hikari 数据库连接池</span></span><br><span class="line"><span class="attr">        driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">        jdbc-url:</span> <span class="attr">jdbc:mysql://127.0.0.1:3306/db_orders_02?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span></span><br><span class="line">    <span class="comment"># 读写分离配置，对应 YamlMasterSlaveRuleConfiguration 配置类</span></span><br><span class="line"><span class="attr">    masterslave:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">ms</span> <span class="comment"># 名字，任意，需要保证唯一</span></span><br><span class="line"><span class="attr">      master-data-source-name:</span> <span class="string">db-master</span> <span class="comment"># 主库数据源</span></span><br><span class="line"><span class="attr">      slave-data-source-names:</span> <span class="string">db-slave-1,</span> <span class="string">db-slave-2</span> <span class="comment"># 从库数据源</span></span><br><span class="line">    <span class="comment"># 拓展属性配置</span></span><br><span class="line"><span class="attr">    props:</span></span><br><span class="line"><span class="attr">      sql:</span></span><br><span class="line"><span class="attr">        show:</span> <span class="literal">true</span> <span class="comment"># 打印 SQL</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># mybatis-plus 配置内容</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line"><span class="attr">  configuration:</span></span><br><span class="line"><span class="attr">    map-underscore-to-camel-case:</span> <span class="literal">true</span> <span class="comment"># 虽然默认为 true ，但是还是显示去指定下。</span></span><br><span class="line"><span class="attr">  global-config:</span></span><br><span class="line"><span class="attr">    db-config:</span></span><br><span class="line"><span class="attr">      id-type:</span> <span class="string">none</span> <span class="comment"># 虽然 MyBatis Plus 也提供 ID 生成策略，但是还是使用 Sharding-JDBC 的</span></span><br><span class="line"><span class="attr">      logic-delete-value:</span> <span class="number">1</span> <span class="comment"># 逻辑已删除值(默认为 1)</span></span><br><span class="line"><span class="attr">      logic-not-delete-value:</span> <span class="number">0</span> <span class="comment"># 逻辑未删除值(默认为 0)</span></span><br><span class="line"><span class="attr">  mapper-locations:</span> <span class="string">classpath*:mapper/*.xml</span></span><br><span class="line"><span class="attr">  type-aliases-package:</span> <span class="string">io.gitee.hancaihaoyun.readwritesplit.model</span></span><br></pre></td></tr></table></figure>
+<p>Sharding-JDBC 配置项</p>
+<p>spring.shardingsphere.datasource 配置项下，我们配置了 一个主数据源 ds-master 、两个从数据源 ds-slave-1、ds-slave-2 。<br>
+spring.shardingsphere.masterslave 配置项下，配置了读写分离。对于从库来说，Sharding-JDBC 提供了多种负载均衡策略，默认为轮询。<br>
+因为我本地并未搭建 MySQL 一主多从的环境，所以是通过创建了 tesdb_orders_01、tesdb_orders_02 库，手动模拟作为 tesdb_orders 的从库。<br>
+MyBatis-Plus 配合项</p>
+<p>mybatis-plus 增加了更多配置项，也因此我们无需在配置 mybatis-config.xml 配置文件。<br>
+更多的 MyBatis-Plus 配置项，可以看看 MyBatis-Plus 使用配置 。</p>
+<h2 id="ordermodel">OrderModel</h2>
+<p>在 io.gitee.hancaihaoyun.readwrietesplit.model 包路径下，创建 OrderModel.java 类，订单 Model 。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderModel.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@TableName</span>(value = <span class="string">"orders"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 订单编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用户编号</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Integer userId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ... 省略 setting/getting 方法</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>增加了 @TableName 注解，设置了 OrderModel 对应的表名是 orders 。毕竟，我们要使用 MyBatis-Plus 给咱自动生成 CRUD 操作。<br>
+对应的创建表的 SQL 如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for orders</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`orders`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`orders`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'订单编号'</span>,</span><br><span class="line">  <span class="string">`user_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'用户编号'</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin <span class="keyword">COMMENT</span>=<span class="string">'订单表'</span>;</span><br></pre></td></tr></table></figure>
+<p>2.5 OrderMapper<br>
+在 io.gitee.hancaihaoyun.readwritesplit.mapper 包路径下，创建 OrderMapper 接口。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderMapper.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderMapper</span> <span class="keyword">extends</span> <span class="title">BaseMapper</span>&lt;<span class="title">OrderDO</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>继承了 com.baomidou.mybatisplus.core.mapper.BaseMapper<t> 接口，这样常规的 CRUD 操作，MyBatis-Plus 就可以替我们自动生成。一般来说，开发 CRUD 业务的时候，最枯燥的就是要写 CRUD 的常用 SQL ，完全跟不上我的思绪哈。<br>
+2.6 简单测试<br>
+创建 OrderMapperTest 测试类，我们来测试一下简单的 OrderMapper 的读写操作。代码如下：</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderMapperTest.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = ReadWriteSplitApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderMapperTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectById</span><span class="params">()</span> </span>&#123; <span class="comment">// 测试从库的负载均衡</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            OrderModel order = orderMapper.selectById(<span class="number">1</span>);</span><br><span class="line">            System.out.println(order);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSelectById02</span><span class="params">()</span> </span>&#123; <span class="comment">// 测试强制访问主库</span></span><br><span class="line">        <span class="keyword">try</span> (HintManager hintManager = HintManager.getInstance()) &#123;</span><br><span class="line">            <span class="comment">// 设置强制访问主库</span></span><br><span class="line">            hintManager.setMasterRouteOnly();</span><br><span class="line">            <span class="comment">// 执行查询</span></span><br><span class="line">            OrderModel order = orderMapper.selectById(<span class="number">1</span>);</span><br><span class="line">            System.out.println(order);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsert</span><span class="params">()</span> </span>&#123; <span class="comment">// 插入</span></span><br><span class="line">        OrderModel order = <span class="keyword">new</span> OrderModel();</span><br><span class="line">        order.setUserId(<span class="number">10</span>);</span><br><span class="line">        orderMapper.insert(order);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>① #testSelectById() 测试方法</p>
+<p>执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 第 1 次查询</span><br><span class="line">2020-05-10 23:49:27.414  INFO 35306 --- [           main] ShardingSphere-SQL                       : Rule Type: master-slave</span><br><span class="line">2020-05-10 23:49:27.414  INFO 35306 --- [           main] ShardingSphere-SQL                       : SQL: SELECT id,user_id FROM orders WHERE id=?  ::: DataSources: ds-slave-1</span><br><span class="line"></span><br><span class="line">// 第 2 次查询</span><br><span class="line">2020-05-10 23:49:27.454  INFO 35306 --- [           main] ShardingSphere-SQL                       : Rule Type: master-slave</span><br><span class="line">2020-05-10 23:49:27.454  INFO 35306 --- [           main] ShardingSphere-SQL                       : SQL: SELECT id,user_id FROM orders WHERE id=?  ::: DataSources: ds-slave-2</span><br></pre></td></tr></table></figure>
+<p>默认情况下，Sharding-JDBC 使用 读写分离 功能时，读取从库。<br>
+并且，支持从库的负载均衡，默认采用轮询的算法。所以，我们可以看到第 1 次查询 ds-slave-1 数据源，第 2 次查询 ds-slave-2 数据源。<br>
+② #testSelectById02() 测试方法</p>
+<p>执行日志如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020-05-10 23:56:09.669  INFO 35430 --- [           main] ShardingSphere-SQL                       : Rule Type: master-slave</span><br><span class="line">2020-05-10 23:56:09.669  INFO 35430 --- [           main] ShardingSphere-SQL                       : SQL: SELECT id,user_id FROM orders WHERE id=?  ::: DataSources: ds-master</span><br></pre></td></tr></table></figure>
+<p>测试强制访问主库。在一些业务场景下，对数据延迟敏感，所以只能强制读取主库。此时，可以使用 HintManager 强制访问主库。<br>
+不过要注意，在使用完后，需要去清理下 HintManager （HintManager 是基于线程变量，透传给 Sharding-JDBC 的内部实现），避免污染下次请求，一直强制访问主库。<br>
+Sharding-JDBC 比较贴心，HintManager 实现了 AutoCloseable 接口，可以通过 Try-with-resources 机制，自动关闭。<br>
+③ #testInsert() 测试方法</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2020-05-10 23:57:27.046  INFO 35469 --- [           main] ShardingSphere-SQL                       : Rule Type: master-slave</span><br><span class="line">2020-05-10 23:57:27.047  INFO 35469 --- [           main] ShardingSphere-SQL                       : SQL: INSERT INTO orders  ( id,</span><br><span class="line">user_id )  VALUES  ( ?,</span><br><span class="line">? ) ::: DataSources: ds-master</span><br></pre></td></tr></table></figure>
+<p>写入操作时，直接访问主库 ds-master 数据源。</p>
+<h2 id="详细测试">详细测试</h2>
+<p>在 io.gitee.hancaihaoyun.readwritesplit.service 包路径下，创建 OrderService.java 类。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OrderService.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(OrderModel order)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// &lt;1.1&gt; 这里先假模假样的读取一下。读取从库</span></span><br><span class="line">        OrderModel exists = orderMapper.selectById(<span class="number">1</span>);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// &lt;1.2&gt; 插入订单</span></span><br><span class="line">        orderMapper.insert(order);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// &lt;1.3&gt; 这里先假模假样的读取一下。读取主库</span></span><br><span class="line">        exists = orderMapper.selectById(<span class="number">1</span>);</span><br><span class="line">        System.out.println(exists);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> OrderModel <span class="title">findById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> orderMapper.selectById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们创建了 OrderServiceTest 测试类，可以测试上面编写的两个方法。</li>
+<li>在 #add(OrderDO order) 方法中，开启事务，插入一条订单记录。<br>
+&lt;1.1&gt; 处，往从库发起一次订单查询。在 Sharding-JDBC 的读写分离策略里，默认读取从库。<br>
+&lt;1.2&gt; 处，往主库发起一次订单写入。写入，肯定是操作主库的。<br>
+&lt;1.3&gt; 处，往主库发起一次订单查询。在 Sharding-JDBC 中，读写分离约定：同一线程且同一数据库连接内，如有写入操作，以后的读操作均从主库读取，用于保证数据一致性。</li>
+<li>在 #findById(Integer id) 方法，往从库发起一次订单查询。<br>
+实际场景下，我们会是分库分表 + 读写分离共同使用，所以可以参考 <a href="https://shardingsphere.apache.org/document/current/cn/manual/sharding-jdbc/configuration/" target="_blank" rel="noopener">《ShardingSphere &gt; 用户手册 &gt; Sharding-JDBC &gt; 配置手册》</a> 文档，尝试自己实现一个这样的示例。</li>
+</ul>
+<p>因为文档提供的是 Properties 的格式，如果想转换成 YAML 格式，可以使用 <a href="https://www.toyaml.com/index.html" target="_blank" rel="noopener">ToYaml.com</a> 工具。</p>
+<h1 id="参考资料">参考资料</h1>
+<p>在 Apache ShardingSphere 中，目前提供了 Sharding-JDBC 和 Sharding-Proxy 两种方式，未来会有 Sharding-Sidecar 方式。那么，怎么做选择呢？</p>
+<p>在 <a href="https://shardingsphere.apache.org/document/current/cn/overview/" target="_blank" rel="noopener">《Apache ShardingSphere 官方文档 —— 概览》</a> 中，其实已经给出了答案。</p>
+<p>Sharding-JDBC 采用无中心化架构，适用于 Java 开发的高性能的轻量级 OLTP 应用。<br>
+Sharding-Proxy 提供静态入口以及异构语言的支持，适用于 OLAP 应用以及对分片数据库进行管理和运维的场景。</p>
+<p>Sharding-JDBC ，相比 Sharding-Proxy 来说，是基于 client 模式，无需经过 proxy 一层的性能损耗，也不用考虑 proxy 的高可用，所以对于 Java 项目来说，更加被推荐。目前，阿里、京东、美团等公司，都采用 client 模式的分库分表中间件。</p>
+<p>当然，Sharding-Proxy 也是有其使用的场景。我们可以搭建一个 Sharding-Proxy 服务，然后使用 Navicat 等 MySQL GUI 工具连接该服务，方便查询数据。</p>
+<h2 id="01-sharding-jdbc概览">01-Sharding-JDBC概览</h2>
+
+
+	<div class="row">
+    <embed src="01-Sharding-JDBC概览.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+<h2 id="02-sharding-jdbc入门使用">02-Sharding-JDBC入门使用</h2>
+
+
+	<div class="row">
+    <embed src="02-Sharding-JDBC入门使用.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2020/06/02/SpringBean基础/" data-toggle="tooltip" data-placement="top" title="">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/2020/05/10/数据库中间件ShardingShpere的介绍/" data-toggle="tooltip" data-placement="top" title="数据库中间件ShardingSpere的介绍">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#概述"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">概述</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#分库分表"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">分库分表</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引入依赖"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">引入依赖</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#application"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">Application</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#应用配置文件"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">应用配置文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#mybatis-配置文件"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">MyBatis 配置文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#实体类"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">实体类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ordermodel"><span class="toc-nav-number">2.5.1.</span> <span class="toc-nav-text">OrderModel</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#orderconfigmodel"><span class="toc-nav-number">2.5.2.</span> <span class="toc-nav-text">OrderConfigModel</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#mapper"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">Mapper</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ordermapper"><span class="toc-nav-number">2.6.1.</span> <span class="toc-nav-text">OrderMapper</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#orderconfigmapper"><span class="toc-nav-number">2.6.2.</span> <span class="toc-nav-text">OrderConfigMapper</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#简单测试"><span class="toc-nav-number">2.7.</span> <span class="toc-nav-text">简单测试</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#orderconfigmappertest"><span class="toc-nav-number">2.7.1.</span> <span class="toc-nav-text">OrderConfigMapperTest</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ordermappertest"><span class="toc-nav-number">2.7.2.</span> <span class="toc-nav-text">OrderMapperTest</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#读写分离"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">读写分离</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引入依赖"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">引入依赖</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#readwritesplitapplication"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">ReadWriteSplitApplication</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#应用配置文件"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">应用配置文件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ordermodel"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">OrderModel</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#详细测试"><span class="toc-nav-number">3.5.</span> <span class="toc-nav-text">详细测试</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#参考资料"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">参考资料</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#01-sharding-jdbc概览"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">01-Sharding-JDBC概览</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#02-sharding-jdbc入门使用"><span class="toc-nav-number">4.2.</span> <span class="toc-nav-text">02-Sharding-JDBC入门使用</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#数据库中间件" title="数据库中间件">数据库中间件</a>
+                        
+                          <a class="tag" href="/blog/tags/#ShardingSphere" title="ShardingSphere">ShardingSphere</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

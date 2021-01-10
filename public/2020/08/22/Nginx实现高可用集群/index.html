@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="luckyxue&#39;s blog">
+    <meta name="keyword" content="luckyxue blog 憨才好运">
+    <link rel="shortcut icon" href="/blog/img/ironman-draw.png">
+    <meta property="og:url" content="https://hancaihaoyun.gitee.io/blog/">
+ <meta property="og:type" content="article">
+ <meta property="og:title" content="hancaihaoyun's blog">
+ <meta property="og:description" content="welcome to follow me">
+ <meta property="og:image" content="https://hancaihaoyun.gitee.io/blog/img/icon_wechat.png">
+    <!-- Place this tag in your head or just before your close body tag.
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Nginx实现高可用集群 - 憨才好运 - Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://hancaihaoyun.gitee.io/blog/blog/2020/08/22/Nginx实现高可用集群/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/blog/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/blog/css/highlight.css">
+
+    <link rel="stylesheet" href="/blog/css/widget.css">
+
+    <link rel="stylesheet" href="/blog/css/rocket.css">
+
+    <link rel="stylesheet" href="/blog/css/signature.css">
+
+    <link rel="stylesheet" href="/blog/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/blog/img/signature/LuckyxueSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#Java Web" title="Java Web">Java Web</a>
+                            
+                        </div>
+                        <h1>Nginx实现高可用集群</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Lucky Xue on
+                            2020-08-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">憨才好运</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About Me</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="编译并安装nginx">编译并安装Nginx</h1>
+<p><a href="http://xn--www-iq6eyc464a983e.nginx.org" target="_blank" rel="noopener">官网地址www.nginx.org</a>，nginx是由1994年毕业于俄罗斯国立莫斯科鲍曼科技大学的同学为俄罗斯rambler.ru公司开发的，开发工作最早从2002年开始，第一次公开发布时间是2004年10月4日，版本号是0.1.0</p>
+<p>Nginx是单进程单线程模型，即启动的工作进程只有一个进程响应客户端请求，不像apache可以在一个进程内启动多个线程响应可请求，因此在内存占用上比apache小的很多。Nginx维持一万个非活动会话只要2.5M内存。Nginx和Mysql是CPU密集型的，就是对CPU的占用比较大，默认session在本地文件保存，支持将session保存在memcache，但是memcache默认支持最大1M的hash对象。</p>
+<p>nginx的版本分为开发版、稳定版和过期版，nginx以功能丰富著称，它即可以作为http服务器，也可以作为反向代理服务器或者邮件服务器，能够快速的响应静态网页的请求，支持FastCGI/SSL/Virtual Host/URL Rwrite/Gzip/HTTP Basic Auth等功能，并且支持第三方的功能扩展。</p>
+<p>nginx安装可以使用yum或源码安装，推荐使用源码，一是yum的版本比较旧，二是使用源码可以自定义功能，方便业务的上的使用，源码安装需要提前准备标准的编译器，GCC的全称是（GNU Compiler collection），其有GNU开发，并以GPL即LGPL许可，是自由的类UNIX即苹果电脑Mac OS X操作系统的标准编译器，因为GCC原本只能处理C语言，所以原名为GNU C语言编译器，后来得到快速发展，可以处理C++,Fortran，pascal，objective-C，java以及Ada等其他语言，此外还需要Automake工具，以完成自动创建Makefile的工作，Nginx的一些模块需要依赖第三方库，比如pcre（支持rewrite），zlib（支持gzip模块）和openssl（支持ssl模块）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">1. 去官网http://nginx.org/下载对应的nginx包括，推荐使用stable version</span><br><span class="line">2. 上传nginx到linux系统</span><br><span class="line">3. 安装依赖环境</span><br><span class="line">	1. 安装gcc环境 sudo yum install -y gcc-c++</span><br><span class="line">	2. 安装PCRE库，用于解析正则表达式 sudo yum install -y pcre pcre-devel</span><br><span class="line">	3. zlib压缩和解压缩依赖 sudo yum install -y zlib zlib-devel</span><br><span class="line">	4. SSL安全的加密套接字协议层，用于https安全传输 sudo yum install -y openssll openssl-devel</span><br><span class="line">4. 解压，解压之后得到的是源码，源码编译之后才能安装</span><br><span class="line">	tar -xzvf nginx-1.18.1.tar.gz</span><br><span class="line">5. 编译之后，先创建nginx临时目录，如果不创建，在启动nginx的过程中会报错</span><br><span class="line">	mkdir /var/tmp/nginx -p</span><br><span class="line">6. 在nginx目录，输入如下命令进行配置，目的就是为了创建makefile文件</span><br><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \</span><br><span class="line">--lock-path=/var/lock/nginx.lock \</span><br><span class="line">--error-log-path=/var/log/nginx/error.log \</span><br><span class="line">--http-log-path=/var/log/nginx/access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-tmp-path=/var/tmp/nginx/client \</span><br><span class="line">--http-proxy-tmp-path=/var/tmp/nginx/proxy \</span><br><span class="line">--http-fastcgi-tmp-path=/var/tmp/nginx/fastcgi \</span><br><span class="line">--http-uwsgi-tmp-path=/var/tmp/nginx/uwsgi \</span><br><span class="line">--http-scgi-tmp-path=/var/tmp/nginx/scgi</span><br><span class="line"></span><br><span class="line">命令命令 解释解释</span><br><span class="line">–prefix 指定nginx安装目录</span><br><span class="line">–pid-path 指向nginx的pid</span><br><span class="line">–lock-path 锁定安装文件，防止被恶意篡改或误操作</span><br><span class="line">–error-log 错误日志</span><br><span class="line">–http-log-path http日志</span><br><span class="line">–with-http_gzip_static_module 启用gzip模块，在线实时压缩输出数据流</span><br><span class="line">–http-client-body-tmp-path 设定客户端请求的临时目录</span><br><span class="line">–http-proxy-tmp-path 设定http代理临时目录</span><br><span class="line">–http-fastcgi-tmp-path 设定fastcgi临时目录</span><br><span class="line">–http-uwsgi-tmp-path 设定uwsgi临时目录</span><br><span class="line">–http-scgi-tmp-path 设定scgi临时目录</span><br><span class="line"></span><br><span class="line">7. make编译</span><br><span class="line">sudo make</span><br><span class="line">8. 安装</span><br><span class="line">sudo make install</span><br><span class="line">9. 验证nginx</span><br><span class="line">whereis nginx / which nginx</span><br></pre></td></tr></table></figure>
+<h1 id="同步与异步阻塞与非阻塞">同步与异步，阻塞与非阻塞</h1>
+<p>很多同学可能会认为 同步 就是 阻塞 ， 异步 就是 非阻塞 ，非也非也~~这一节咱们来聊一聊他们区别，如果学习过的可以当做复习，如果不太清楚的，可以好好的了解一番，因为这些概念往往在面试过程中有可能会被面试官问到。<br>
+这四个概念两两组合，会形成4个新的概念，如下：</p>
+<ol>
+<li>同步阻塞： 客户端发送请求给服务端，此时服务端处理任务时间很久，则客户端则被服务端堵塞了，所以客户端会一直等待服务端的响应，此时客户端不能做事，服务端也不会接受其他客户端的请求。这种通信机制比较简单粗暴，但是效率不高。</li>
+<li>同步非阻塞： 客户端发送请求给服务端，此时服务端处理任务时间很久，这个时候虽然客户端会一直等待响应，但是服务端可以处理其他的请求，过一会回来的。这种方式很高效，一个服务端可以处理很多请求，不会在因为任务没有处理完而堵着，所以这是非阻塞的。</li>
+<li>异步阻塞： 客户端发送请求给服务端，此时服务端处理任务时间很久，但是客户端不会等待服务器响应，它可以做其他的任务，等服务器处理完毕后再把结果端，客户端得到回调后再处理服务端的响应。这种方式可以避免客户端一直处于等待的状态，优化了用户体验，其实就是类似于网页里发起的ajax异步请求。</li>
+<li>异步非阻塞： 客户端发送请求给服务端，此时服务端处理任务时间很久，这个时候的任务虽然处理时间会很久，但是客户端可以做其他的任务，因为他是异步回调函数里处理响应；同时服务端是非阻塞的，所以服务端可以去处理其他的任务，如此，这个模式就显得非常的高效了。<br>
+以上四点，除了第三点，其余的分别为BIO/NIO/AIO，面试官如果问你 “请简述一下BIO/NIO/AIO之间的概念与区别” ，那么你就可以组织一下语言来回答<br>
+下生活实例来阐述也是可以的：</li>
+<li>BIO： 我去上厕所，这个时候坑位都满了，我必须等待坑位释放了，我才能上吧？！此时我啥都不干，站在厕所里盯着，过了一会有人出来了，我就赶紧蹲上</li>
+<li>NIO： 我去上厕所，这个时候坑位都满了，没关系，哥不急，我出去抽根烟，过会回来看看有没有空位，如果有我就蹲，如果没有我出去接着抽烟或者玩会手机</li>
+<li>异步阻塞： 我去上厕所，这个时候坑位都满了，没事我等着，等有了新的空位，让他通知我就行，通知了我，我就蹲上去。</li>
+<li>AIO： 我去上厕所，这个时候坑位都满了，没事，我一点也不急，我去厕所外面抽根烟再玩玩手机，等有新的坑位释放了，会有人通知我的，通知我了，我就可以上了。<br>
+从这个生活实例中能可以看得出来：<br>
+同步 就是我需要自己每隔一段时间，以轮训的方式去看看有没有空的坑位；<br>
+异步 则是有人拉完茅坑会通知你，通知你后你再回去蹲；<br>
+阻塞 就是在等待的过程中，你不去做其他任何事情，干等着；<br>
+非阻塞 就是你再等待的过程中可以去做其他的事，比如抽烟、喝酒、烫头、玩手机。<br>
+小结： 异步 的优势显而易见，大大优化用户体验， 非阻塞 使得系统资源开销远远小于 阻塞 模式，因为系统不需要创建新的进程(或线程)，大大地节省了系统多出来的系统资源可以给其他的中间件去服务了。</li>
+</ol>
+<h1 id="nginxconf-核心配置文件">nginx.conf 核心配置文件</h1>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">1. 设置worker进行的用户，指的linux中的用户，会涉及到nginx操作目录或者文件的一些权限，默认为nobody</span><br><span class="line">user root;</span><br><span class="line">2. worker进程工作数设置，一般来说CPU有几个，就设置几个，或者设置N-1也行</span><br><span class="line">worker_processes 1;</span><br><span class="line">3. nginx日志级别debug | info | notice | warn | error | crit | alert | emerg，错误级别从左到到右越来越大</span><br><span class="line">4. 设置nginx进程pid</span><br><span class="line">pid logs/nginx.pid</span><br><span class="line">5. 设置工作模式</span><br><span class="line">events &#123;</span><br><span class="line">    # 默认使用epoll</span><br><span class="line">    use epoll;</span><br><span class="line">    # 每个worker允许连接客户端最大连接数</span><br><span class="line">    worker_connections 10240;</span><br><span class="line">&#125;</span><br><span class="line">6. http是指令块，针对http网络传输的一些指令配置</span><br><span class="line">http &#123;</span><br><span class="line">&#125;</span><br><span class="line">7. include 引入外部配置，提高可读性，避免单个配置文件过大</span><br><span class="line">include mime.types;</span><br><span class="line">8. 设置日志格式，main为定义的格式名称，如此access_log就可以直接使用这个变量了</span><br><span class="line"><span class="meta">$</span><span class="bash">remote_addr 客户端ip</span></span><br><span class="line"><span class="meta">$</span><span class="bash">remote_user 远程客户端用户名，一般为：’-’</span></span><br><span class="line"><span class="meta">$</span><span class="bash">time_local 时间和时区</span></span><br><span class="line"><span class="meta">$</span><span class="bash">request 请求的url以及method</span></span><br><span class="line"><span class="meta">$</span><span class="bash">status 响应状态码</span></span><br><span class="line"><span class="meta">$</span><span class="bash">body_bytes_send 响应客户端内容字节数</span></span><br><span class="line"><span class="meta">$</span><span class="bash">http_referer 记录用户从哪个链接跳转过来的</span></span><br><span class="line"><span class="meta">$</span><span class="bash">http_user_agent 用户所使用的代理，一般来时都是浏览器</span></span><br><span class="line"><span class="meta">$</span><span class="bash">http_x_forwarded_for 通过代理服务器来记录客户端的ip</span></span><br><span class="line">9. sendfile 使用高效文件传输，提升传输性能。启用后才能使用 tcp_nopush ，是指当数据表累积一定大小后才发送，提高了效率。</span><br><span class="line">sendfile on; tcp_nopush on;</span><br><span class="line">10. keepalive_timeout 设置客户端与服务端请求的超时时间，保证客户端多次请求的时候不会重复建立新的连接，节约资源损耗。</span><br><span class="line"><span class="meta">#</span><span class="bash">keepalive_timeout 0; keepalive_timeout 65;</span></span><br></pre></td></tr></table></figure>
+<h1 id="nginx日志切割">Nginx日志切割</h1>
+<p>现有的日志都会存在 access.log 文件中，但是随着时间的推移，这个文件的内容会越来越多，体积会越来越大，不便于运维人员查看，所以我们可以通过把文件切割为多份不同的小文件作为日志，切割规则可以以 天 为单位，如果每天有几百G或者几个T的日志的话，则可以按需以 每半天 或者 每小时 对日志切割：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">LOG_PATH="/var/log/nginx/" RECORD_TIME=$(date -d "yesterday" +%Y-%m-%d+%H:%M)</span><br><span class="line">PID=/var/run/nginx/nginx.pid</span><br><span class="line">mv $&#123;LOG_PATH&#125;/access.log $&#123;LOG_PATH&#125;/access.$&#123;RECORD_TIME&#125;.log</span><br><span class="line">mv $&#123;LOG_PATH&#125;/error.log $&#123;LOG_PATH&#125;/error.$&#123;RECORD_TIME&#125;.log #向Nginx主进程发送信号，用于重新打开日志文件 </span><br><span class="line">kill -USR1 `cat $PID`</span><br></pre></td></tr></table></figure>
+<h1 id="nginx配置文件">Nginx配置文件</h1>
+<h2 id="nginx跨域配置支持">Nginx跨域配置支持</h2>
+<p>#允许跨域请求的域，*代表所有<br>
+add_header ‘Access-Control-Allow-Origin’ *;<br>
+#允许带上cookie请求 add_header ‘Access-Control-Allow-Credentials’ ‘true’;<br>
+#允许请求的方法，比如 GET/POST/PUT/DELETE add_header ‘Access-Control-Allow-Methods’ *;<br>
+#允许请求的header add_header ‘Access-Control-Allow-Headers’ *;</p>
+<h2 id="nginx防盗链配置支持">Nginx防盗链配置支持</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">对源站点验证 valid_referers *.imooc.com;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">非法引入会进入下方判断</span></span><br><span class="line">if ($invalid_referer)</span><br><span class="line">&#123;</span><br><span class="line">    return 404;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="root与alias">root与alias</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">假如服务器路径: /home/imooc/files/face.png,</span><br><span class="line">root路径完全匹配访问，配置的时间为：</span><br><span class="line">location /imooc &#123;</span><br><span class="line">    root /home</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">用户访问的请求为：url:port/imooc/files/img/face.png，alias可以为你的路径做一个别名，对用户透明：</span><br><span class="line">location /hello &#123;</span><br><span class="line">    alias /home/imooc</span><br><span class="line">&#125;</span><br><span class="line">用户访问的请求为：url:port/hello/files/img/face.png，如此相当于目录imooc做一个自定义的别名</span><br></pre></td></tr></table></figure>
+<h2 id="location的匹配规则">location的匹配规则</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">location的匹配规则</span><br><span class="line">空格：默认的匹配，普通匹配</span><br><span class="line">location / &#123;</span><br><span class="line">    root /home;</span><br><span class="line">&#125;</span><br><span class="line">=: 精确匹配</span><br><span class="line">location = /imooc/img/face.png &#123;</span><br><span class="line">    root /home</span><br><span class="line">&#125;</span><br><span class="line">~*: 匹配正则表达式，不区分大小写</span><br><span class="line"><span class="meta">#</span><span class="bash">符合图片的显示</span></span><br><span class="line">location ~* \. (GIF|JPG|PNG|JPEG) &#123;</span><br><span class="line">    root /home;</span><br><span class="line">&#125;</span><br><span class="line">~: 匹配正则表达式，区分大小写</span><br><span class="line"><span class="meta">#</span><span class="bash">GIF必须大写能匹配</span></span><br><span class="line">location ~ \.(GIF|jpg|png|jpeg) &#123;</span><br><span class="line">    root /home;</span><br><span class="line">&#125;</span><br><span class="line">^~:以某个字符路径开头</span><br><span class="line">location ^~ /home/img &#123;</span><br><span class="line">    root /home;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="osi-网络模型">OSI 网络模型</h2>
+<p>在讲到Nginx负载均衡的时候，其实Nginx是七层负载均衡，后续我们还会涉及到LVS，是四层负载均衡，七层和四层是什么概念呢？这就必须提到网络模型。网络模型是计算机机网络基础的一部分内容，一般大学计算机系都会讲到此知识点，并且会作为考点；其实在面试过程中有时候也会被问到。</p>
+<p>网络模型就是 OSI（Open System Interconnect） ，意思为 开放网络互联 ，是由国际标准化组织(ISO)和国际电报电话咨询委员会(CCITT)共同出版的，他是一种分层设计的互联模型，也是一种规范。网络模型分为七层，也就是当用户发起请求到服务器接收，会历经七道工序，或者说用户利用互联网发送消息给另一个用户，也会历经七道工序。这七层:</p>
+<p>层级 名称 说明<br>
+第七层 应用层 与用户行为交互<br>
+第六层 表示层 定义数据格式以及数据加密<br>
+第五层 会话层 创建、管理以及销毁会话<br>
+第四层 传输层 创建、管理请求端到响应端（端到端）的连接<br>
+第三层 网络层 请求端的IP地址<br>
+第二层 数据链路层 提供介质访问与链路管理<br>
+第一层 物理层 传输介质，物理媒介</p>
+<p>以上七层每层可以与上下相邻层进行通信。每一层都是非常复杂的，我们不在这里深究，我们以举例的形式来阐述每一层是干嘛的。</p>
+<ul>
+<li>应用层： 这是面向用户的，最靠近用户，为了让用户和计算机交互，在计算机里会有很多软件，比如eclipse，idea，qq，nginx等，这些都是应用层软件，用户可以通过这些应用软件和计算机交互，交互的过程其实就是接口的调用，应用层为用户提供了交互的接口，以此为用户提供功能。那么在这一层最常见的协议有：HTTP,HTTPS,FTP,SMTP,POP3等。Nginx在本层，为七层负载均衡。<br>
+举例：我要寄一封信给远在天边的老外LiLei，我会打开快递软件下单，这个时候我是 用户 ，快递软件就是 应用服务 ，是建立在计算机之间供给用户交互的一种服务或称之为手段。</li>
+<li>表示层： 该层提供数据格式编码以及加密功能，确保 请求端 的数据能被 响应端 的应用层识别。<br>
+举例：我写中文给LiLei，他看不懂，这个时候我就会使用翻译软件把中文翻译成英文，随后信中涉及到一些比较隐私的信息我会加密一这时候翻译软件和加密器就充当了 表示层 的作用，他用于显示用户能够识别的内容。</li>
+<li>会话层： 会话可以理解为session，请求发送到接受响应的这个过程之间存在会话，会话层就充当了这一过程的管理者，从创建会话到使用后销毁会话。举例：我每次写信给LiLei都会记录在一个小本本上，寄信时间日期，收信时间日期，这本小本本上存有每次通信记录，这个小本本就相当于会话的管理者。又或者说，我们平时在打电话，首先需要拨打电话，这是 建立会话 ，对方接听电话，此时正在通话（ 维持并管理会话，结束后 会话销毁 ，那么这也是一次会话的生命周期。</li>
+<li>传输层： 该层建立端到端的连接，他提供了数据传输服务，在传输层通信会涉及到端口号，本层常见的协议为TCP、UDP，LVS就是在传输层，也就是四层负载均衡。举例：我和LiLei通信过程中会借助快递公司，快递公司会分配快递员取件和寄件，那么这个快递员则充当 传输层 的作用。</li>
+<li>网络层： 网络通信的时候必须要有本机IP和对方的IP，请求端和响应端都会有自己的IP的，IP就相当于你家地址门牌号，在网络上云服务器的公网IP，普通计算机也有，只不过是动态IP，运营商每天会分配不同的IP给你的计算机。所以网络层也能称之为IP层，IP是互联网能提供IP分配的设备则为路由器或交换机。举例：对于拥有固定IP的云服务来说，他们都是由腾讯云、阿里云等这样的供应商提供的，他们为云服务器提供固定ip；电信、移动、<br>
+商为你的计算机动态分配ip，每天都不同；则这些供应商和运营商都是网络层。同理，快递员由物流公司分配和管理，那么物流公司就地址进行派送咯。</li>
+<li>数据链路层： 这一层会提供计算机MAC地址，通信的时候会携带，为了确保请求投递正确，所以他会验证检测MAC地址，以确保请求的准确性。举例：快递员在投递派送的时候，他（或客服）会预先提前打电话给你，确认你家地址对不对、有没有人、货到付款有没有准备好钱等，这时候快递员（或客服）就充当了 数据链路层 的职责。</li>
+</ul>
+<h2 id="upstream指令参数max_conns">upstream指令参数max_conns</h2>
+<p>限制每台server的连接数，用于包括避免过载，可起到限流作用，测试参考配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> worker进程设置1个，便于测试观察成功的连接数</span></span><br><span class="line">worker_processes 1;</span><br><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.1.173:8080 max_conns=2;</span><br><span class="line">    server 192.168.1.174:8080 max_conns=2;</span><br><span class="line">    server 192.168.1.175:8080 max_conns=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="upstream指令参数slow_start">upstream指令参数slow_start</h2>
+<p>商业版nginx需要付费，该参数不能使用在 hash 和 random load balancing 中。如果在 upstream 中只有一台 server，则该参数失效。配置参考如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    server 192.168.1.173:8080 weight=6 slow_start=60s;</span><br><span class="line">    server 192.168.1.174:8080 weight=2;</span><br><span class="line">    server 192.168.1.175:8080 weight=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="upstream-指令参数">upstream 指令参数</h2>
+<p>max_fails、fail_timeout max_fails ：表示失败几次，则标记server已宕机，剔出上游服务。<br>
+fail_timeout ：表示失败的重试时间。<br>
+假设目前设置如下：<br>
+max_fails=2 fail_timeout=15s<br>
+则代表在15秒内请求某一server失败达到2次后，则认为该server已经挂了或者宕机了，随后再过15秒，这15秒内不会有新的请求到达刚刚挂掉的节点上，而是会<br>
+运作的server，15秒后会再有新请求尝试连接挂掉的server，如果还是失败，重复上一过程，直到恢复。</p>
+<h2 id="keepalived提高吞吐量">Keepalived提高吞吐量</h2>
+<p>keepalived：设置长连接处理的数量<br>
+proxy_http_version：设置长连接http版本为1.1<br>
+proxy_set_header ：清除connection header 信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    # server 192.168.1.173:8080 max_fails=2 fail_timeout=1s;</span><br><span class="line">    # server 192.168.1.174:8080 weight=1;</span><br><span class="line">    # server 192.168.1.175:8080 weight=1; keepalive 32;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name www.tomcats.com;</span><br><span class="line">        location /</span><br><span class="line">        &#123;</span><br><span class="line">            proxy_pass http://tomcats;</span><br><span class="line">            proxy_http_version 1.1;</span><br><span class="line">            proxy_set_header Connection "";</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="负载均衡ip_hash">负载均衡ip_hash</h2>
+<p>可以保证用户访问可以请求到上游服务中的固定的服务器，前提是用户ip没有发生更改。<br>
+使用ip_hash的注意点：<br>
+不能把后台服务器直接移除，只能标记 down .<br>
+If one of the servers needs to be tmporarily removed, it should be marked with the down parameter in order to preserve the current hashing of client IP add</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.1.173:8080;</span><br><span class="line">    server 192.168.1.174:8080 down;</span><br><span class="line">    server 192.168.1.175:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="负载均衡-url_hash-与-least_conn">负载均衡 url_hash 与 least_conn</h2>
+<p>根据每次请求的url地址，hash后访问到固定的服务器节点</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcats &#123; </span><br><span class="line">    # url hash hash $request_uri;</span><br><span class="line">    # 最少连接数 # least_conn </span><br><span class="line">    server 192.168.1.173:8080;</span><br><span class="line">    server 192.168.1.174:8080; </span><br><span class="line">    server 192.168.1.175:8080; </span><br><span class="line">    server &#123;</span><br><span class="line">        listen 80; </span><br><span class="line">        server_name www.tomcats.com; </span><br><span class="line">        location / &#123;</span><br><span class="line">                proxy_pass http://tomcats; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="nginx的缓存">Nginx的缓存</h2>
+<ol>
+<li>浏览器缓存：<br>
+加速用户访问，提升单个用户（浏览器访问者）体验，缓存在本地</li>
+<li>Nginx缓存<br>
+缓存在nginx端，提升所有访问到nginx这一端的用户<br>
+提升访问上游（upstream）服务器的速度<br>
+用户访问仍然会产生请求流量<br>
+控制浏览器缓存：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">location /files &#123;</span><br><span class="line">    alias /home/imooc; </span><br><span class="line">    # expires 10s; </span><br><span class="line">    # expires @22h30m; </span><br><span class="line">    # expires -1h; </span><br><span class="line">    #expires epoch;</span><br><span class="line">    # expires off; </span><br><span class="line">    expires max; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="nginx的反向代理缓存">Nginx的反向代理缓存</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> proxy_cache_path 设置缓存目录 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> keys_zone 设置共享内存以及占用空间大小 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> max_size 设置缓存大小 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> inactive 超过此时间则被清理 </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> use_tmp_path 临时目录，使用后会影响nginx性能 </span></span><br><span class="line">proxy_cache_path /usr/local/nginx/upstream_cache keys_zone=mycache:5m max_size=1g inactive=1m use_tmp_path=no </span><br><span class="line">location / &#123; </span><br><span class="line">    proxy_pass http://tomcats; </span><br><span class="line">    # 启用缓存，和keys_zone一致 </span><br><span class="line">    proxy_cache mycache; </span><br><span class="line">    # 针对200和304状态码缓存时间为8小时 </span><br><span class="line">    proxy_cache_valid 200 304 8h; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用nginx配置https域名证书">使用Nginx配置HTTPS域名证书</h2>
+<ol>
+<li>安装SSL模块<br>
+要在nginx中配置https，就必须安装ssl模块，也就是: http_ssl_module 。<br>
+进入到nginx的解压目录： /home/software/nginx-1.16.1<br>
+新增ssl模块(原来的那些模块需要保留)</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">./configure \ </span><br><span class="line">--prefix=/usr/local/nginx \ </span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \ </span><br><span class="line">--lock-path=/var/lock/nginx.lock \ </span><br><span class="line">--error-log-path=/var/log/nginx/error.log \ </span><br><span class="line">--http-log-path=/var/log/nginx/access.log \ </span><br><span class="line">--with-http_gzip_static_module \ </span><br><span class="line">--http-client-body-tmp-path=/var/tmp/nginx/client \ </span><br><span class="line">--http-proxy-tmp-path=/var/tmp/nginx/proxy \ </span><br><span class="line">--http-fastcgi-tmp-path=/var/tmp/nginx/fastcgi \ </span><br><span class="line">--http-uwsgi-tmp-path=/var/tmp/nginx/uwsgi \ </span><br><span class="line">--http-scgi-tmp-path=/var/tmp/nginx/scgi \ </span><br><span class="line">--with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置HTTPS<br>
+把ssl证书 *.crt 和 私钥 *.key 拷贝到 /usr/local/nginx/conf 目录中。<br>
+新增 server 监听 443 端口：</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443; </span><br><span class="line">    server_name www.imoocdsp.com; </span><br><span class="line">    # 开启ssl ssl on; </span><br><span class="line">    # 配置ssl证书 </span><br><span class="line">    ssl_certificate 1_www.imoocdsp.com_bundle.crt; </span><br><span class="line">    # 配置证书秘钥 </span><br><span class="line">    ssl_certificate_key 2_www.imoocdsp.com.key; </span><br><span class="line">    # ssl会话cache ssl_session_cache shared:SSL:1m; </span><br><span class="line">    # ssl会话超时时间 ssl_session_timeout 5m; </span><br><span class="line">    # 配置加密套件，写法遵循 openssl 标准 </span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE; ssl_prefer_server_ciphers on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关注【憨才好运】微信公众号，了解更多精彩内容⬇️⬇️⬇️</p>
+<img src="1584253178882.jpg" alt="continuous_deployment" data-action="zoom">
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/2020/10/18/使用kubeadm安装kubernetes集群/" data-toggle="tooltip" data-placement="top" title="使用kubeadm安装kubernetes集群">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/2020/06/02/SpringBean基础/" data-toggle="tooltip" data-placement="top" title="">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- Gitalk start -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+                <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+                <div id="gitalk-container"></div>
+                <script src="/js/md5.min.js"></script>
+                <script type="text/javascript">
+                    var gitalk = new Gitalk({
+                            clientID: '7fc6e38b7a2eba7640a3',
+                            clientSecret: '1004c04785519326bdc8fea59b9b93842168686d',
+                            repo: 'luckyxue.github.io',  //如 'convivae.github.io'
+                            owner: 'luckyxue',
+                            admin: ['luckyxue'], //这是个字符串数组，可填写多个
+                            id: md5(location.pathname),      // 页面的唯一标识。长度必须小于50，默认是文章路径
+                            distractionFreeMode: true  // 类似Facebook评论框的全屏遮罩效果.
+                        });
+                    gitalk.render('gitalk-container');
+                </script>
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#编译并安装nginx"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">编译并安装Nginx</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#同步与异步阻塞与非阻塞"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">同步与异步，阻塞与非阻塞</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#nginxconf-核心配置文件"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">nginx.conf 核心配置文件</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#nginx日志切割"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Nginx日志切割</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#nginx配置文件"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">Nginx配置文件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#nginx跨域配置支持"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">Nginx跨域配置支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#nginx防盗链配置支持"><span class="toc-nav-number">5.2.</span> <span class="toc-nav-text">Nginx防盗链配置支持</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#root与alias"><span class="toc-nav-number">5.3.</span> <span class="toc-nav-text">root与alias</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#location的匹配规则"><span class="toc-nav-number">5.4.</span> <span class="toc-nav-text">location的匹配规则</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#osi-网络模型"><span class="toc-nav-number">5.5.</span> <span class="toc-nav-text">OSI 网络模型</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#upstream指令参数max_conns"><span class="toc-nav-number">5.6.</span> <span class="toc-nav-text">upstream指令参数max_conns</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#upstream指令参数slow_start"><span class="toc-nav-number">5.7.</span> <span class="toc-nav-text">upstream指令参数slow_start</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#upstream-指令参数"><span class="toc-nav-number">5.8.</span> <span class="toc-nav-text">upstream 指令参数</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#keepalived提高吞吐量"><span class="toc-nav-number">5.9.</span> <span class="toc-nav-text">Keepalived提高吞吐量</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#负载均衡ip_hash"><span class="toc-nav-number">5.10.</span> <span class="toc-nav-text">负载均衡ip_hash</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#负载均衡-url_hash-与-least_conn"><span class="toc-nav-number">5.11.</span> <span class="toc-nav-text">负载均衡 url_hash 与 least_conn</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#nginx的缓存"><span class="toc-nav-number">5.12.</span> <span class="toc-nav-text">Nginx的缓存</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#nginx的反向代理缓存"><span class="toc-nav-number">5.13.</span> <span class="toc-nav-text">Nginx的反向代理缓存</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#使用nginx配置https域名证书"><span class="toc-nav-number">5.14.</span> <span class="toc-nav-text">使用Nginx配置HTTPS域名证书</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#Java Web" title="Java Web">Java Web</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.cnblogs.com/luckyxue" target="_blank">luckyxue&#39;s cnblogs</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<script type="text/javascript" src="/js/zooming.js"></script>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.cnblogs.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">博</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://gitee.com/hancaihaoyun">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">码</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/luckyxue">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Lucky Xue 2021 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Re-Ported by <a href="https://luckyxue.github.io/">LuckyXue</a> 
+                    <!-- | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                    -->
+                </p>
+                <div class="copyright text-muted">
+                    <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+                    <span class="post-meta-divider">|</span>
+                    <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+   
+</footer>
+
+<!-- jQuery -->
+<script src="/blog/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blog/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/blog/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://hancaihaoyun.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://hancaihaoyun.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
